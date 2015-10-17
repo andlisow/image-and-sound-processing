@@ -1,5 +1,8 @@
 package main.java.pl.lodz.p.ftims.poid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -12,6 +15,8 @@ import java.io.File;
  * @author alisowsk
  */
 public class MainWindow extends JFrame{
+    private static final Logger LOG = LoggerFactory.getLogger(MainWindow.class);
+
     // menu section
     private JMenuBar mainMenuBar;
     private JMenu helpMenuSection;
@@ -51,15 +56,14 @@ public class MainWindow extends JFrame{
                 if (returnVal == JFileChooser.APPROVE_OPTION) {
                     File file = fileChooser.getSelectedFile();
                     originalImagePathTextInput.setText(file.getName());
+                    BufferedImage bufImg = null;
                     try {
-                        BufferedImage bufImg = ImageIO.read(file);
-                        Image scaledImage = bufImg.getScaledInstance(200, 200, Image.SCALE_FAST);
-                        originalImageIconLabel.setIcon(new ImageIcon(scaledImage));
-                    } catch (Exception e1) {
-                        e1.printStackTrace();
+                        bufImg = ImageIO.read(file);
+                    } catch (Exception ex) {
+                        LOG.error("An unexpected error while reading image from file has occurred", ex);
                     }
-                } else {
-
+                    Image scaledImage = bufImg.getScaledInstance(200, 200, Image.SCALE_FAST);
+                    originalImageIconLabel.setIcon(new ImageIcon(scaledImage));
                 }
             }
         });
