@@ -1,7 +1,7 @@
 package main.java.pl.lodz.p.ftims.poid.utils;
 
-import main.java.pl.lodz.p.ftims.poid.model.Pixel;
 import main.java.pl.lodz.p.ftims.poid.model.Image;
+import main.java.pl.lodz.p.ftims.poid.model.Pixel;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -27,6 +27,27 @@ public class ImageUtil {
                 pixels[x][y] = new Pixel(redValue, greenValue, blueValue);
             }
         }
-        return new Image(pixels);
+        return new Image(pixels, img.getWidth(), img.getHeight());
+    }
+
+    public static Image convertBufferedImageToImage(BufferedImage bufferedImage){
+        //TODO
+        return null;
+    }
+
+    public static BufferedImage convertImageToBufferedImage(Image image){
+        final int width = image.getWidth();
+        final int height = image.getHeight();
+        BufferedImage result = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB );
+        for(int x = 0; x < width; x++){
+            for(int y = 0; y < height; y++){
+                result.setRGB(x, y, ImageUtil.getRgbValue(image.getPixels()[x][y]));
+            }
+        }
+        return result;
+    }
+
+    public static int getRgbValue(Pixel pixel){
+        return pixel.getRed() << 16 | pixel.getGreen() << 8 | pixel.getBlue();
     }
 }

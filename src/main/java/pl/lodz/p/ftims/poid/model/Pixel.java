@@ -14,6 +14,12 @@ public class Pixel {
         this.blue = blue;
     }
 
+    public Pixel(Pixel other) {
+        this.red = other.red;
+        this.green = other.green;
+        this.blue = other.blue;
+    }
+
     public int getRed() {
         return red;
     }
@@ -24,5 +30,17 @@ public class Pixel {
 
     public int getBlue() {
         return blue;
+    }
+
+    public void setRed(int red) {
+        this.red = red;
+    }
+
+    public void setBlue(int blue) {
+        this.blue = blue;
+    }
+
+    public void setGreen(int green) {
+        this.green = green;
     }
 }

@@ -1,5 +1,12 @@
 package main.java.pl.lodz.p.ftims.poid;
 
+import main.java.pl.lodz.p.ftims.poid.model.Image;
+import main.java.pl.lodz.p.ftims.poid.operations.Operations;
+import main.java.pl.lodz.p.ftims.poid.operations.basic.Brightness;
+import main.java.pl.lodz.p.ftims.poid.operations.basic.Contrast;
+import main.java.pl.lodz.p.ftims.poid.operations.basic.Negative;
+import main.java.pl.lodz.p.ftims.poid.samples.SampleFiles;
+import main.java.pl.lodz.p.ftims.poid.utils.ImageUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -10,11 +17,14 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 
 /**
  * @author alisowsk
  */
 public class MainWindow extends JFrame{
+    private static final int MAX_IMG_WIDTH = 200;
+    private static final int MAX_IMG_HEIGHT = 200;
     private static final Logger LOG = LoggerFactory.getLogger(MainWindow.class);
 
     // menu section
@@ -28,90 +38,195 @@ public class MainWindow extends JFrame{
     private JTextField originalImagePathTextInput;
     private JTextField transformedImagePathTextInput;
     private JButton originalImageFileChooserButton;
+    private JComboBox originalImageSelectComboBox;
     private JFileChooser fileChooser;
 
-    // icons section
+    // images section
     private JLabel originalImageIconLabel;
     private JLabel transformedImageIconLabel;
     private JLabel originalImageTextLabel;
     private JLabel transformedImageTextLabel;
 
-    // operations section
+    // basic operations section
+    private JLabel basicOperationsTextLabel;
+    private JCheckBox contrastCheckbox;
+    private JCheckBox brightnessCheckbox;
+    private JCheckBox negativeCheckBox;
+    private JTextField brightnessTextField;
+    private JTextField contrastTextField;
+
+    // transform button section
     private JButton startTransformButton;
+
+    // logic components
+    private Image sourceImage;
+    private Image resultImage;
+    private Operations operations;
 
     public MainWindow(){
         super("Image and Sound Processing - TUL, FTiMS 2015/2016");
         getContentPane().setLayout(null);
 
-        initializeComponents();
+        initializeGraphicComponents();
         initializeListeners();
+        initializeLogicComponents();
         initWindow();
     }
 
-    private void initializeListeners() {
+    private void initializeLogicComponents() {
+        operations = new Operations();
+    }
+
+    private void initializeGraphicComponents() {
+        initializeMenuComponents();
+        initializePathSectionComponents();
+        initializeImagesSection();
+        initializeBasicOperationsSection();
+        initializeTransformButtonSection();
+        initializeHelperGrid();
+    }
+
+    private void initializeListeners(){
+        initializePathSectionListeners();
+        initializeTransformButtonListeners();
+    }
+
+    private void initializeTransformButtonListeners() {
+        startTransformButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                operations.clear();
+                if(negativeCheckBox.isSelected()){
+                    operations.addOperation(new Negative());
+                }
+                if(brightnessCheckbox.isSelected()){
+                    int brightnessValue = Integer.parseInt(brightnessTextField.getText());
+                    operations.addOperation(new Brightness(brightnessValue));
+                }
+                if(contrastCheckbox.isSelected()){
+                    float contrastValue = Float.parseFloat(contrastTextField.getText());
+                    operations.addOperation(new Contrast(contrastValue));
+                }
+                resultImage = operations.processImage(sourceImage);
+                BufferedImage resultBufferedImage = ImageUtil.convertImageToBufferedImage(resultImage);
+                java.awt.Image resultBufferedScaledImage = resultBufferedImage.getScaledInstance(MAX_IMG_WIDTH, MAX_IMG_HEIGHT, java.awt.Image.SCALE_FAST);
+                transformedImageIconLabel.setIcon(new ImageIcon(resultBufferedScaledImage));
+            }
+        });
+    }
+
+    private void initializeTransformButtonSection() {
+        startTransformButton = new JButton("Transform!");
+        startTransformButton.setBounds(808, 563, 155, 82);
+        getContentPane().add(startTransformButton);
+    }
+
+    private void initializePathSectionListeners() {
         originalImageFileChooserButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 int returnVal = fileChooser.showOpenDialog(MainWindow.this);
                 if (returnVal == JFileChooser.APPROVE_OPTION) {
                     File file = fileChooser.getSelectedFile();
-                    originalImagePathTextInput.setText(file.getName());
+                    originalImagePathTextInput.setText(file.getPath());
                     BufferedImage bufImg = null;
                     try {
                         bufImg = ImageIO.read(file);
                     } catch (Exception ex) {
                         LOG.error("An unexpected error while reading image from file has occurred", ex);
                     }
-                    Image scaledImage = bufImg.getScaledInstance(200, 200, Image.SCALE_FAST);
+                    java.awt.Image scaledImage = bufImg.getScaledInstance(200, 200, java.awt.Image.SCALE_FAST);
                     originalImageIconLabel.setIcon(new ImageIcon(scaledImage));
+                    try {
+                        sourceImage = ImageUtil.readImageFromFile(file.getAbsolutePath());
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
                 }
+            }
+        });
+
+        originalImageSelectComboBox.addActionListener (e -> {
+            String path = ((SampleFiles) originalImageSelectComboBox.getSelectedItem()).getPath();
+            File file = new File(getClass().getClassLoader().getResource(path).getFile());
+            originalImagePathTextInput.setText(file.getPath());
+            BufferedImage bufImg = null;
+            try {
+                bufImg = ImageIO.read(file);
+            } catch (Exception ex) {
+                LOG.error("An unexpected error while reading image from file has occurred", ex);
+            }
+            java.awt.Image scaledImage = bufImg.getScaledInstance(200, 200, java.awt.Image.SCALE_FAST);
+            originalImageIconLabel.setIcon(new ImageIcon(scaledImage));
+            try {
+                sourceImage = ImageUtil.readImageFromFile(file.getAbsolutePath());
+            } catch (IOException e1) {
+                e1.printStackTrace();
             }
         });
     }
 
-    private void initializeComponents() {
-        initializeMenuComponents();
-        initializePathsSectionComponents();
-        initializeIconsSection();
-        initializeOperationsSection();
-        initializeHelperGrid();
+    private void initializeBasicOperationsSection() {
+        basicOperationsTextLabel = new JLabel("Basic operations");
+        basicOperationsTextLabel.setBounds(34, 302, 200, 50);
+        getContentPane().add(basicOperationsTextLabel);
+
+        negativeCheckBox = new JCheckBox("Negative");
+        negativeCheckBox.setBounds(32, 348, 133, 24);
+        getContentPane().add(negativeCheckBox);
+
+        brightnessCheckbox = new JCheckBox("Brightness");
+        brightnessCheckbox.setBounds(34, 384, 133, 24);
+        getContentPane().add(brightnessCheckbox);
+
+        brightnessTextField = new JTextField();
+        brightnessTextField.setBounds(207, 383, 92, 27);
+        getContentPane().add(brightnessTextField);
+        brightnessTextField.setColumns(10);
+
+        contrastCheckbox = new JCheckBox("Contrast");
+        contrastCheckbox.setBounds(34, 421, 133, 24);
+        getContentPane().add(contrastCheckbox);
+
+        contrastTextField = new JTextField();
+        contrastTextField.setBounds(207, 421, 92, 27);
+        getContentPane().add(contrastTextField);
     }
 
-    private void initializeOperationsSection() {
-        startTransformButton = new JButton("Transform!");
-        startTransformButton.setBounds(808, 563, 155, 82);
-        getContentPane().add(startTransformButton);
-    }
-
-    private void initializePathsSectionComponents() {
+    private void initializePathSectionComponents() {
         originalImagePathTextLabel = new JLabel("Original image path");
-        originalImagePathTextLabel.setBounds(34, 54, 187, 17);
+        originalImagePathTextLabel.setBounds(12, 54, 145, 17);
         getContentPane().add(originalImagePathTextLabel);
 
         transformedImagePathTextLabel = new JLabel("Transformed image path");
-        transformedImagePathTextLabel.setBounds(34, 144, 206, 17);
+        transformedImagePathTextLabel.setBounds(12, 153, 206, 17);
         getContentPane().add(transformedImagePathTextLabel);
 
         originalImagePathTextInput = new JTextField();
-        originalImagePathTextInput.setBounds(34, 83, 413, 27);
+        originalImagePathTextInput.setBounds(12, 83, 491, 27);
         originalImagePathTextInput.setEnabled(false);
         originalImagePathTextInput.setColumns(10);
         getContentPane().add(originalImagePathTextInput);
 
         transformedImagePathTextInput = new JTextField();
         transformedImagePathTextInput.setColumns(10);
-        transformedImagePathTextInput.setBounds(34, 174, 413, 27);
+        transformedImagePathTextInput.setBounds(12, 171, 491, 27);
         transformedImagePathTextInput.setEnabled(false);
         getContentPane().add(transformedImagePathTextInput);
 
         originalImageFileChooserButton = new JButton("Choose image");
-        originalImageFileChooserButton.setBounds(302, 48, 145, 29);
+        originalImageFileChooserButton.setBounds(358, 42, 145, 29);
         getContentPane().add(originalImageFileChooserButton);
 
         fileChooser = new JFileChooser();
+
+        originalImageSelectComboBox = new JComboBox(SampleFiles.values());
+        originalImageSelectComboBox.setToolTipText("Select input image");
+        originalImageSelectComboBox.setBounds(148, 49, 198, 27);
+        getContentPane().add(originalImageSelectComboBox);
     }
 
-    private void initializeIconsSection() {
+    private void initializeImagesSection() {
         originalImageIconLabel = new JLabel("");
         originalImageIconLabel.setBounds(530, 80, 200, 200);
         originalImageIconLabel.setBorder(BorderFactory.createLineBorder(Color.GRAY));
@@ -137,8 +252,12 @@ public class MainWindow extends JFrame{
         getContentPane().add(horizontalStrut);
 
         Component verticalStrut = Box.createVerticalStrut(20);
-        verticalStrut.setBounds(482, 20, 11, 262);
+        verticalStrut.setBounds(507, 18, 11, 447);
         getContentPane().add(verticalStrut);
+
+        Component horizontalStrut_1 = Box.createHorizontalStrut(20);
+        horizontalStrut_1.setBounds(-153, 455, 671, 10);
+        getContentPane().add(horizontalStrut_1);
     }
 
     private void initializeMenuComponents() {
