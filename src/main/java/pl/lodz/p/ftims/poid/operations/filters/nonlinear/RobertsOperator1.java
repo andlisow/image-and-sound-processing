@@ -2,11 +2,12 @@ package main.java.pl.lodz.p.ftims.poid.operations.filters.nonlinear;
 
 import main.java.pl.lodz.p.ftims.poid.model.Image;
 import main.java.pl.lodz.p.ftims.poid.model.Pixel.RgbColor;
+import main.java.pl.lodz.p.ftims.poid.operations.filters.AbstractFilter;
 
 /**
  * @author alisowsk
  */
-public class RobertsOperator1 extends AbstractNonLinearOperator {
+public class RobertsOperator1 extends AbstractFilter {
     public RobertsOperator1() {
     }
 

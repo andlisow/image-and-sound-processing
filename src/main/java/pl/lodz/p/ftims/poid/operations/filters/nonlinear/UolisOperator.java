@@ -2,11 +2,15 @@ package main.java.pl.lodz.p.ftims.poid.operations.filters.nonlinear;
 
 import main.java.pl.lodz.p.ftims.poid.model.Image;
 import main.java.pl.lodz.p.ftims.poid.model.Pixel.RgbColor;
+import main.java.pl.lodz.p.ftims.poid.operations.filters.AbstractFilter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author alisowsk
  */
-public class UolisOperator extends AbstractNonLinearOperator {
+public class UolisOperator extends AbstractFilter {
+    private static final Logger LOG = LoggerFactory.getLogger(UolisOperator.class);
     public UolisOperator() {
     }
 
@@ -21,6 +25,7 @@ public class UolisOperator extends AbstractNonLinearOperator {
         int a3 = img.getPixel(x+1,y).getColor(c);
         int a5 = img.getPixel(x,y+1).getColor(c);
         int a7 = img.getPixel(x-1,y).getColor(c);
+        //TODO normalize
         return (int) (0.25*Math.log(Math.pow(img.getPixel(x,y).getColor(c),4)/(a1*a3*a5*a7)));
     }
 }

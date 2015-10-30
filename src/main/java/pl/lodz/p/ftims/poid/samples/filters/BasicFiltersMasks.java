@@ -1,4 +1,4 @@
-package main.java.pl.lodz.p.ftims.poid.samples;
+package main.java.pl.lodz.p.ftims.poid.samples.filters;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

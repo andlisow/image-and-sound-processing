@@ -1,4 +1,4 @@
-package main.java.pl.lodz.p.ftims.poid.samples;
+package main.java.pl.lodz.p.ftims.poid.samples.filters.nonlinear;
 
 import main.java.pl.lodz.p.ftims.poid.operations.Transformable;
 import main.java.pl.lodz.p.ftims.poid.operations.filters.nonlinear.*;

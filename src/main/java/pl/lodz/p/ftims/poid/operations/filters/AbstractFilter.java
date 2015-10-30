@@ -1,4 +1,4 @@
-package main.java.pl.lodz.p.ftims.poid.operations.filters.nonlinear;
+package main.java.pl.lodz.p.ftims.poid.operations.filters;
 
 import main.java.pl.lodz.p.ftims.poid.model.Image;
 import main.java.pl.lodz.p.ftims.poid.model.Pixel;
@@ -8,8 +8,8 @@ import main.java.pl.lodz.p.ftims.poid.operations.Transformable;
 /**
  * @author alisowsk
  */
-public abstract class AbstractNonLinearOperator implements Transformable {
-    public AbstractNonLinearOperator() {
+public abstract class AbstractFilter implements Transformable {
+    public AbstractFilter() {
     }
 
     @Override

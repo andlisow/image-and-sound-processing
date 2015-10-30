@@ -6,11 +6,13 @@ import main.java.pl.lodz.p.ftims.poid.operations.Transformable;
 import main.java.pl.lodz.p.ftims.poid.operations.basic.Brightness;
 import main.java.pl.lodz.p.ftims.poid.operations.basic.Contrast;
 import main.java.pl.lodz.p.ftims.poid.operations.basic.Negative;
-import main.java.pl.lodz.p.ftims.poid.operations.filters.MeanFilter;
-import main.java.pl.lodz.p.ftims.poid.operations.filters.MedianFilter;
+import main.java.pl.lodz.p.ftims.poid.operations.filters.basic.MeanFilter;
+import main.java.pl.lodz.p.ftims.poid.operations.filters.basic.MedianFilter;
+import main.java.pl.lodz.p.ftims.poid.operations.filters.linear.LinearFilter;
 import main.java.pl.lodz.p.ftims.poid.operations.filters.nonlinear.RosenfeldOperator;
-import main.java.pl.lodz.p.ftims.poid.samples.BasicFiltersMasks;
-import main.java.pl.lodz.p.ftims.poid.samples.NonLinearFilters;
+import main.java.pl.lodz.p.ftims.poid.samples.filters.BasicFiltersMasks;
+import main.java.pl.lodz.p.ftims.poid.samples.filters.linear.LinearFilters;
+import main.java.pl.lodz.p.ftims.poid.samples.filters.nonlinear.NonLinearFilters;
 import main.java.pl.lodz.p.ftims.poid.samples.SampleFiles;
 import main.java.pl.lodz.p.ftims.poid.utils.ImageUtil;
 import org.slf4j.Logger;
@@ -68,6 +70,11 @@ public class MainWindow extends JFrame{
     private JCheckBox meanFilterCheckbox;
     private JCheckBox medianFilterCheckbox;
 
+    //linear filters section
+    private JLabel linearFiltersTextField;
+    private JCheckBox linearFiltersCheckbox;
+    private JComboBox linearFiltersSelectComboBox;
+
     //non linear filters section
     private JLabel nonLinearFiltersTextField;
     private JCheckBox nonLinearFiltersCheckbox;
@@ -103,6 +110,7 @@ public class MainWindow extends JFrame{
         initializeImagesSection();
         initializeBasicOperationsSection();
         initializeBasicFiltersSection();
+        initializeLinearFilterSection();
         initializeNonLinearFiltersSection();
         initializeTransformButtonSection();
         initializeHelperGrid();
@@ -136,6 +144,13 @@ public class MainWindow extends JFrame{
                 if(medianFilterCheckbox.isSelected()){
                     int maskSize = Integer.parseInt(String.valueOf(BasicFiltersMasks.MASKS.get(filterMaskSizeSelectComboBox.getSelectedItem())));
                     operations.addOperation(new MedianFilter(maskSize));
+                }
+                if(linearFiltersCheckbox.isSelected()){
+                    for(String linearFilter : LinearFilters.FILTERS.keySet()){
+                        if(linearFilter.equals(linearFiltersSelectComboBox.getSelectedItem())){
+                            operations.addOperation(new LinearFilter(LinearFilters.FILTERS.get(linearFilter)));
+                        }
+                    }
                 }
                 if(nonLinearFiltersCheckbox.isSelected()){
                     Transformable nonLinearFilter = NonLinearFilters.FILTERS.get(nonLinearFiltersSelectComboBox.getSelectedItem());
@@ -261,6 +276,20 @@ public class MainWindow extends JFrame{
         getContentPane().add(filterMaskSizeSelectComboBox);
     }
 
+    private void initializeLinearFilterSection(){
+        linearFiltersTextField = new JLabel("Non linear filters");
+        linearFiltersTextField.setBounds(358, 302, 200, 50);
+        getContentPane().add(linearFiltersTextField);
+
+        linearFiltersCheckbox = new JCheckBox("Operator");
+        linearFiltersCheckbox.setBounds(370, 348, 148, 24);
+        getContentPane().add(linearFiltersCheckbox);
+
+        linearFiltersSelectComboBox = new JComboBox(LinearFilters.FILTERS.keySet().toArray());
+        linearFiltersSelectComboBox.setBounds(486, 347, 244, 27);
+        getContentPane().add(linearFiltersSelectComboBox);
+    }
+
     private void initializeNonLinearFiltersSection(){
         nonLinearFiltersTextField = new JLabel("Non linear filters");
         nonLinearFiltersTextField.setBounds(365, 477, 200, 50);
@@ -343,12 +372,20 @@ public class MainWindow extends JFrame{
         getContentPane().add(horizontalStrut);
 
         Component verticalStrut = Box.createVerticalStrut(20);
-        verticalStrut.setBounds(507, 18, 11, 447);
+        verticalStrut.setBounds(507, 18, 11, 263);
         getContentPane().add(verticalStrut);
 
         Component horizontalStrut_1 = Box.createHorizontalStrut(20);
-        horizontalStrut_1.setBounds(-153, 455, 671, 10);
+        horizontalStrut_1.setBounds(-153, 455, 894, 10);
         getContentPane().add(horizontalStrut_1);
+
+        Component verticalStrut_1 = Box.createVerticalStrut(20);
+        verticalStrut_1.setBounds(341, 284, 5, 387);
+        getContentPane().add(verticalStrut_1);
+
+        Component verticalStrut_2 = Box.createVerticalStrut(20);
+        verticalStrut_2.setBounds(736, 284, 5, 387);
+        getContentPane().add(verticalStrut_2);
     }
 
     private void initializeMenuComponents() {
