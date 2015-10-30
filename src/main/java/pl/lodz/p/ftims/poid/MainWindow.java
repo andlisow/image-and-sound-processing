@@ -7,6 +7,7 @@ import main.java.pl.lodz.p.ftims.poid.operations.basic.Contrast;
 import main.java.pl.lodz.p.ftims.poid.operations.basic.Negative;
 import main.java.pl.lodz.p.ftims.poid.operations.filters.MeanFilter;
 import main.java.pl.lodz.p.ftims.poid.operations.filters.MedianFilter;
+import main.java.pl.lodz.p.ftims.poid.samples.BasicFiltersMasks;
 import main.java.pl.lodz.p.ftims.poid.samples.SampleFiles;
 import main.java.pl.lodz.p.ftims.poid.utils.ImageUtil;
 import org.slf4j.Logger;
@@ -20,6 +21,7 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 
 /**
  * @author alisowsk
@@ -48,8 +50,6 @@ public class MainWindow extends JFrame{
     private JLabel transformedImageIconLabel;
     private JLabel originalImageTextLabel;
     private JLabel transformedImageTextLabel;
-    private JCheckBox meanFilterCheckbox;
-    private JCheckBox medianFilterCheckbox;
 
     // basic operations section
     private JLabel basicOperationsTextLabel;
@@ -60,9 +60,11 @@ public class MainWindow extends JFrame{
     private JTextField contrastTextField;
 
     //basic filters section
-    private JTextField filterMaskSizeTextField;
     private JLabel basicFiltersMaskSizeTextLabel;
     private JLabel basicFiltersTextLabel;
+    private JComboBox filterMaskSizeSelectComboBox;
+    private JCheckBox meanFilterCheckbox;
+    private JCheckBox medianFilterCheckbox;
 
     // transform button section
     private JButton startTransformButton;
@@ -117,11 +119,11 @@ public class MainWindow extends JFrame{
                     operations.addOperation(new Contrast(contrastValue));
                 }
                 if(meanFilterCheckbox.isSelected()){
-                    int maskSize = Integer.parseInt(filterMaskSizeTextField.getText());
+                    int maskSize = Integer.parseInt(String.valueOf(BasicFiltersMasks.MASKS.get(filterMaskSizeSelectComboBox.getSelectedItem())));
                     operations.addOperation(new MeanFilter(maskSize));
                 }
                 if(medianFilterCheckbox.isSelected()){
-                    int maskSize = Integer.parseInt(filterMaskSizeTextField.getText());
+                    int maskSize = Integer.parseInt(String.valueOf(BasicFiltersMasks.MASKS.get(filterMaskSizeSelectComboBox.getSelectedItem())));
                     operations.addOperation(new MedianFilter(maskSize));
                 }
                 resultImage = operations.processImage(sourceImage);
@@ -235,9 +237,9 @@ public class MainWindow extends JFrame{
         medianFilterCheckbox.setBounds(34, 554, 148, 24);
         getContentPane().add(medianFilterCheckbox);
 
-        filterMaskSizeTextField = new JTextField();
-        filterMaskSizeTextField.setBounds(207, 591, 92, 27);
-        getContentPane().add(filterMaskSizeTextField);
+        filterMaskSizeSelectComboBox = new JComboBox(BasicFiltersMasks.MASKS.keySet().toArray());
+        filterMaskSizeSelectComboBox.setBounds(207, 591, 92, 27);
+        getContentPane().add(filterMaskSizeSelectComboBox);
     }
 
     private void initializePathSectionComponents() {
