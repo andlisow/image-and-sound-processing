@@ -5,6 +5,8 @@ import main.java.pl.lodz.p.ftims.poid.operations.Operations;
 import main.java.pl.lodz.p.ftims.poid.operations.basic.Brightness;
 import main.java.pl.lodz.p.ftims.poid.operations.basic.Contrast;
 import main.java.pl.lodz.p.ftims.poid.operations.basic.Negative;
+import main.java.pl.lodz.p.ftims.poid.operations.filters.MeanFilter;
+import main.java.pl.lodz.p.ftims.poid.operations.filters.MedianFilter;
 import main.java.pl.lodz.p.ftims.poid.samples.SampleFiles;
 import main.java.pl.lodz.p.ftims.poid.utils.ImageUtil;
 import org.slf4j.Logger;
@@ -46,6 +48,8 @@ public class MainWindow extends JFrame{
     private JLabel transformedImageIconLabel;
     private JLabel originalImageTextLabel;
     private JLabel transformedImageTextLabel;
+    private JCheckBox meanFilterCheckbox;
+    private JCheckBox medianFilterCheckbox;
 
     // basic operations section
     private JLabel basicOperationsTextLabel;
@@ -55,9 +59,13 @@ public class MainWindow extends JFrame{
     private JTextField brightnessTextField;
     private JTextField contrastTextField;
 
+    //basic filters section
+    private JTextField filterMaskSizeTextField;
+    private JLabel basicFiltersMaskSizeTextLabel;
+    private JLabel basicFiltersTextLabel;
+
     // transform button section
     private JButton startTransformButton;
-
     // logic components
     private Image sourceImage;
     private Image resultImage;
@@ -82,6 +90,7 @@ public class MainWindow extends JFrame{
         initializePathSectionComponents();
         initializeImagesSection();
         initializeBasicOperationsSection();
+        initializeBasicFiltersSection();
         initializeTransformButtonSection();
         initializeHelperGrid();
     }
@@ -107,10 +116,24 @@ public class MainWindow extends JFrame{
                     float contrastValue = Float.parseFloat(contrastTextField.getText());
                     operations.addOperation(new Contrast(contrastValue));
                 }
+                if(meanFilterCheckbox.isSelected()){
+                    int maskSize = Integer.parseInt(filterMaskSizeTextField.getText());
+                    operations.addOperation(new MeanFilter(maskSize));
+                }
+                if(medianFilterCheckbox.isSelected()){
+                    int maskSize = Integer.parseInt(filterMaskSizeTextField.getText());
+                    operations.addOperation(new MedianFilter(maskSize));
+                }
                 resultImage = operations.processImage(sourceImage);
                 BufferedImage resultBufferedImage = ImageUtil.convertImageToBufferedImage(resultImage);
                 java.awt.Image resultBufferedScaledImage = resultBufferedImage.getScaledInstance(MAX_IMG_WIDTH, MAX_IMG_HEIGHT, java.awt.Image.SCALE_FAST);
                 transformedImageIconLabel.setIcon(new ImageIcon(resultBufferedScaledImage));
+                try {
+                    ImageUtil.saveImageToFile(resultImage);
+                } catch (IOException e1) {
+                    //TODO ex
+                    e1.printStackTrace();
+                }
             }
         });
     }
@@ -138,8 +161,9 @@ public class MainWindow extends JFrame{
                     java.awt.Image scaledImage = bufImg.getScaledInstance(200, 200, java.awt.Image.SCALE_FAST);
                     originalImageIconLabel.setIcon(new ImageIcon(scaledImage));
                     try {
-                        sourceImage = ImageUtil.readImageFromFile(file.getAbsolutePath());
+                        sourceImage = ImageUtil.readImageFromFile(file);
                     } catch (IOException e1) {
+                        //TODO ex
                         e1.printStackTrace();
                     }
                 }
@@ -159,8 +183,9 @@ public class MainWindow extends JFrame{
             java.awt.Image scaledImage = bufImg.getScaledInstance(200, 200, java.awt.Image.SCALE_FAST);
             originalImageIconLabel.setIcon(new ImageIcon(scaledImage));
             try {
-                sourceImage = ImageUtil.readImageFromFile(file.getAbsolutePath());
+                sourceImage = ImageUtil.readImageFromFile(file);
             } catch (IOException e1) {
+                //TODO ex
                 e1.printStackTrace();
             }
         });
@@ -191,6 +216,28 @@ public class MainWindow extends JFrame{
         contrastTextField = new JTextField();
         contrastTextField.setBounds(207, 421, 92, 27);
         getContentPane().add(contrastTextField);
+    }
+
+    private void initializeBasicFiltersSection(){
+        basicFiltersTextLabel = new JLabel("Basic filters");
+        basicFiltersTextLabel.setBounds(34, 477, 200, 50);
+        getContentPane().add(basicFiltersTextLabel);
+
+        basicFiltersMaskSizeTextLabel = new JLabel("Mask size");
+        basicFiltersMaskSizeTextLabel.setBounds(34, 589, 138, 30);
+        getContentPane().add(basicFiltersMaskSizeTextLabel);
+
+        meanFilterCheckbox = new JCheckBox("Mean filter");
+        meanFilterCheckbox.setBounds(34, 523, 148, 24);
+        getContentPane().add(meanFilterCheckbox);
+
+        medianFilterCheckbox = new JCheckBox("Median filter");
+        medianFilterCheckbox.setBounds(34, 554, 148, 24);
+        getContentPane().add(medianFilterCheckbox);
+
+        filterMaskSizeTextField = new JTextField();
+        filterMaskSizeTextField.setBounds(207, 591, 92, 27);
+        getContentPane().add(filterMaskSizeTextField);
     }
 
     private void initializePathSectionComponents() {

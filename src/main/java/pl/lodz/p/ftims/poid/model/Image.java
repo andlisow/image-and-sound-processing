@@ -4,17 +4,20 @@ package main.java.pl.lodz.p.ftims.poid.model;
  * @author alisowsk
  */
 public class Image {
+    private String name;
     private Pixel[][] pixels;
     private int width;
     private int height;
 
-    public Image(Pixel[][] pixels, int width, int height) {
+    public Image(String imgName, Pixel[][] pixels, int width, int height) {
+        this.name = imgName;
         this.pixels = pixels;
         this.width = width;
         this.height = height;
     }
 
     public Image(Image other) {
+        this.name = other.name;
         this.width = other.width;
         this.height = other.height;
         this.pixels = new Pixel[other.width][other.height];
@@ -23,6 +26,10 @@ public class Image {
                 this.pixels[x][y] = new Pixel(other.pixels[x][y]);
             }
         }
+    }
+
+    public String getName() {
+        return name;
     }
 
     public Pixel[][] getPixels() {

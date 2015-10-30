@@ -13,9 +13,11 @@ import java.io.IOException;
  * @author alisowsk
  */
 public class ImageUtil {
+    private static final String DEFAULT_FILE_SAVE_PATH = "/home/andrzej/poid/";
+    private static final String DEFAULT_FILE_EXTENSION = "bmp";
 
-    public static Image readImageFromFile(String filePath) throws IOException {
-        File imgFile = new File(filePath);
+    public static Image readImageFromFile(File imgFile) throws IOException {
+        String imgName = imgFile.getName();
         //TODO check if file is proper image, if not throw ex
         BufferedImage img = ImageIO.read(imgFile);
         Pixel[][] pixels = new Pixel[img.getWidth()][img.getHeight()];
@@ -27,7 +29,14 @@ public class ImageUtil {
                 pixels[x][y] = new Pixel(redValue, greenValue, blueValue);
             }
         }
-        return new Image(pixels, img.getWidth(), img.getHeight());
+        return new Image(imgName, pixels, img.getWidth(), img.getHeight());
+    }
+
+    public static void saveImageToFile(Image image) throws IOException {
+        //TODO logger
+        File imgFile = new File(DEFAULT_FILE_SAVE_PATH + image.getName());
+        BufferedImage bufferedImage = convertImageToBufferedImage(image);
+        ImageIO.write(bufferedImage, DEFAULT_FILE_EXTENSION, imgFile);
     }
 
     public static Image convertBufferedImageToImage(BufferedImage bufferedImage){

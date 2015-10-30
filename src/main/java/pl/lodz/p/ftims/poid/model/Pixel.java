@@ -7,6 +7,12 @@ public class Pixel {
     private int red;
     private int green;
     private int blue;
+    public enum RgbColor {
+        RED, GREEN, BLUE;
+    }
+
+    public Pixel() {
+    }
 
     public Pixel(int red, int green, int blue) {
         this.red = red;
@@ -18,6 +24,24 @@ public class Pixel {
         this.red = other.red;
         this.green = other.green;
         this.blue = other.blue;
+    }
+
+    public void setColor(RgbColor color, int value){
+        if(color == RgbColor.RED){
+            setRed(value);
+        } else if(color == RgbColor.GREEN){
+            setGreen(value);
+        }
+        setBlue(value);
+    }
+
+    public int getColor(RgbColor color){
+        if(color == RgbColor.RED){
+            return red;
+        } else if(color == RgbColor.GREEN){
+            return green;
+        }
+        return blue;
     }
 
     public int getRed() {
@@ -39,7 +63,6 @@ public class Pixel {
     public void setBlue(int blue) {
         this.blue = blue;
     }
-
     public void setGreen(int green) {
         this.green = green;
     }

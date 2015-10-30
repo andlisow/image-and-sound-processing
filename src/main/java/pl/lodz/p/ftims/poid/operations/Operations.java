@@ -1,6 +1,8 @@
 package main.java.pl.lodz.p.ftims.poid.operations;
 
+import com.sun.glass.ui.Pixels;
 import main.java.pl.lodz.p.ftims.poid.model.Image;
+import main.java.pl.lodz.p.ftims.poid.model.Pixel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,10 +23,21 @@ public class Operations {
 
     public Image processImage(Image originImage){
         resultImage = new Image(originImage);
-        LOG.error(String.valueOf(resultImage.getPixels()[1][1].getBlue()));
+
+
+
         for(Transformable transformable : operations){
-            transformable.process(resultImage);
+            resultImage = transformable.process(resultImage);
         }
+
+//
+//        for(int x=0; x<originImage.getWidth(); x++){
+//            for( int y=0; y<originImage.getHeight(); y++){
+//                LOG.error(originImage.getPixels()[x][y].getBlue() + " : " + resultImage.getPixels()[x][y].getBlue());
+//                LOG.error(originImage.getPixels()[x][y].getGreen() + " : " + resultImage.getPixels()[x][y].getGreen());
+//                LOG.error(originImage.getPixels()[x][y].getRed() + " : " + resultImage.getPixels()[x][y].getRed());
+//            }
+//        }
         return resultImage;
     }
 
