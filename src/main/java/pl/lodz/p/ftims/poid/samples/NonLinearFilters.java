@@ -1,8 +1,7 @@
 package main.java.pl.lodz.p.ftims.poid.samples;
 
 import main.java.pl.lodz.p.ftims.poid.operations.Transformable;
-import main.java.pl.lodz.p.ftims.poid.operations.filters.nonlinear.RobertsOperator1;
-import main.java.pl.lodz.p.ftims.poid.operations.filters.nonlinear.RobertsOperator2;
+import main.java.pl.lodz.p.ftims.poid.operations.filters.nonlinear.*;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -15,10 +14,10 @@ public class NonLinearFilters {
     static{
         FILTERS.put("Roberts Operator 1", new RobertsOperator1());
         FILTERS.put("Roberts Operator 2", new RobertsOperator2());
-        FILTERS.put("Sobel Operator", null);
-        FILTERS.put("Kirsh Operator", null);
-        FILTERS.put("Rosenfeld Operator", null);
-        FILTERS.put("Uolis Operator", null);
+        FILTERS.put("Sobel Operator", new SobelOperator());
+        FILTERS.put("Kirsh Operator", new KirshOperator());
+        FILTERS.put("Rosenfeld Operator", new RosenfeldOperator());
+        FILTERS.put("Uolis Operator", new UolisOperator());
     }
 
     private NonLinearFilters(){

@@ -2,11 +2,13 @@ package main.java.pl.lodz.p.ftims.poid;
 
 import main.java.pl.lodz.p.ftims.poid.model.Image;
 import main.java.pl.lodz.p.ftims.poid.operations.Operations;
+import main.java.pl.lodz.p.ftims.poid.operations.Transformable;
 import main.java.pl.lodz.p.ftims.poid.operations.basic.Brightness;
 import main.java.pl.lodz.p.ftims.poid.operations.basic.Contrast;
 import main.java.pl.lodz.p.ftims.poid.operations.basic.Negative;
 import main.java.pl.lodz.p.ftims.poid.operations.filters.MeanFilter;
 import main.java.pl.lodz.p.ftims.poid.operations.filters.MedianFilter;
+import main.java.pl.lodz.p.ftims.poid.operations.filters.nonlinear.RosenfeldOperator;
 import main.java.pl.lodz.p.ftims.poid.samples.BasicFiltersMasks;
 import main.java.pl.lodz.p.ftims.poid.samples.NonLinearFilters;
 import main.java.pl.lodz.p.ftims.poid.samples.SampleFiles;
@@ -22,7 +24,6 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
 
 /**
  * @author alisowsk
@@ -71,6 +72,8 @@ public class MainWindow extends JFrame{
     private JLabel nonLinearFiltersTextField;
     private JCheckBox nonLinearFiltersCheckbox;
     private JComboBox nonLinearFiltersSelectComboBox;
+    private JTextField rosenfeldOperatorTextField;
+    private JLabel rosenfeldOperatorLabel;
 
     // transform button section
     private JButton startTransformButton;
@@ -135,7 +138,12 @@ public class MainWindow extends JFrame{
                     operations.addOperation(new MedianFilter(maskSize));
                 }
                 if(nonLinearFiltersCheckbox.isSelected()){
-                    operations.addOperation(NonLinearFilters.FILTERS.get(nonLinearFiltersSelectComboBox.getSelectedItem()));
+                    Transformable nonLinearFilter = NonLinearFilters.FILTERS.get(nonLinearFiltersSelectComboBox.getSelectedItem());
+                    if(nonLinearFilter instanceof RosenfeldOperator){
+                        RosenfeldOperator operator = (RosenfeldOperator) nonLinearFilter;
+                        operator.setrCoefficient(Integer.parseInt(rosenfeldOperatorTextField.getText()));
+                    }
+                    operations.addOperation(nonLinearFilter);
                 }
                 resultImage = operations.processImage(sourceImage);
                 BufferedImage resultBufferedImage = ImageUtil.convertImageToBufferedImage(resultImage);
@@ -265,6 +273,15 @@ public class MainWindow extends JFrame{
         nonLinearFiltersSelectComboBox = new JComboBox(NonLinearFilters.FILTERS.keySet().toArray());
         nonLinearFiltersSelectComboBox.setBounds(486, 522, 177, 27);
         getContentPane().add(nonLinearFiltersSelectComboBox);
+
+        rosenfeldOperatorLabel = new JLabel("Rosenfeld operator R");
+        rosenfeldOperatorLabel.setBounds(375, 548, 190, 30);
+        getContentPane().add(rosenfeldOperatorLabel);
+
+        rosenfeldOperatorTextField = new JTextField();
+        rosenfeldOperatorTextField.setColumns(10);
+        rosenfeldOperatorTextField.setBounds(571, 553, 92, 27);
+        getContentPane().add(rosenfeldOperatorTextField);
     }
 
     private void initializePathSectionComponents() {

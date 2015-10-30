@@ -4,8 +4,6 @@ import main.java.pl.lodz.p.ftims.poid.model.Image;
 import main.java.pl.lodz.p.ftims.poid.model.Pixel;
 import main.java.pl.lodz.p.ftims.poid.model.Pixel.RgbColor;
 import main.java.pl.lodz.p.ftims.poid.operations.Transformable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * @author alisowsk
@@ -22,8 +20,8 @@ public class MeanFilter implements Transformable {
     @Override
     public Image process(Image originalImage) {
         Image result = new Image(originalImage);
-        for(int x = borderSize; x<originalImage.getWidth()- borderSize; x++){
-            for(int y = borderSize; y<originalImage.getHeight()- borderSize; y++){
+        for(int x = borderSize; x<originalImage.getWidth() - borderSize; x++){
+            for(int y = borderSize; y<originalImage.getHeight() - borderSize; y++){
                 result.getPixels()[x][y] = processSinglePixel(originalImage, x, y);
             }
         }

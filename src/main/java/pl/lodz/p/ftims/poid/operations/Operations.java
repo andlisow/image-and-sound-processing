@@ -52,4 +52,8 @@ public class Operations {
     public void removeOperation(Transformable transformable){
         operations.remove(transformable);
     }
+
+    public List<Transformable> getOperations() {
+        return operations;
+    }
 }

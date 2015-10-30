@@ -41,7 +41,7 @@ public enum SampleFiles {
 
     GIRL_24 ("main/resources/bit24/girlc_small.bmp"),
     LENA_24 ("main/resources/bit24/lenac_small.bmp"),
-    MANDRIC_24 ("main/resources/bit24/mandrilc_small.bmp"),
+    MANDRIL_24 ("main/resources/bit24/mandrilc_small.bmp"),
     ;
 
     private String path;
