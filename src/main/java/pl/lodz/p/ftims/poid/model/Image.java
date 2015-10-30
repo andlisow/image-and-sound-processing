@@ -28,6 +28,10 @@ public class Image {
         }
     }
 
+    public Pixel getPixel(int x, int y){
+        return pixels[x][y];
+    }
+
     public String getName() {
         return name;
     }

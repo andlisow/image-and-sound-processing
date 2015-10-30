@@ -8,6 +8,7 @@ import main.java.pl.lodz.p.ftims.poid.operations.basic.Negative;
 import main.java.pl.lodz.p.ftims.poid.operations.filters.MeanFilter;
 import main.java.pl.lodz.p.ftims.poid.operations.filters.MedianFilter;
 import main.java.pl.lodz.p.ftims.poid.samples.BasicFiltersMasks;
+import main.java.pl.lodz.p.ftims.poid.samples.NonLinearFilters;
 import main.java.pl.lodz.p.ftims.poid.samples.SampleFiles;
 import main.java.pl.lodz.p.ftims.poid.utils.ImageUtil;
 import org.slf4j.Logger;
@@ -66,8 +67,14 @@ public class MainWindow extends JFrame{
     private JCheckBox meanFilterCheckbox;
     private JCheckBox medianFilterCheckbox;
 
+    //non linear filters section
+    private JLabel nonLinearFiltersTextField;
+    private JCheckBox nonLinearFiltersCheckbox;
+    private JComboBox nonLinearFiltersSelectComboBox;
+
     // transform button section
     private JButton startTransformButton;
+
     // logic components
     private Image sourceImage;
     private Image resultImage;
@@ -93,6 +100,7 @@ public class MainWindow extends JFrame{
         initializeImagesSection();
         initializeBasicOperationsSection();
         initializeBasicFiltersSection();
+        initializeNonLinearFiltersSection();
         initializeTransformButtonSection();
         initializeHelperGrid();
     }
@@ -125,6 +133,9 @@ public class MainWindow extends JFrame{
                 if(medianFilterCheckbox.isSelected()){
                     int maskSize = Integer.parseInt(String.valueOf(BasicFiltersMasks.MASKS.get(filterMaskSizeSelectComboBox.getSelectedItem())));
                     operations.addOperation(new MedianFilter(maskSize));
+                }
+                if(nonLinearFiltersCheckbox.isSelected()){
+                    operations.addOperation(NonLinearFilters.FILTERS.get(nonLinearFiltersSelectComboBox.getSelectedItem()));
                 }
                 resultImage = operations.processImage(sourceImage);
                 BufferedImage resultBufferedImage = ImageUtil.convertImageToBufferedImage(resultImage);
@@ -240,6 +251,20 @@ public class MainWindow extends JFrame{
         filterMaskSizeSelectComboBox = new JComboBox(BasicFiltersMasks.MASKS.keySet().toArray());
         filterMaskSizeSelectComboBox.setBounds(207, 591, 92, 27);
         getContentPane().add(filterMaskSizeSelectComboBox);
+    }
+
+    private void initializeNonLinearFiltersSection(){
+        nonLinearFiltersTextField = new JLabel("Non linear filters");
+        nonLinearFiltersTextField.setBounds(365, 477, 200, 50);
+        getContentPane().add(nonLinearFiltersTextField);
+
+        nonLinearFiltersCheckbox = new JCheckBox("Operator");
+        nonLinearFiltersCheckbox.setBounds(370, 523, 148, 24);
+        getContentPane().add(nonLinearFiltersCheckbox);
+
+        nonLinearFiltersSelectComboBox = new JComboBox(NonLinearFilters.FILTERS.keySet().toArray());
+        nonLinearFiltersSelectComboBox.setBounds(486, 522, 177, 27);
+        getContentPane().add(nonLinearFiltersSelectComboBox);
     }
 
     private void initializePathSectionComponents() {

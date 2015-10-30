@@ -11,8 +11,6 @@ import org.slf4j.LoggerFactory;
  * @author alisowsk
  */
 public class MeanFilter implements Transformable {
-    private static final Logger LOG = LoggerFactory.getLogger(MeanFilter.class);
-
     private final int maskSize;
     private final int borderSize;
 
