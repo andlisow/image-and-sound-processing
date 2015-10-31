@@ -2,6 +2,7 @@ package main.java.pl.lodz.p.ftims.poid.operations.basic;
 
 import main.java.pl.lodz.p.ftims.poid.model.Image;
 import main.java.pl.lodz.p.ftims.poid.model.Pixel;
+import main.java.pl.lodz.p.ftims.poid.model.Pixel.RgbColor;
 import main.java.pl.lodz.p.ftims.poid.operations.Transformable;
 import static main.java.pl.lodz.p.ftims.poid.utils.ImageConstants.*;
 
@@ -21,9 +22,9 @@ public class Negative implements Transformable {
     }
 
     private void processSinglePixel(Pixel pixel) {
-        pixel.setRed(MAX_PIXEL_VALUE - pixel.getRed());
-        pixel.setGreen(MAX_PIXEL_VALUE - pixel.getGreen());
-        pixel.setBlue(MAX_PIXEL_VALUE - pixel.getBlue());
+        for(RgbColor color : RgbColor.values()){
+            pixel.setColor(color, MAX_PIXEL_VALUE - pixel.getColor(color));
+        }
     }
 
 }

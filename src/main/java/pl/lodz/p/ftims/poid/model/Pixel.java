@@ -63,6 +63,7 @@ public class Pixel {
     public void setBlue(int blue) {
         this.blue = blue;
     }
+
     public void setGreen(int green) {
         this.green = green;
     }

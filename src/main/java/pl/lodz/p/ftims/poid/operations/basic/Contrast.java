@@ -2,6 +2,7 @@ package main.java.pl.lodz.p.ftims.poid.operations.basic;
 
 import main.java.pl.lodz.p.ftims.poid.model.Image;
 import main.java.pl.lodz.p.ftims.poid.model.Pixel;
+import main.java.pl.lodz.p.ftims.poid.model.Pixel.RgbColor;
 import main.java.pl.lodz.p.ftims.poid.operations.Transformable;
 import static main.java.pl.lodz.p.ftims.poid.utils.ImageConstants.*;
 
@@ -28,9 +29,9 @@ public class Contrast implements Transformable {
     }
 
     private void processSinglePixel(Pixel pixel) {
-        pixel.setRed(processSingleColor(pixel.getRed()));
-        pixel.setGreen(processSingleColor(pixel.getGreen()));
-        pixel.setBlue(processSingleColor(pixel.getBlue()));
+        for(RgbColor color : RgbColor.values()){
+            pixel.setColor(color, processSingleColor(pixel.getColor(color)));
+        }
     }
 
     private int processSingleColor(int colorVal) {
