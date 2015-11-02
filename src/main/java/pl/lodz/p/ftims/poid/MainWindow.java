@@ -1,5 +1,6 @@
 package main.java.pl.lodz.p.ftims.poid;
 
+import main.java.pl.lodz.p.ftims.poid.model.Histogram;
 import main.java.pl.lodz.p.ftims.poid.model.Image;
 import main.java.pl.lodz.p.ftims.poid.operations.Operations;
 import main.java.pl.lodz.p.ftims.poid.operations.Transformable;
@@ -10,14 +11,17 @@ import main.java.pl.lodz.p.ftims.poid.operations.filters.basic.MeanFilter;
 import main.java.pl.lodz.p.ftims.poid.operations.filters.basic.MedianFilter;
 import main.java.pl.lodz.p.ftims.poid.operations.filters.linear.LinearFilter;
 import main.java.pl.lodz.p.ftims.poid.operations.filters.nonlinear.RosenfeldOperator;
+import main.java.pl.lodz.p.ftims.poid.samples.HistogramModification;
 import main.java.pl.lodz.p.ftims.poid.samples.SampleFiles;
 import main.java.pl.lodz.p.ftims.poid.samples.filters.BasicFiltersMasks;
 import main.java.pl.lodz.p.ftims.poid.samples.filters.linear.LinearFilters;
 import main.java.pl.lodz.p.ftims.poid.samples.filters.nonlinear.NonLinearFilters;
+import main.java.pl.lodz.p.ftims.poid.utils.GnuplotUtil;
+import main.java.pl.lodz.p.ftims.poid.utils.HistogramUtil;
 import main.java.pl.lodz.p.ftims.poid.utils.ImageUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import java.util.List;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -82,6 +86,11 @@ public class MainWindow extends JFrame{
     private JTextField rosenfeldOperatorTextField;
     private JLabel rosenfeldOperatorLabel;
 
+    //histogram operations section
+    private JLabel histogramOperationsTextField;
+    private JCheckBox histogramOperationsCheckBox;
+    private JComboBox histogramOperationsSelectComboBox;
+
     // transform button section
     private JButton startTransformButton;
 
@@ -112,6 +121,7 @@ public class MainWindow extends JFrame{
         initializeBasicFiltersSection();
         initializeLinearFilterSection();
         initializeNonLinearFiltersSection();
+        initializeHistogramOperationsSection();
         initializeTransformButtonSection();
         initializeHelperGrid();
     }
@@ -159,6 +169,16 @@ public class MainWindow extends JFrame{
                         operator.setrCoefficient(Integer.parseInt(rosenfeldOperatorTextField.getText()));
                     }
                     operations.addOperation(nonLinearFilter);
+                }
+                if(histogramOperationsCheckBox.isSelected()){
+                    List<Histogram> histograms = HistogramUtil.prepareHistograms(sourceImage);
+                    GnuplotUtil.saveHistograms(histograms);
+                    //TODO histogram operation
+//                    for(String histogramModification : HistogramModification.VARIANTS.keySet()){
+//                        if(histogramModification.equals(histogramOperationsSelectComboBox.getSelectedItem())){
+//                            operations.addOperation(HistogramModification.VARIANTS.get(histogramModification));
+//                        }
+//                    }
                 }
                 resultImage = operations.processImage(sourceImage);
                 BufferedImage resultBufferedImage = ImageUtil.convertImageToBufferedImage(resultImage);
@@ -277,7 +297,7 @@ public class MainWindow extends JFrame{
     }
 
     private void initializeLinearFilterSection(){
-        linearFiltersTextField = new JLabel("Non linear filters");
+        linearFiltersTextField = new JLabel("Linear filters");
         linearFiltersTextField.setBounds(358, 302, 200, 50);
         getContentPane().add(linearFiltersTextField);
 
@@ -311,6 +331,20 @@ public class MainWindow extends JFrame{
         rosenfeldOperatorTextField.setColumns(10);
         rosenfeldOperatorTextField.setBounds(571, 553, 92, 27);
         getContentPane().add(rosenfeldOperatorTextField);
+    }
+
+    private void initializeHistogramOperationsSection(){
+        histogramOperationsTextField = new JLabel("Histogram operations");
+        histogramOperationsTextField.setBounds(760, 302, 200, 50);
+        getContentPane().add(histogramOperationsTextField);
+
+        histogramOperationsCheckBox = new JCheckBox("Variant");
+        histogramOperationsCheckBox.setBounds(760, 348, 148, 24);
+        getContentPane().add(histogramOperationsCheckBox);
+
+        histogramOperationsSelectComboBox = new JComboBox(HistogramModification.VARIANTS.keySet().toArray());
+        histogramOperationsSelectComboBox.setBounds(760, 383, 177, 27);
+        getContentPane().add(histogramOperationsSelectComboBox);
     }
 
     private void initializePathSectionComponents() {

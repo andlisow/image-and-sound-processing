@@ -9,11 +9,11 @@ public class Image {
     private int width;
     private int height;
 
-    public Image(String imgName, Pixel[][] pixels, int width, int height) {
+    public Image(String imgName, Pixel[][] pixels) {
         this.name = imgName;
         this.pixels = pixels;
-        this.width = width;
-        this.height = height;
+        this.width = pixels.length;
+        this.height = pixels[0].length;
     }
 
     public Image(Image other) {

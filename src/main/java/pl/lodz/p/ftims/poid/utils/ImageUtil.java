@@ -13,6 +13,7 @@ import java.io.IOException;
  * @author alisowsk
  */
 public class ImageUtil {
+    //TODO move to program args?
     private static final String DEFAULT_FILE_SAVE_PATH = "/home/andrzej/poid/";
     private static final String DEFAULT_FILE_EXTENSION = "bmp";
 
@@ -29,7 +30,7 @@ public class ImageUtil {
                 pixels[x][y] = new Pixel(redValue, greenValue, blueValue);
             }
         }
-        return new Image(imgName, pixels, img.getWidth(), img.getHeight());
+        return new Image(imgName, pixels);
     }
 
     public static void saveImageToFile(Image image) throws IOException {
