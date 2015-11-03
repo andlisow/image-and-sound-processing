@@ -4,14 +4,13 @@ import main.java.pl.lodz.p.ftims.poid.model.Image;
 import main.java.pl.lodz.p.ftims.poid.model.Pixel;
 import main.java.pl.lodz.p.ftims.poid.model.Pixel.RgbColor;
 import main.java.pl.lodz.p.ftims.poid.operations.Transformable;
+
 import static main.java.pl.lodz.p.ftims.poid.utils.ImageConstants.*;
 
 /**
  * @author alisowsk
  */
 public class Contrast implements Transformable {
-    private static final int MIDDLE_PIXEL_VALUE = 128;
-
     private final float factor;
 
     public Contrast(float factor) {
@@ -22,7 +21,7 @@ public class Contrast implements Transformable {
     public Image process(Image image) {
         for (int x=0; x<image.getWidth(); x++){
             for (int y=0; y<image.getHeight(); y++){
-                processSinglePixel(image.getPixels()[x][y]);
+                processSinglePixel(image.getPixel(x,y));
             }
         }
         return image;

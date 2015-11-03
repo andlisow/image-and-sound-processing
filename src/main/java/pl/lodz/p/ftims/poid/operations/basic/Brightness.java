@@ -4,7 +4,9 @@ import main.java.pl.lodz.p.ftims.poid.model.Image;
 import main.java.pl.lodz.p.ftims.poid.model.Pixel;
 import main.java.pl.lodz.p.ftims.poid.model.Pixel.RgbColor;
 import main.java.pl.lodz.p.ftims.poid.operations.Transformable;
-import static main.java.pl.lodz.p.ftims.poid.utils.ImageConstants.*;
+
+import static main.java.pl.lodz.p.ftims.poid.utils.ImageConstants.MAX_PIXEL_VALUE;
+import static main.java.pl.lodz.p.ftims.poid.utils.ImageConstants.MIN_PIXEL_VALUE;
 
 /**
  * @author alisowsk

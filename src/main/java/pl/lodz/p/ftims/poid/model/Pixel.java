@@ -31,8 +31,9 @@ public class Pixel {
             setRed(value);
         } else if(color == RgbColor.GREEN){
             setGreen(value);
+        } else {
+            setBlue(value);
         }
-        setBlue(value);
     }
 
     public int getColor(RgbColor color){
