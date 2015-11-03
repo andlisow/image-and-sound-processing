@@ -1,6 +1,5 @@
 package main.java.pl.lodz.p.ftims.poid.samples;
 
-import main.java.pl.lodz.p.ftims.poid.operations.Transformable;
 import main.java.pl.lodz.p.ftims.poid.operations.histogram.*;
 
 import java.util.LinkedHashMap;
@@ -10,9 +9,9 @@ import java.util.Map;
  * @author alisowsk
  */
 public class HistogramModification {
-    public static final Map<String, Transformable> VARIANTS = new LinkedHashMap<>();
+    public static final Map<String, AbstractFinalProbDensFunction> VARIANTS = new LinkedHashMap<>();
     static{
-        VARIANTS.put(" - ", null);
+        VARIANTS.put("", null);
         VARIANTS.put("Uniform final probability density function", new UniformFinalProbDensFunction());
         VARIANTS.put("Exponential final probability density function", new ExponentialFinalProbDensFunction());
         VARIANTS.put("Raleigh final probability density function", new RaleighFinalProbDensFunction());

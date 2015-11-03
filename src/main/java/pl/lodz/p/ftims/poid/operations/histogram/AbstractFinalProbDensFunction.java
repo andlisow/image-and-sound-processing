@@ -3,13 +3,18 @@ package main.java.pl.lodz.p.ftims.poid.operations.histogram;
 import main.java.pl.lodz.p.ftims.poid.model.Histogram;
 import main.java.pl.lodz.p.ftims.poid.model.Image;
 import main.java.pl.lodz.p.ftims.poid.model.Pixel;
-import main.java.pl.lodz.p.ftims.poid.model.Pixel.RgbColor;
 import main.java.pl.lodz.p.ftims.poid.operations.Transformable;
+
+import java.util.List;
 
 /**
  * @author alisowsk
  */
 public abstract class AbstractFinalProbDensFunction implements Transformable {
+    protected int gMin;
+    protected int gMax;
+    protected List<Histogram> histograms;
+
     public AbstractFinalProbDensFunction() {
     }
 
@@ -26,12 +31,32 @@ public abstract class AbstractFinalProbDensFunction implements Transformable {
 
     private Pixel processSinglePixel(Image originalImage, int x, int y) {
         Pixel pixel = new Pixel();
-        for(RgbColor color : RgbColor.values()){
-            int newColorValue = processSingleColor(originalImage, x, y, color);
-            pixel.setColor(color, newColorValue);
+        for(Histogram histogram : histograms){
+            int newColorValue = processSingleColor(originalImage, x, y, histogram);
+            pixel.setColor(histogram.getColor(), newColorValue);
         }
         return pixel;
     }
 
-    protected abstract int processSingleColor(Image img, int x, int y, RgbColor c);
+    protected abstract int processSingleColor(Image img, int x, int y, Histogram histogram);
+
+    protected int calculateSum(int f, Histogram histogram) {
+        int sum=0;
+        for(int m=0; m<=f;m++){
+            sum+=histogram.getValues()[m];
+        }
+        return sum;
+    }
+
+    public void setgMin(int gMin) {
+        this.gMin = gMin;
+    }
+
+    public void setgMax(int gMax) {
+        this.gMax = gMax;
+    }
+
+    public void setHistograms(List<Histogram> histograms) {
+        this.histograms = histograms;
+    }
 }

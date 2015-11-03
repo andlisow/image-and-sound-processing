@@ -1,7 +1,7 @@
 package main.java.pl.lodz.p.ftims.poid.operations.histogram;
 
+import main.java.pl.lodz.p.ftims.poid.model.Histogram;
 import main.java.pl.lodz.p.ftims.poid.model.Image;
-import main.java.pl.lodz.p.ftims.poid.model.Pixel;
 
 /**
  * @author alisowsk
@@ -12,12 +12,11 @@ public class HyperbolicFinalProbDensFunction extends AbstractFinalProbDensFuncti
     }
 
     @Override
-    public Image process(Image image) {
-        return null;
-    }
+    protected int processSingleColor(Image img, int x, int y, Histogram histogram) {
+        int pixelsNum = img.getHeight() * img.getWidth();
+        int f = img.getPixel(x,y).getColor(histogram.getColor());
+        int sum = calculateSum(f, histogram);
 
-    @Override
-    protected int processSingleColor(Image img, int x, int y, Pixel.RgbColor c) {
-        return 0;
+        return (int) (gMin * Math.pow(((double)gMax / gMin), (double)sum / pixelsNum));
     }
 }

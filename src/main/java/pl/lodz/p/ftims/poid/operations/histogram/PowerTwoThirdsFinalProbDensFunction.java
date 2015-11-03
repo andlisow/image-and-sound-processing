@@ -1,23 +1,24 @@
 package main.java.pl.lodz.p.ftims.poid.operations.histogram;
 
+import main.java.pl.lodz.p.ftims.poid.model.Histogram;
 import main.java.pl.lodz.p.ftims.poid.model.Image;
-import main.java.pl.lodz.p.ftims.poid.model.Pixel;
 
 /**
  * @author alisowsk
  */
 public class PowerTwoThirdsFinalProbDensFunction extends AbstractFinalProbDensFunction {
     public PowerTwoThirdsFinalProbDensFunction() {
-
     }
 
     @Override
-    public Image process(Image image) {
-        return null;
+    protected int processSingleColor(Image img, int x, int y, Histogram histogram) {
+        double gMinToOneThird = Math.pow(gMin, (double)1/3);
+        double gMaxToOneThird = Math.pow(gMax, (double)1/3);
+        int f=img.getPixel(x,y).getColor(histogram.getColor());
+        int pixelsNum = img.getHeight() * img.getWidth();
+        int sum = calculateSum(f, histogram);
+
+        return (int) Math.pow(gMinToOneThird + (gMaxToOneThird - gMinToOneThird) * ((double)sum / pixelsNum), 3);
     }
 
-    @Override
-    protected int processSingleColor(Image img, int x, int y, Pixel.RgbColor c) {
-        return 0;
-    }
 }

@@ -2,6 +2,8 @@ package main.java.pl.lodz.p.ftims.poid.utils;
 
 import main.java.pl.lodz.p.ftims.poid.model.Image;
 import main.java.pl.lodz.p.ftims.poid.model.Pixel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -13,6 +15,7 @@ import java.io.IOException;
  * @author alisowsk
  */
 public class ImageUtil {
+    private static final Logger LOG = LoggerFactory.getLogger(ImageUtil.class);
     //TODO move to program args?
     private static final String DEFAULT_FILE_SAVE_PATH = "/home/andrzej/poid/";
     private static final String DEFAULT_FILE_EXTENSION = "bmp";

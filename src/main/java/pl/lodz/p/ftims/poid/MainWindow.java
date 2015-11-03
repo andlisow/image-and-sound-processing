@@ -11,6 +11,7 @@ import main.java.pl.lodz.p.ftims.poid.operations.filters.basic.MeanFilter;
 import main.java.pl.lodz.p.ftims.poid.operations.filters.basic.MedianFilter;
 import main.java.pl.lodz.p.ftims.poid.operations.filters.linear.LinearFilter;
 import main.java.pl.lodz.p.ftims.poid.operations.filters.nonlinear.RosenfeldOperator;
+import main.java.pl.lodz.p.ftims.poid.operations.histogram.AbstractFinalProbDensFunction;
 import main.java.pl.lodz.p.ftims.poid.samples.HistogramModification;
 import main.java.pl.lodz.p.ftims.poid.samples.SampleFiles;
 import main.java.pl.lodz.p.ftims.poid.samples.filters.BasicFiltersMasks;
@@ -21,7 +22,7 @@ import main.java.pl.lodz.p.ftims.poid.utils.HistogramUtil;
 import main.java.pl.lodz.p.ftims.poid.utils.ImageUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import java.util.List;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -30,6 +31,7 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * @author alisowsk
@@ -87,9 +89,13 @@ public class MainWindow extends JFrame{
     private JLabel rosenfeldOperatorLabel;
 
     //histogram operations section
-    private JLabel histogramOperationsTextField;
+    private JLabel histogramOperationsTextLabel;
     private JCheckBox histogramOperationsCheckBox;
     private JComboBox histogramOperationsSelectComboBox;
+    private JTextField gMinTextField;
+    private JTextField gMaxTextField;
+    private JLabel gMinTextLabel;
+    private JLabel gMaxTextLabel;
 
     // transform button section
     private JButton startTransformButton;
@@ -173,12 +179,15 @@ public class MainWindow extends JFrame{
                 if(histogramOperationsCheckBox.isSelected()){
                     List<Histogram> histograms = HistogramUtil.prepareHistograms(sourceImage);
                     GnuplotUtil.saveHistograms(histograms);
-                    //TODO histogram operation
-//                    for(String histogramModification : HistogramModification.VARIANTS.keySet()){
-//                        if(histogramModification.equals(histogramOperationsSelectComboBox.getSelectedItem())){
-//                            operations.addOperation(HistogramModification.VARIANTS.get(histogramModification));
-//                        }
-//                    }
+                    for(String histogramModification : HistogramModification.VARIANTS.keySet()){
+                        if(histogramModification.equals(histogramOperationsSelectComboBox.getSelectedItem())){
+                            AbstractFinalProbDensFunction histogramOperation = HistogramModification.VARIANTS.get(histogramModification);
+                            histogramOperation.setHistograms(histograms);//TODO
+                            histogramOperation.setgMin(Integer.parseInt(gMinTextField.getText()));
+                            histogramOperation.setgMax(Integer.parseInt(gMaxTextField.getText()));
+                            operations.addOperation(histogramOperation);
+                        }
+                    }
                 }
                 resultImage = operations.processImage(sourceImage);
                 BufferedImage resultBufferedImage = ImageUtil.convertImageToBufferedImage(resultImage);
@@ -188,7 +197,6 @@ public class MainWindow extends JFrame{
                     ImageUtil.saveImageToFile(resultImage);
                 } catch (IOException e1) {
                     //TODO ex
-                    e1.printStackTrace();
                 }
             }
         });
@@ -334,17 +342,36 @@ public class MainWindow extends JFrame{
     }
 
     private void initializeHistogramOperationsSection(){
-        histogramOperationsTextField = new JLabel("Histogram operations");
-        histogramOperationsTextField.setBounds(760, 302, 200, 50);
-        getContentPane().add(histogramOperationsTextField);
+        histogramOperationsTextLabel = new JLabel("Histogram operations");
+        histogramOperationsTextLabel.setBounds(760, 302, 200, 50);
+        getContentPane().add(histogramOperationsTextLabel);
 
         histogramOperationsCheckBox = new JCheckBox("Variant");
         histogramOperationsCheckBox.setBounds(760, 348, 148, 24);
         getContentPane().add(histogramOperationsCheckBox);
 
         histogramOperationsSelectComboBox = new JComboBox(HistogramModification.VARIANTS.keySet().toArray());
-        histogramOperationsSelectComboBox.setBounds(760, 383, 177, 27);
+        histogramOperationsSelectComboBox.setBounds(753, 383, 233, 27);
         getContentPane().add(histogramOperationsSelectComboBox);
+
+        gMinTextField = new JTextField();
+        gMinTextField.setColumns(10);
+        gMinTextField.setBounds(894, 420, 92, 27);
+        getContentPane().add(gMinTextField);
+
+        gMaxTextField = new JTextField();
+        gMaxTextField.setColumns(10);
+        gMaxTextField.setBounds(894, 455, 92, 27);
+        getContentPane().add(gMaxTextField);
+
+        gMinTextLabel = new JLabel("g min");
+        gMinTextLabel.setBounds(763, 418, 118, 30);
+        getContentPane().add(gMinTextLabel);
+
+        gMaxTextLabel = new JLabel("g max");
+        gMaxTextLabel.setBounds(764, 453, 118, 30);
+        getContentPane().add(gMaxTextLabel);
+
     }
 
     private void initializePathSectionComponents() {

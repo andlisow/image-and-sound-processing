@@ -1,30 +1,22 @@
 package main.java.pl.lodz.p.ftims.poid.operations.histogram;
 
+import main.java.pl.lodz.p.ftims.poid.model.Histogram;
 import main.java.pl.lodz.p.ftims.poid.model.Image;
-import main.java.pl.lodz.p.ftims.poid.model.Pixel;
 
 /**
  * @author alisowsk
  */
 public class UniformFinalProbDensFunction extends AbstractFinalProbDensFunction {
-    private int gMin;
-    private int gMax;
-
     public UniformFinalProbDensFunction() {
     }
 
-    public UniformFinalProbDensFunction(int gMax, int gMin) {
-        this.gMin = gMin;
-        this.gMax = gMax;
+    @Override
+    protected int processSingleColor(Image img, int x, int y, Histogram histogram) {
+        int N = img.getHeight() * img.getWidth();
+        int f = img.getPixel(x,y).getColor(histogram.getColor());
+        int sum = calculateSum(f, histogram);
+
+        return (int) (gMin + (gMax - gMin) * (double)sum / N);
     }
 
-    @Override
-    public Image process(Image image) {
-        return null;
-    }
-
-    @Override
-    protected int processSingleColor(Image img, int x, int y, Pixel.RgbColor c) {
-        return 0;
-    }
 }
