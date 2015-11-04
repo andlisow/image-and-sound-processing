@@ -48,9 +48,9 @@ public class MainWindow extends JFrame{
 
     // paths section
     private JLabel originalImagePathTextLabel;
-    private JLabel transformedImagePathTextLabel;
+//    private JLabel transformedImagePathTextLabel; // TODO implement
     private JTextField originalImagePathTextInput;
-    private JTextField transformedImagePathTextInput;
+//    private JTextField transformedImagePathTextInput; // TODO implement
     private JButton originalImageFileChooserButton;
     private JComboBox originalImageSelectComboBox;
     private JFileChooser fileChooser;
@@ -150,7 +150,7 @@ public class MainWindow extends JFrame{
                     operations.addOperation(new Brightness(brightnessValue));
                 }
                 if(contrastCheckbox.isSelected()){
-                    float contrastValue = Float.parseFloat(contrastTextField.getText());
+                    int contrastValue = Integer.parseInt(contrastTextField.getText());
                     operations.addOperation(new Contrast(contrastValue));
                 }
                 if(meanFilterCheckbox.isSelected()){
@@ -379,9 +379,10 @@ public class MainWindow extends JFrame{
         originalImagePathTextLabel.setBounds(12, 54, 145, 17);
         getContentPane().add(originalImagePathTextLabel);
 
-        transformedImagePathTextLabel = new JLabel("Transformed image path");
-        transformedImagePathTextLabel.setBounds(12, 153, 206, 17);
-        getContentPane().add(transformedImagePathTextLabel);
+        // TODO implement
+//        transformedImagePathTextLabel = new JLabel("Transformed image path");
+//        transformedImagePathTextLabel.setBounds(12, 153, 206, 17);
+//        getContentPane().add(transformedImagePathTextLabel);
 
         originalImagePathTextInput = new JTextField();
         originalImagePathTextInput.setBounds(12, 83, 491, 27);
@@ -389,11 +390,12 @@ public class MainWindow extends JFrame{
         originalImagePathTextInput.setColumns(10);
         getContentPane().add(originalImagePathTextInput);
 
-        transformedImagePathTextInput = new JTextField();
-        transformedImagePathTextInput.setColumns(10);
-        transformedImagePathTextInput.setBounds(12, 171, 491, 27);
-        transformedImagePathTextInput.setEnabled(false);
-        getContentPane().add(transformedImagePathTextInput);
+        // TODO implement
+//        transformedImagePathTextInput = new JTextField();
+//        transformedImagePathTextInput.setColumns(10);
+//        transformedImagePathTextInput.setBounds(12, 171, 491, 27);
+//        transformedImagePathTextInput.setEnabled(false);
+//        getContentPane().add(transformedImagePathTextInput);
 
         originalImageFileChooserButton = new JButton("Choose image");
         originalImageFileChooserButton.setBounds(358, 42, 145, 29);

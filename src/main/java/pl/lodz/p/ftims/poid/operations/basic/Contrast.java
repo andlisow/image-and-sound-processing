@@ -11,9 +11,9 @@ import static main.java.pl.lodz.p.ftims.poid.utils.ImageConstants.*;
  * @author alisowsk
  */
 public class Contrast implements Transformable {
-    private final float factor;
+    private final int factor;
 
-    public Contrast(float factor) {
+    public Contrast(int factor) {
         this.factor = factor;
     }
 
@@ -35,12 +35,12 @@ public class Contrast implements Transformable {
 
     private int processSingleColor(int colorVal) {
         if (colorVal >= MIDDLE_PIXEL_VALUE) {
-            getNewValue(colorVal * factor);
+            getNewValue(colorVal + factor);
         }
-        return getNewValue(colorVal / factor);
+        return getNewValue(colorVal - factor);
     }
 
-    private int getNewValue(float newValue){
+    private int getNewValue(int newValue){
         if(newValue < MIN_PIXEL_VALUE){
             return MIN_PIXEL_VALUE;
         } else if (newValue > MAX_PIXEL_VALUE){

@@ -3,6 +3,7 @@
 \documentclass{classrep}
 \usepackage[utf8]{inputenc}
 \usepackage{color}
+\usepackage{mathtools}
 
 \studycycle{Informatyka, studia niestacjonarne, mgr II st.}
 \coursesemester{I}
@@ -25,9 +26,109 @@ modyfikacje histogramu, filtracja liniowa i nieliniowa, splot.}
 \maketitle
 
 \section{Cel}
-Celem zadania było zapoznanie się z metodami analizy i przetwarzania obrazów. W części implementacyjnej należało stworzyć program w wybranym przez siebie języku programowania, który będzie w stanie przeprowadzić różne operacje na obrazie. Pełen spis funkcjonalności zostanie przedstawiony w sekcji \it{Wprowadzenie}.
+Celem zadania było zapoznanie się z metodami analizy i przetwarzania obrazów. W części implementacyjnej należało stworzyć program w wybranym przez siebie języku programowania, który będzie w stanie przeprowadzić różne operacje na obrazie. Pełen spis funkcjonalności zostanie przedstawiony w sekcji \textit{Wprowadzenie}.
 
 \section{Wprowadzenie}
+Obraz w pamięci komputera jest reprezentowany przez macierz pikseli. Sam piksel jest zaś najmniejszym elementem obrazu, mogącym przyjmować różne wartości liczb naturalnych:
+0 - 7 dla obrazów 1-bitowych
+0 - 255 dla obrazów 8-bitowych (odcienie szarości)
+0 - 16777215 dla obrazów 24-bitowych (po 8 bitów na każdy kolor RGB)
+Poniżej przedstawione zostały teoretyczne podstawy trasformacji, którym poddane zostały testowe dane.
+
+\subsection{Podstawowe operacje przetwarzania obrazu}
+Sekcja ta opisuje podstawowe operacje przetwarzania obrazów, często wykorzystywane w codziennym życiu.
+
+\subsubsection{Zmiana jasności}
+Zmiana jasności obrazu polega na dodaniu do wartości każdego piksela pewnej stałej liczby k. Jeżeli stała jest dodatnia, mówimy o zwiększaniu jasności, jeżeli jest ujemna - jasność jest zmniejszana. W momencie, w którym wynik przekroczy wartości brzegowe piksela, przypisuje się mu pmin lub pmax zgodnie z poniższym wzorem:
+\[ p(i) =
+  \begin{cases}
+    p_{min} & \quad \text{jeżeli } i+k<0\\
+    i + k  & \quad \text{jeżeli } p_{min} \leq i+k \leq p_{max}\\
+    p_{max}  & \quad \text{jeżeli } i+k>0\\
+  \end{cases}
+\]
+gdzie:\\
+p(i) - wartość piksela po zmianie jasności,\\
+i - wartość piksela przed zmianą jasności,\\
+p$_{\text{min}}$ - minimalna wartość piksela, p$_{\text{min}}$=0,\\
+p$_{\text{max}}$ - maksymalna wartość piksela,\\
+k - zmiana jasności.\\
+
+\subsubsection{Zmiana kontrastu}
+Zmiana kontrastu obrazu polega na zwiększeniu jasności jasnych pikseli przy jednoczesnym zmniejszeniu jasności ciemnych pikseli. Piksele jasne należą do przedziału \frac{p$_{\text{max}}$}{2}, p$_{\text{max}}$
+
+\subsubsection{Wyznaczenie negatywu}
+//TODO
+
+\subsection{Podstawowe filtry}
+//TODO
+
+\subsubsection{Filtr ze średnią arytmetyczną}
+//TODO
+
+\subsubsection{Filtr medianowy}
+//TODO
+
+\subsection{Modyfikacje obrazu w oparciu o histogram}
+//TODO
+
+\subsubsection{Jednostajna wyjściowa gęstość prawdopodobieństwa}
+//TODO
+
+\subsubsection{Wyjściowa gęstość prawdopodobieństwa o postaci wykładniczej}
+//TODO
+
+\subsubsection{Wyjściowa gęstość prawdopodobieństwa podana wzorem Raleigha}
+//TODO
+
+\subsubsection{Wyjściowa gęstość prawdopodobieństwa określona przez potęgę 2/3}
+//TODO
+
+\subsubsection{Wyjściowa gęstość prawdopodobienstwa o postaci hiperbolicznej}
+//TODO
+
+\subsection{Filtracja liniowa oparta o splot}
+//TODO
+
+\subsubsection{Filtr dolnoprzepustowy}
+//TODO
+
+\subsubsection{Wyostrzanie krawędzi}
+//TODO
+
+\subsubsection{Wydobywanie szczegółów z tła: N, NE, E, SE}
+//TODO
+
+\subsubsection{Wydobywanie szczegółów z tła: S, SW, W, NW}
+//TODO
+
+\subsubsection{Wydobywanie szczegółów z tła bez zdefiniowanego kierunku (laplasjan)}
+//TODO
+
+\subsubsection{Identyfikowanie linii}
+//TODO
+
+\subsection{Filtracja nieliniowa}
+//TODO
+
+\subsubsection{Operator Robertsa (Wariant I)}
+//TODO
+
+\subsubsection{Operator Robertsa (Wariant II)}
+//TODO
+
+\subsubsection{Operator Sobela}
+//TODO
+
+\subsubsection{Operator Kirsha}
+//TODO
+
+\subsubsection{Operator Rosenfelda}
+//TODO
+
+\subsubsection{Operator Uolisa}
+//TODO
+
 {\color{blue}
 We wprowadzeniu należy zaprezentować całą teorię potrzebną do realizacji
 zadania (przy czym należy tu ograniczyć się wyłącznie do tego, co było
@@ -60,6 +161,8 @@ cel konkretnego testu. Najlepiej byłoby wyraźnie wyszczególnić (ponumerować
 poszczególne eksperymenty tak, aby łatwo było się do nich odwoływać dalej.}
 
 \section{Wyniki}
+Sekcja przedstawia efekty przeprowadzonych badań. Przeanalizowane zostały wybrane obrazy 1-, 8- i 24-bitowe.
+
 {\color{blue}
 W tej sekcji należy zaprezentować, dla każdego przeprowadzonego eksperymentu,
 kompletny zestaw wyników w postaci tabel, wykresów itp. Powinny być one tak
