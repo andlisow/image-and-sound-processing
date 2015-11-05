@@ -29,42 +29,86 @@ modyfikacje histogramu, filtracja liniowa i nieliniowa, splot.}
 Celem zadania było zapoznanie się z metodami analizy i przetwarzania obrazów. W części implementacyjnej należało stworzyć program w wybranym przez siebie języku programowania, który będzie w stanie przeprowadzić różne operacje na obrazie. Pełen spis funkcjonalności zostanie przedstawiony w sekcji \textit{Wprowadzenie}.
 
 \section{Wprowadzenie}
-Obraz w pamięci komputera jest reprezentowany przez macierz pikseli. Sam piksel jest zaś najmniejszym elementem obrazu, mogącym przyjmować różne wartości liczb naturalnych:
-0 - 7 dla obrazów 1-bitowych
-0 - 255 dla obrazów 8-bitowych (odcienie szarości)
-0 - 16777215 dla obrazów 24-bitowych (po 8 bitów na każdy kolor RGB)
+Obraz w pamięci komputera jest reprezentowany przez macierz pikseli. Sam piksel jest zaś najmniejszym elementem obrazu, mogącym przyjmować różne wartości liczb naturalnych:\\
+\begin{itemize}
+\item 0 - 7 dla obrazów 1-bitowych\\
+\item 0 - 255 dla obrazów 8-bitowych (odcienie szarości)\\
+\item 0 - 16777215 dla obrazów 24-bitowych (po 8 bitów na każdy kolor RGB)\\
+\end{itemize}
 Poniżej przedstawione zostały teoretyczne podstawy trasformacji, którym poddane zostały testowe dane.
 
 \subsection{Podstawowe operacje przetwarzania obrazu}
 Sekcja ta opisuje podstawowe operacje przetwarzania obrazów, często wykorzystywane w codziennym życiu.
 
 \subsubsection{Zmiana jasności}
-Zmiana jasności obrazu polega na dodaniu do wartości każdego piksela pewnej stałej liczby k. Jeżeli stała jest dodatnia, mówimy o zwiększaniu jasności, jeżeli jest ujemna - jasność jest zmniejszana. W momencie, w którym wynik przekroczy wartości brzegowe piksela, przypisuje się mu pmin lub pmax zgodnie z poniższym wzorem:
+Zmiana jasności obrazu polega na dodaniu do wartości każdego piksela pewnej stałej liczby k. Jeżeli stała jest dodatnia, mówimy o zwiększaniu jasności, jeżeli jest ujemna - jasność jest zmniejszana. W momencie, w którym wynik przekroczy wartości brzegowe piksela, przypisuje się mu p$_{\text{min}}$ lub p$_{\text{max}}$ zgodnie z poniższym wzorem:
 \[ p(i) =
   \begin{cases}
-    p_{min} & \quad \text{jeżeli } i+k<0\\
+    p_{min} & \quad \text{jeżeli } i + k < 0\\
     i + k  & \quad \text{jeżeli } p_{min} \leq i+k \leq p_{max}\\
-    p_{max}  & \quad \text{jeżeli } i+k>0\\
+    p_{max}  & \quad \text{jeżeli } i + k > 0\\
   \end{cases}
 \]
 gdzie:\\
-p(i) - wartość piksela po zmianie jasności,\\
-i - wartość piksela przed zmianą jasności,\\
-p$_{\text{min}}$ - minimalna wartość piksela, p$_{\text{min}}$=0,\\
-p$_{\text{max}}$ - maksymalna wartość piksela,\\
-k - zmiana jasności.\\
+\textit{p(i)} - wartość piksela po zmianie jasności,\\
+\textit{i} - wartość piksela przed zmianą jasności,\\
+\textit{p$_{\text{min}}$} - minimalna wartość piksela, p$_{\text{min}}$ = 0,\\
+\textit{p$_{\text{max}}$} - maksymalna wartość piksela,\\
+\textit{k} - zmiana jasności.\\
 
 \subsubsection{Zmiana kontrastu}
-Zmiana kontrastu obrazu polega na zwiększeniu jasności jasnych pikseli przy jednoczesnym zmniejszeniu jasności ciemnych pikseli. Piksele jasne należą do przedziału \frac{p$_{\text{max}}$}{2}, p$_{\text{max}}$
+Zmiana kontrastu obrazu polega na zwiększeniu jasności jasnych pikseli przy jednoczesnym zmniejszeniu jasności ciemnych pikseli. Ciemne piksele należą do przedziału $\langle$0,$ \frac{p_{max}}{2}$), zaś jasne do przedziału $\langle$$ \frac{p_{max}}{2}$,$p_{max}$$\rangle$.\\
+\\
+Wzór wygląda następująco:
+\[ p(i) =
+  \begin{cases}
+    i \div k  & \quad \text{jeżeli } 0 \leq i < \frac{p_{max}}{2}\\
+    i \ast k  & \quad \text{jeżeli } \frac{p_{max}}{2} \leq i \leq p_{max}\\
+    p_{max}  & \quad \text{jeżeli } i \ast k > p_{max}\\
+  \end{cases}
+\]
+gdzie:\\
+\textit{p(i)} - wartość piksela po zmianie kontrastu,\\
+\textit{i} - wartość piksela przed zmianą kontrastu,\\
+\textit{p$_{\text{max}}$} - maksymalna wartość piksela,\\
+\textit{k} - współczynnik zmiany kontrastu.\\
 
 \subsubsection{Wyznaczenie negatywu}
-//TODO
+Negatyw jest przedstawieniem pikseli obrazu jako różnicy wartości maksymalnej i obecnej:\\
+\\
+\[p(i) = p_{max} - i\]
+gdzie:\\
+\textit{p(i)} - wartość piksela po wyznaczeniu negatywu,\\
+\textit{i} - wartość piksela przed zmianą kontrastu,\\
+\textit{p$_{\text{max}}$} - maksymalna wartość piksela.\\
 
 \subsection{Podstawowe filtry}
-//TODO
+Poniższa sekcja opisuje 2 podstawowe filtry, które podległy analizie - filtr ze średnią arytmetyczną oraz filtr medianowy.
 
 \subsubsection{Filtr ze średnią arytmetyczną}
-//TODO
+Filtr ze średnią arytmetyczną jest wykorzystywany w operacjach odszumiania obrazu. Algorytm polega na przypisaniu do nowej wartości pikseli średniej arytmetycznej badanego elementu oraz jego sąsiedztwa s. Sąsiedztwo może przyjmować wartości potęg kolejnych liczb nieparzystych:\\
+\[ s = {9,25,49...} \]
+\[ p(i) = \displaystyle\sum_{x=-n}^{n}\displaystyle\sum_{y=-n}^{n} i_{x,y} \]
+gdzie:\\
+\textit{p(i)} - wartość piksela po nałożeniu filtru,\\
+\textit{i} - wartość piksela przed nałożeniem filtru,\\
+\textit{n} - rozpiętość maski filtru, obliczana ze wzoru:\\
+\[ n = \frac{\sqrt{s}-1}{2} \]
+\textit{x} - współrzędna x piksela na obrazie\\
+\textit{y} - współrzędna y piksela na obrazie\\
+\\
+Należy pamiętać, że piksele poddawane filtracji nie mogą być elementami brzegowymi obrazu, więc:
+\[ i_x + n \leq x_{max} \wedge i_x - n \geq x_{min} \wedge i_y + n \leq y_{max} \wedge i_y - n \geq y_{min} \]
+gdzie:\\
+\textit{i} - wartość piksela przed zmianą kontrastu,\\
+\textit{x} - współrzędna x piksela na obrazie\\
+\textit{y} - współrzędna y piksela na obrazie\\
+\textit{x$_{\text{max}}$} - maksymalna wartość współrzędnej x na obrazie\\
+\textit{x$_{\text{min}}$} - minimalna wartość współrzędnej x na obrazie, x$_{\text{min}}$ = 0\\
+\textit{y$_{\text{max}}$} - maksymalna wartość współrzędnej y na obrazie\\
+\textit{y$_{\text{min}}$} - minimalna wartość współrzędnej y na obrazie, y$_{\text{min}}$ = 0\\
+
+
 
 \subsubsection{Filtr medianowy}
 //TODO
