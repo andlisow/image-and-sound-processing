@@ -722,7 +722,17 @@ W sprawozdaniu przedstawiono wyniki dla trzech masek: 3x3, 5x5 i 7x7.
 
 
 \subsection{Modyfikacje obrazu w oparciu o histogram}
-//TODO
+Sekcja przedstawia wyniki modyfikacji obrazów w oparciu o histogram. W celu porównania wyników, wszystkie operacje przeprowadzane były na obrazie 24-bitowym obrazie Lena. Poniżej przedstawiono histogramy kolorów obrazu oryginalnego.
+\begin{figure}[H]%
+    \centering
+    \subfloat[CZERWONY]{{\includegraphics[width=6cm,height=6cm,keepaspectratio]{img/transformed/histogram/histogram_lena_24_red.png}}}%
+    \qquad
+    \subfloat[ZIELONY]{{\includegraphics[width=6cm,height=6cm,keepaspectratio]{img/transformed/histogram/histogram_lena_24_green.png}}}%
+    \qquad
+    \subfloat[NIEBIESKI]{{\includegraphics[width=6cm,height=6cm,keepaspectratio]{img/transformed/histogram/histogram_lena_24_blue.png}}}%
+    \qquad
+    \caption{Histogramy kolorów dla 24-bitowego obrazu Lena}%
+\end{figure}
 
 \subsubsection{Jednostajna wyjściowa gęstość prawdopodobieństwa}
 //TODO
@@ -761,22 +771,77 @@ W sprawozdaniu przedstawiono wyniki dla trzech masek: 3x3, 5x5 i 7x7.
 //TODO
 
 \subsection{Filtracja nieliniowa}
-//TODO
+Sekcja przedstawia wyniki nałożenia na obrazy filtrów nieliniowych.
 
 \subsubsection{Operator Robertsa (Wariant I)}
-//TODO
+Poniżej przedstawione zostały wyniki zastosowania operatora Robertsa w I wariancie na wybranych obrazach 8- i 24-bitowych.
+
+\begin{figure}[H]%
+    \centering
+    \subfloat[Bird 8b]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/nonlinear/roberts_1/non_linear_filter_roberts_v_I_bird_8.png}}}%
+    \qquad
+    \subfloat[Pentagon 8b]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/nonlinear/roberts_1/non_linear_filter_roberts_v_I_pentagon_8.png}}}%
+    \qquad
+    \subfloat[Girl 24b]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/nonlinear/roberts_1/non_linear_filter_roberts_v_I_girl_24.png}}}%
+    \qquad
+    \subfloat[Mandril 24b]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/nonlinear/roberts_1/non_linear_filter_roberts_v_I_mandril_24.png}}}%
+    \qquad
+    \caption{Wyniki zastosowania operatora Robertsa w I wariancie na wybrane obrazy 8- i 24-bitowe}%
+\end{figure}
+
+\subsubsection{Operator Robertsa (Wariant II)}
+Poniżej przedstawione zostały wyniki zastosowania operatora Robertsa w II wariancie na wybranych obrazach 8- i 24-bitowych.
+
+\begin{figure}[H]%
+    \centering
+    \subfloat[Bird 8b]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/nonlinear/roberts_2/non_linear_filter_roberts_v_II_bird_8.png}}}%
+    \qquad
+    \subfloat[Pentagon 8b]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/nonlinear/roberts_2/non_linear_filter_roberts_v_II_pentagon_8.png}}}%
+    \qquad
+    \subfloat[Girl 24b]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/nonlinear/roberts_2/non_linear_filter_roberts_v_II_girl_24.png}}}%
+    \qquad
+    \subfloat[Mandril 24b]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/nonlinear/roberts_2/non_linear_filter_roberts_v_II_mandril_24.png}}}%
+    \qquad
+    \caption{Wyniki zastosowania operatora Robertsa w I wariancie na wybrane obrazy 8- i 24-bitowe}%
+\end{figure}
 
 \subsubsection{Operator Sobela}
-//TODO
+Poniżej przedstawione zostały wyniki zastosowania operatora Sobela na wybranych obrazach 8- i 24-bitowych.
+
+\begin{figure}[H]%
+    \centering
+    \subfloat[Bird 8b]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/nonlinear/sobel/non_linear_filter_sobel_bird_8.png}}}%
+    \qquad
+    \subfloat[Pentagon 8b]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/nonlinear/sobel/non_linear_filter_sobel_pentagon_8.png}}}%
+    \qquad
+    \subfloat[Girl 24b]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/nonlinear/sobel/non_linear_filter_sobel_girl_24.png}}}%
+    \qquad
+    \subfloat[Mandril 24b]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/nonlinear/sobel/non_linear_filter_sobel_mandril_24.png}}}%
+    \qquad
+    \caption{Wyniki zastosowania operatora Robertsa w I wariancie na wybrane obrazy 8- i 24-bitowe}%
+\end{figure}
 
 \subsubsection{Operator Kirsha}
-//TODO
+Poniżej przedstawione zostały wyniki zastosowania operatora Sobela na wybranych obrazach 8- i 24-bitowych.
+
+\begin{figure}[H]%
+    \centering
+    \subfloat[Bird 8b]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/nonlinear/kirsh/non_linear_filter_kirsh_bird_8.png}}}%
+    \qquad
+    \subfloat[Pentagon 8b]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/nonlinear/kirsh/non_linear_filter_kirsh_pentagon_8.png}}}%
+    \qquad
+    \subfloat[Girl 24b]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/nonlinear/kirsh/non_linear_filter_kirsh_girl_24.png}}}%
+    \qquad
+    \subfloat[Mandril 24b]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/nonlinear/kirsh/non_linear_filter_kirsh_mandril_24.png}}}%
+    \qquad
+    \caption{Wyniki zastosowania operatora Kirsha na wybrane obrazy 8- i 24-bitowe}%
+\end{figure}
 
 \subsubsection{Operator Rosenfelda}
-//TODO
+//TODO POPRAWIĆ
 
 \subsubsection{Operator Uolisa}
-//TODO
+//TODO POPRAWIĆ
 
 \section{Dyskusja}
 {\color{blue}
