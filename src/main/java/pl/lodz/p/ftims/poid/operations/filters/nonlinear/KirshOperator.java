@@ -3,6 +3,7 @@ package main.java.pl.lodz.p.ftims.poid.operations.filters.nonlinear;
 import main.java.pl.lodz.p.ftims.poid.model.Image;
 import main.java.pl.lodz.p.ftims.poid.model.Pixel.RgbColor;
 import main.java.pl.lodz.p.ftims.poid.operations.filters.AbstractFilter;
+import main.java.pl.lodz.p.ftims.poid.utils.ImageConstants;
 
 /**
  * @author alisowsk
@@ -26,7 +27,11 @@ public class KirshOperator extends AbstractFilter {
                 max = temp;
             }
         }
-        return Math.max(1, max);
+        int result = Math.max(1, max);
+        if(result > ImageConstants.MAX_PIXEL_VALUE){
+            return ImageConstants.MAX_PIXEL_VALUE;
+        }
+        return result;
     }
 
     private int calculateK1(int[] a, int i) {
