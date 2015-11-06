@@ -5,6 +5,9 @@
 \usepackage{color}
 \usepackage{mathtools}
 
+\usepackage{subfig}
+\usepackage{float}
+
 \studycycle{Informatyka, studia niestacjonarne, mgr II st.}
 \coursesemester{I}
 
@@ -383,24 +386,261 @@ Aplikacja została napisana w języku programowania Java. Wybór środowiska by�
 
 Poniżej przedstawiony został diagram UML klas znajdujących się w programie. Aby zachować czytelność, nie zamieszczono połączeń pomiędzy wywołaniami obiektów, a także ukryto informacje na temat metod i parametrów.
 
-\includegraphics[scale=0.6]{uml_diagram.png}
+\includegraphics[scale=0.6]{img/uml_diagram.png}
 
 \section{Materiały i metody}
-{\color{blue}
-W tym miejscu należy opisać, jak przeprowadzone zostały wszystkie badania,
-których wyniki i dyskusja zamieszczane są w dalszych sekcjach. Opis ten
-powinien być na tyle dokładny, aby osoba czytająca go potrafiła wszystkie
-przeprowadzone badania samodzielnie powtórzyć w celu zweryfikowania ich
-poprawności (a zatem m.in. należy zamieścić tu opis architektury sieci,
-wartości współczynników użytych w kolejnych eksperymentach, sposób
-inicjalizacji wag, metodę uczenia itp. oraz informacje o danych, na których
-prowadzone były badania). Przy opisie należy odwoływać się i stosować do
-opisanych w sekcji drugiej wzorów i oznaczeń, a także w jasny sposób opisać
-cel konkretnego testu. Najlepiej byłoby wyraźnie wyszczególnić (ponumerować)
-poszczególne eksperymenty tak, aby łatwo było się do nich odwoływać dalej.}
+Testowy zbiór przekształcanych obrazów można podzielić na 3 główne grupy:
+\begin{itemize}
+\item obrazy 1-bitowe
+\begin{figure}%
+    \centering
+    \subfloat[Boat]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/original/bit1/boatbw_small.png}}}%
+    \qquad
+    \subfloat[Girl]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/original/bit1/girlbw_small.png}}}%
+    \qquad
+    \subfloat[Lena]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/original/bit1/lenabw_small.png}}}%
+    \qquad
+    \subfloat[Mandril]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/original/bit1/mandrilbw_small.png}}}%
+    \caption{Testowe obrazy 1-bitowe}%
+\end{figure}
+\item obrazy 8-bitowe (w skali szarości)
+\begin{figure}%
+    \centering
+    \subfloat[Aero]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/original/bit8/aero_small.png}}}%
+    \qquad
+    \subfloat[Bird]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/original/bit8/bird_small.png}}}%
+    \qquad
+    \subfloat[Boat]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/original/bit8/boat_small.png}}}%
+    \qquad
+    \subfloat[Bridge]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/original/bit8/bridge_small.png}}}%
+    \qquad
+    \subfloat[Camera]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/original/bit8/camera_small.png}}}%
+    \qquad
+    \subfloat[Lena]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/original/bit8/lena_small.png}}}%
+    \qquad
+    \subfloat[Mandril]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/original/bit8/mandril_small.png}}}%
+    \qquad
+    \subfloat[Messer]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/original/bit8/messer_small.png}}}%
+    \qquad
+    \subfloat[Pentagon]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/original/bit8/pentagon_small.png}}}%
+    \caption{Testowe obrazy 8-bitowe}%
+\end{figure}
+\begin{figure}%
+    \centering
+    \subfloat[Impulsowy 1]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/original/bit8/noise/lena_impulse1_small.png}}}%
+    \qquad
+    \subfloat[Impulsowy 2]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/original/bit8/noise/lena_impulse2_small.png}}}%
+    \qquad
+    \subfloat[Impulsowy 3]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/original/bit8/noise/lena_impulse3_small.png}}}%
+    \qquad
+    \subfloat[Normalny 1]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/original/bit8/noise/lena_normal1_small.png}}}%
+    \qquad
+    \subfloat[Normalny 2]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/original/bit8/noise/lena_normal2_small.png}}}%
+    \qquad
+    \subfloat[Normalny 3]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/original/bit8/noise/lena_normal3_small.png}}}%
+    \qquad
+    \subfloat[Jednolity 1]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/original/bit8/noise/lena_uniform1_small.png}}}%
+    \qquad
+    \subfloat[Jednolity 2]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/original/bit8/noise/lena_uniform2_small.png}}}%
+    \qquad
+    \subfloat[Jednolity 3]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/original/bit8/noise/lena_uniform3_small.png}}}%
+    \caption{Testowe obrazy Lena 8-bitowe zaszumione}%
+\end{figure}
+\item obrazy 24-bitowe (RGB)
+\begin{figure}%
+    \centering
+    \subfloat[Girl]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/original/bit24/girlc_small.png}}}%
+    \qquad
+    \subfloat[Lena]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/original/bit24/lenac_small.png}}}%
+    \qquad
+    \subfloat[Mandril]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/original/bit24/mandrilc_small.png}}}%
+    \caption{Testowe obrazy 24-bitowe}%
+\end{figure}
+\begin{figure}%
+    \centering
+    \subfloat[Impulsowy 1]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/original/bit24/noise/lenac_impulse1_small.png}}}%
+    \qquad
+    \subfloat[Impulsowy 2]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/original/bit24/noise/lenac_impulse2_small.png}}}%
+    \qquad
+    \subfloat[Impulsowy 3]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/original/bit24/noise/lenac_impulse3_small.png}}}%
+    \qquad
+    \subfloat[Normalny 1]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/original/bit24/noise/lenac_normal1_small.png}}}%
+    \qquad
+    \subfloat[Normalny 2]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/original/bit24/noise/lenac_normal2_small.png}}}%
+    \qquad
+    \subfloat[Normalny 3]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/original/bit24/noise/lenac_normal3_small.png}}}%
+    \qquad
+    \subfloat[Jednolity 1]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/original/bit24/noise/lenac_uniform1_small.png}}}%
+    \qquad
+    \subfloat[Jednolity 2]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/original/bit24/noise/lenac_uniform2_small.png}}}%
+    \qquad
+    \subfloat[Jednolity 3]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/original/bit24/noise/lenac_uniform3_small.png}}}%
+    \caption{Testowe obrazy Lena 24-bitowe zaszumione}%
+\end{figure}
+\end{itemize}
+
+Badania zostały zrealizowane przy pomocy stworzonej aplikacji. Użytkownik definiował wejściowy obraz, który potem był poddawany wybranemu przez niego przekształceniu. Wyniki były zapisywane na dysku. Szczegółowa konfiguracja współczynników podczas transformacji zostanie podany w sekcji \textit{Wyniki}.
 
 \section{Wyniki}
-Sekcja przedstawia efekty przeprowadzonych badań. Przeanalizowane zostały wybrane obrazy 1-, 8- i 24-bitowe.
+Poniżej przedstawione zostały efekty przeprowadzonych badań. Przeanalizowano wybrane obrazy 1-, 8- i 24-bitowe.
+
+\subsection{Podstawowe operacje przetwarzania obrazu}
+Sekcja przedstawia wyniki podstawowego przetwarzania obrazów - zmiany jasności, kontrastu oraz wyznaczenia negatywu.
+
+\subsubsection{Zmiana jasności}
+Poniżej przedstawione zostały wyniki zmiany jasności dla 3 wybranych obrazów.
+\begin{figure}[H]%
+    \centering
+    \subfloat[k = -100]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/basic/brightness/brightness_girl_1_100_minus.png}}}%
+    \qquad
+    \subfloat[k = -50]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/basic/brightness/brightness_girl_1_50_minus.png}}}%
+      \qquad
+    \subfloat[k = 50]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/basic/brightness/brightness_girl_1_50_plus.png}}}%
+    \qquad
+    \subfloat[k = 100]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/basic/brightness/brightness_girl_1_100_plus.png}}}%
+    \caption{Zmiana jasności w obrazie Girl 1-bitowym}%
+\end{figure}
+
+\begin{figure}[H]%
+    \centering
+    \subfloat[k = -100]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/basic/brightness/brightness_bird_8_100_minus.png}}}%
+    \qquad
+    \subfloat[k = -50]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/basic/brightness/brightness_bird_8_50_minus.png}}}%
+      \qquad
+    \subfloat[k = 50]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/basic/brightness/brightness_bird_8_50_plus.png}}}%
+    \qquad
+    \subfloat[k = 100]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/basic/brightness/brightness_bird_8_100_plus.png}}}%
+    \caption{Zmiana jasności w obrazie Bird 8-bitowym}%
+\end{figure}
+\begin{figure}[H]%
+    \centering
+    \subfloat[k = -100]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/basic/brightness/brightness_lena_24_100_minus.png}}}%
+    \qquad
+    \subfloat[k = -50]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/basic/brightness/brightness_lena_24_50_minus.png}}}%
+      \qquad
+    \subfloat[k = 50]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/basic/brightness/brightness_lena_24_50_plus.png}}}%
+    \qquad
+    \subfloat[k = 100]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/basic/brightness/brightness_lena_24_100_plus.png}}}%
+    \caption{Zmiana jasności w obrazie Lena 24-bitowym}%
+\end{figure}
+
+\subsubsection{Zmiana kontrastu}
+Poniżej przedstawione zostały wyniki zmiany kontrastu dla 3 wybranych obrazów.
+\begin{figure}[H]%
+    \centering
+    \subfloat[k = 0.5]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/basic/contrast/contrast_boat_1_0_5.png}}}%
+    \qquad
+    \subfloat[k = 0.75]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/basic/contrast/contrast_boat_1_0_75.png}}}%
+     \qquad
+    \subfloat[k = 1.25]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/basic/contrast/contrast_boat_1_1_25.png}}}%
+    \qquad
+    \subfloat[k = 1.5]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/basic/contrast/contrast_boat_1_1_5.png}}}%
+    \caption{Zmiana kontrastu w obrazie Boat 1-bitowym}%
+\end{figure}
+
+\begin{figure}[H]%
+    \centering
+    \subfloat[k = 0.5]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/basic/contrast/contrast_aero_8_0_5.png}}}%
+    \qquad
+    \subfloat[k = 0.75]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/basic/contrast/contrast_aero_8_0_75.png}}}%
+     \qquad
+    \subfloat[k = 1.25]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/basic/contrast/contrast_aero_8_1_25.png}}}%
+    \qquad
+    \subfloat[k = 1.5]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/basic/contrast/contrast_aero_8_1_5.png}}}%
+    \caption{Zmiana kontrastu w obrazie Aero 8-bitowym}%
+\end{figure}
+
+\begin{figure}[H]%
+    \centering
+    \subfloat[k = 0.5]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/basic/contrast/contrast_mandril_24_0_5.png}}}%
+    \qquad
+    \subfloat[k = 0.75]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/basic/contrast/contrast_mandril_24_0_75.png}}}%
+     \qquad
+    \subfloat[k = 1.25]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/basic/contrast/contrast_mandril_24_1_25.png}}}%
+    \qquad
+    \subfloat[k = 1.5]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/basic/contrast/contrast_mandril_24_1_5.png}}}%
+    \caption{Zmiana kontrastu w obrazie Mandril 24-bitowym}%
+\end{figure}
+
+\subsubsection{Wyznaczenie negatywu}
+Poniżej przedstawione zostały wyniki wyznaczenia negatywu dla 3 wybranych obrazów.
+\begin{figure}[H]%
+    \centering
+    \subfloat[Boat 1b]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/basic/negative/negative_boat_1.png}}}%
+    \qquad
+    \subfloat[Camera 8b]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/basic/negative/negative_camera_8.png}}}%
+    \qquad
+    \subfloat[Mandril 24b]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/basic/negative/negative_mandril_24.png}}}%
+    \caption{Negatyw wybranych obrazów}%
+\end{figure}
+
+
+\subsection{Podstawowe filtry}
+//TODO
+
+\subsubsection{Filtr ze średnią arytmetyczną}
+//TODO
+
+\subsubsection{Filtr medianowy}
+//TODO
+
+\subsection{Modyfikacje obrazu w oparciu o histogram}
+//TODO
+
+\subsubsection{Jednostajna wyjściowa gęstość prawdopodobieństwa}
+//TODO
+
+\subsubsection{Wyjściowa gęstość prawdopodobieństwa o postaci wykładniczej}
+//TODO
+
+\subsubsection{Wyjściowa gęstość prawdopodobieństwa podana wzorem Raleigha}
+//TODO
+
+\subsubsection{Wyjściowa gęstość prawdopodobieństwa określona przez potęgę 2/3}
+//TODO
+
+\subsubsection{Wyjściowa gęstość prawdopodobienstwa o postaci hiperbolicznej}
+//TODO
+
+\subsection{Filtracja liniowa oparta o splot}
+//TODO
+
+\subsubsection{Filtr dolnoprzepustowy}
+//TODO
+
+\subsubsection{Wyostrzanie krawędzi}
+//TODO
+
+\subsubsection{Wydobywanie szczegółów z tła: N, NE, E, SE}
+//TODO
+
+\subsubsection{Wydobywanie szczegółów z tła: S, SW, W, NW}
+//TODO
+
+\subsubsection{Wydobywanie szczegółów z tła bez zdefiniowanego kierunku (laplasjan)}
+//TODO
+
+\subsubsection{Identyfikowanie linii}
+//TODO
+
+\subsection{Filtracja nieliniowa}
+//TODO
+
+\subsubsection{Operator Robertsa (Wariant I)}
+//TODO
+
+\subsubsection{Operator Sobela}
+//TODO
+
+\subsubsection{Operator Kirsha}
+//TODO
+
+\subsubsection{Operator Rosenfelda}
+//TODO
+
+\subsubsection{Operator Uolisa}
+//TODO
+
 
 {\color{blue}
 W tej sekcji należy zaprezentować, dla każdego przeprowadzonego eksperymentu,
@@ -429,14 +669,14 @@ wypunktować. Znów, tak jak poprzednio, najistotniejsze są wnioski o
 charakterze uniwersalnym.}
 
 
-\begin{thebibliography}{0}
+\begin{thebibliography}{1}
+\bibitem{instruction_pol}\text{$http://ftims.edu.p.lodz.pl/pluginfile.php/18220/mod\_resource/content/1/$}\\
+\text{$Zadanie1.pdf, 2015$}
+
+\bibitem{instruction_ang}\text{$http://ics.p.lodz.pl/~tomczyk/available/po\_en/second.html, 2015$}
+
+\bibitem{instruction_latex}\text{$https://en.wikibooks.org/wiki/LaTeX/Mathematics, 2015$}
+
+\bibitem{doc_linear_fitering}\text{$https://pl.wikipedia.org/wiki/Filtracja\_obraz\%C3\%B3w, 2015$}
 \end{thebibliography}
-http://ftims.edu.p.lodz.pl/pluginfile.php/18220/mod_resource/content/1/Zadanie1.pdf
-http://ics.p.lodz.pl/~tomczyk/available/po_en/second.html
-https://en.wikibooks.org/wiki/LaTeX/Mathematics
-https://pl.wikipedia.org/wiki/Filtracja_obraz%C3%B3w
-{\color{blue} 
-Na końcu należy obowiązkowo podać cytowaną w sprawozdaniu
-literaturę, z której grupa korzystała w trakcie prac nad zadaniem (przykład na
-końcu szablonu)}
 \end{document}

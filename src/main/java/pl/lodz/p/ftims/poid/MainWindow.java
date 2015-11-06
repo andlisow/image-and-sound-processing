@@ -150,7 +150,7 @@ public class MainWindow extends JFrame{
                     operations.addOperation(new Brightness(brightnessValue));
                 }
                 if(contrastCheckbox.isSelected()){
-                    int contrastValue = Integer.parseInt(contrastTextField.getText());
+                    float contrastValue = Float.parseFloat(contrastTextField.getText());
                     operations.addOperation(new Contrast(contrastValue));
                 }
                 if(meanFilterCheckbox.isSelected()){

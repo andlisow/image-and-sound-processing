@@ -37,7 +37,7 @@ public class MedianFilter extends AbstractFilter {
 
     private int getMedian(int[] table){
         int middle = table.length/2;
-        return (table.length % 2 == 1) ? table[middle] : (table[middle-1] + table[middle]) / 2;
+        return (table[middle-1] + table[middle]) / 2;
     }
 
 }
