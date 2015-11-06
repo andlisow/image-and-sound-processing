@@ -86,71 +86,270 @@ gdzie:\\
 Poniższa sekcja opisuje 2 podstawowe filtry, które podległy analizie - filtr ze średnią arytmetyczną oraz filtr medianowy.
 
 \subsubsection{Filtr ze średnią arytmetyczną}
-Filtr ze średnią arytmetyczną jest wykorzystywany w operacjach odszumiania obrazu. Algorytm polega na przypisaniu do nowej wartości pikseli średniej arytmetycznej badanego elementu oraz jego sąsiedztwa s. Sąsiedztwo może przyjmować wartości potęg kolejnych liczb nieparzystych:\\
-\[ s = {9,25,49...} \]
-\[ p(i) = \displaystyle\sum_{x=-n}^{n}\displaystyle\sum_{y=-n}^{n} i_{x,y} \]
+Filtr ze średnią arytmetyczną jest wykorzystywany w operacjach odszumiania obrazu. Algorytm polega na przypisaniu do nowej wartości pikseli średniej arytmetycznej badanego elementu oraz jego sąsiedztwa s. Sąsiedztwo może przyjmować wartości potęg kolejnych liczb nieparzystych większych od 1:\\
+\[ s \in \{9,25,49,...\} \]
+\[ p(i) = \frac{\displaystyle\sum_{x=-n}^{n}\displaystyle\sum_{y=-n}^{n} i_{x,y}}{s} \]
 gdzie:\\
 \textit{p(i)} - wartość piksela po nałożeniu filtru,\\
 \textit{i} - wartość piksela przed nałożeniem filtru,\\
+\textit{s} - maska filtru,\\
 \textit{n} - rozpiętość maski filtru, obliczana ze wzoru:\\
 \[ n = \frac{\sqrt{s}-1}{2} \]
-\textit{x} - współrzędna x piksela na obrazie\\
-\textit{y} - współrzędna y piksela na obrazie\\
+\textit{x} - współrzędna x piksela na obrazie,\\
+\textit{y} - współrzędna y piksela na obrazie.\\
 \\
 Należy pamiętać, że piksele poddawane filtracji nie mogą być elementami brzegowymi obrazu, więc:
 \[ i_x + n \leq x_{max} \wedge i_x - n \geq x_{min} \wedge i_y + n \leq y_{max} \wedge i_y - n \geq y_{min} \]
 gdzie:\\
 \textit{i} - wartość piksela przed zmianą kontrastu,\\
-\textit{x} - współrzędna x piksela na obrazie\\
-\textit{y} - współrzędna y piksela na obrazie\\
-\textit{x$_{\text{max}}$} - maksymalna wartość współrzędnej x na obrazie\\
-\textit{x$_{\text{min}}$} - minimalna wartość współrzędnej x na obrazie, x$_{\text{min}}$ = 0\\
-\textit{y$_{\text{max}}$} - maksymalna wartość współrzędnej y na obrazie\\
-\textit{y$_{\text{min}}$} - minimalna wartość współrzędnej y na obrazie, y$_{\text{min}}$ = 0\\
-
-
+\textit{x} - współrzędna x piksela na obrazie,\\
+\textit{y} - współrzędna y piksela na obrazie,\\
+\textit{x$_{\text{max}}$} - maksymalna wartość współrzędnej x na obrazie,\\
+\textit{x$_{\text{min}}$} - minimalna wartość współrzędnej x na obrazie, x$_{\text{min}}$ = 0,\\
+\textit{y$_{\text{max}}$} - maksymalna wartość współrzędnej y na obrazie,\\
+\textit{y$_{\text{min}}$} - minimalna wartość współrzędnej y na obrazie, y$_{\text{min}}$ = 0.\\
 
 \subsubsection{Filtr medianowy}
-//TODO
+Filtr medianowy jest bardzo podobny do filtru ze średnią arytmetyczną. W tym przypadku jednak, nowa wartość piksela jest medianą badanego elementu praz jego sąsiedztwa s. Sąsiedztwo może przyjmować wartości potęg kolejnych liczb nieparzystych większych od 1:\\
+\[ s \in \{9,25,49,...\} \]
+\[ p(i) = M_{s} \]
+gdzie:\\
+\textit{p(i)} - wartość piksela po nałożeniu filtru,\\
+\textit{M} - mediana,\\
+\textit{s} - maska filtru.\\
+\\
+Należy pamiętać, że piksele poddawane filtracji nie mogą być elementami brzegowymi obrazu, więc:
+\[ i_x + n \leq x_{max} \wedge i_x - n \geq x_{min} \wedge i_y + n \leq y_{max} \wedge i_y - n \geq y_{min} \]
+gdzie:\\
+\textit{i} - wartość piksela przed zmianą kontrastu,\\
+\textit{n} - rozpiętość maski filtru, obliczana ze wzoru:\\
+\[ n = \frac{\sqrt{s}-1}{2} \]
+\textit{x} - współrzędna x piksela na obrazie,\\
+\textit{y} - współrzędna y piksela na obrazie,\\
+\textit{x$_{\text{max}}$} - maksymalna wartość współrzędnej x na obrazie,\\
+\textit{x$_{\text{min}}$} - minimalna wartość współrzędnej x na obrazie, x$_{\text{min}}$ = 0,\\
+\textit{y$_{\text{max}}$} - maksymalna wartość współrzędnej y na obrazie,\\
+\textit{y$_{\text{min}}$} - minimalna wartość współrzędnej y na obrazie, y$_{\text{min}}$ = 0.\\
 
 \subsection{Modyfikacje obrazu w oparciu o histogram}
-//TODO
+Histogram umożliwia przedstawienie rozkładu pikseli o określonych wartościach na wykresie. Poniższa sekcja prezentuje modyfikacje obrazu na podstawie jego histogramu.
 
 \subsubsection{Jednostajna wyjściowa gęstość prawdopodobieństwa}
-//TODO
+Obliczana jest ze wzoru:
+\[ g(f) = g_{min} + (g_{max} - g_{min}) \frac{1}{N} \displaystyle\sum_{m=0}^{f} H(m) \]
+gdzie:\\
+\textit{f} - wartość rozważanego kanału przed modyfikacją,\\
+\textit{g} - wartość rozważanego kanału po modyfikacji,\\
+\textit{g$_{\text{min}}$} - pożądana minimalna wartość przetwarzanego kanału,\\
+\textit{g$_{\text{max}}$} - pożądana maksymalna wartość przetwarzanego kanału,\\
+\textit{N} - suma pikseli na obrazie,\\
+\textit{H(m)} - wartość histogramu dla wartości m kanału.\\
 
 \subsubsection{Wyjściowa gęstość prawdopodobieństwa o postaci wykładniczej}
-//TODO
+Obliczana jest ze wzoru:
+\[ g(f) = g_{min} - \frac{1}{\alpha} ln (1 - \frac{1}{N} \displaystyle\sum_{m=0}^{f} H(m) \]
+gdzie:\\
+\textit{f} - wartość rozważanego kanału przed modyfikacją,\\
+\textit{g} - wartość rozważanego kanału po modyfikacji,\\
+\textit{g$_{\text{min}}$} - pożądana minimalna wartość przetwarzanego kanału,\\
+\textit{$\alpha$} - współczynnik obiczany ze wzoru: TODO,\\
+\textit{N} - suma pikseli na obrazie,\\
+\textit{H(m)} - wartość histogramu dla wartości m kanału.\\
 
 \subsubsection{Wyjściowa gęstość prawdopodobieństwa podana wzorem Raleigha}
-//TODO
+Obliczana jest ze wzoru:
+\[ g(f) = g_{min} + (2 \alpha^2 ln (\frac{1}{N} \displaystyle\sum_{m=0}^{f} H(m))^{-1})^\frac{1}{2} \]
+gdzie:\\
+\textit{f} - wartość rozważanego kanału przed modyfikacją,\\
+\textit{g} - wartość rozważanego kanału po modyfikacji,\\
+\textit{g$_{\text{min}}$} - pożądana minimalna wartość przetwarzanego kanału,\\
+\textit{$\alpha$} - współczynnik obiczany ze wzoru: TODO,\\
+\textit{N} - suma pikseli na obrazie,\\
+\textit{H(m)} - wartość histogramu dla wartości m kanału.\\
 
 \subsubsection{Wyjściowa gęstość prawdopodobieństwa określona przez potęgę 2/3}
-//TODO
+Obliczana jest ze wzoru:
+\[ g(f) = (g_{min}^\frac{1}{3} + (g_{max}^\frac{1}{3} - g_{min}^\frac{1}{3}) \frac{1}{N} \displaystyle\sum_{m=0}^{f} H(m))^3 \]
+gdzie:\\
+\textit{f} - wartość rozważanego kanału przed modyfikacją,\\
+\textit{g} - wartość rozważanego kanału po modyfikacji,\\
+\textit{g$_{\text{min}}$} - pożądana minimalna wartość przetwarzanego kanału,\\
+\textit{g$_{\text{max}}$} - pożądana maksymalna wartość przetwarzanego kanału,\\
+\textit{N} - suma pikseli na obrazie,\\
+\textit{H(m)} - wartość histogramu dla wartości m kanału.\\
 
 \subsubsection{Wyjściowa gęstość prawdopodobienstwa o postaci hiperbolicznej}
-//TODO
+Obliczana jest ze wzoru:
+\[ g(f) = g_{min}(\frac{g_{max}}{g_{min}})^{\frac{1}{N} \displaystyle\sum_{m=0}^{f} H(m)} \]
+gdzie:\\
+\textit{f} - wartość rozważanego kanału przed modyfikacją,\\
+\textit{g} - wartość rozważanego kanału po modyfikacji,\\
+\textit{g$_{\text{min}}$} - pożądana minimalna wartość przetwarzanego kanału,\\
+\textit{g$_{\text{max}}$} - pożądana maksymalna wartość przetwarzanego kanału,\\
+\textit{N} - suma pikseli na obrazie,\\
+\textit{H(m)} - wartość histogramu dla wartości m kanału.\\
 
 \subsection{Filtracja liniowa oparta o splot}
-//TODO
+Poniższa sekcja przedstawia zbadane przekształcenia filtracji liniowej. Polega ona na modyfikacji pikseli obrazu poprzez nałożenie na nie maski filtrującej. Wzór przedstawia się następująco: 
+\[ g(p,q) = \displaystyle\sum_{i=-M}^{M}\displaystyle\sum_{j=-M}^{M} h(i,j)x(p+i,q+j), p = M,2,...,P-M-1, q = M,2,...,Q-M-1 \]
+gdzie:\\
+\textit{x(p,q)} - wartość rozważanego kanału przed modyfikacją,\\
+\textit{g(p,q)} - wartość rozważanego kanału po modyfikacji,\\
+\textit{h(i,j)} - wartość maski filtru.\\
 
 \subsubsection{Filtr dolnoprzepustowy}
-//TODO
+Filtry dolnoprzepustowe są wykorzystywane do usuwania elementów o wysokiej częstotliwości. Dążą one to uśrednienia wartości sąsiadujących pikselów.
+Wykorzystane maski:
+\[
+\frac{1}{9}
+ \begin{pmatrix}
+  1 & 1 & 1 \\
+  1 & 1 & 1 \\
+  1 & 1 & 1 \\
+ \end{pmatrix}
+\quad
+\frac{1}{10}
+ \begin{pmatrix}
+  1 & 1 & 1 \\
+  1 & 2 & 1 \\
+  1 & 1 & 1 \\
+ \end{pmatrix}
+\quad
+\frac{1}{16}
+ \begin{pmatrix}
+  1 & 2 & 1 \\
+  2 & 4 & 2 \\
+  1 & 2 & 1 \\
+ \end{pmatrix}
+\]
 
 \subsubsection{Wyostrzanie krawędzi}
-//TODO
+Poniższe maski zostały użyte do wyostrzenia krawędzi:
+\[
+ \begin{pmatrix}
+  0 & -1 & 0 \\
+  -1 & 5 & -1 \\
+  0 & -1 & 0 \\
+ \end{pmatrix}
+\quad
+ \begin{pmatrix}
+  -1 & -1 & -1 \\
+  -1 & 9 & -1 \\
+  -1 & -1 & -1 \\
+ \end{pmatrix}
+\quad
+ \begin{pmatrix}
+  1 & -2 & 1 \\
+  -2 & 5 & -2 \\
+  1 & -2 & 1 \\
+ \end{pmatrix}
+\]
 
 \subsubsection{Wydobywanie szczegółów z tła: N, NE, E, SE}
-//TODO
+Wydobycie szczegółów z tła w kierunkach: północnym, północno-wschodnim, wschodnim i południowo-wschodnim zostało przebadane następującymi maskami:
+\[
+ \begin{pmatrix}
+  1 & 1 & 1 \\
+  1 & -2 & 1 \\
+  -1 & -1 & -1 \\
+ \end{pmatrix}
+\quad
+ \begin{pmatrix}
+  1 & 1 & 1 \\
+  -1 & -2 & 1 \\
+  -1 & -1 & 1 \\
+ \end{pmatrix}
+\quad
+ \begin{pmatrix}
+  -1 & 1 & 1 \\
+  -1 & -2 & 1 \\
+  -1 & 1 & 1 \\
+ \end{pmatrix}
+\quad
+ \begin{pmatrix}
+  -1 & -1 & 1 \\
+  -1 & -2 & 1 \\
+  1 & 1 & 1 \\
+ \end{pmatrix}
+\]
 
 \subsubsection{Wydobywanie szczegółów z tła: S, SW, W, NW}
-//TODO
+Do wydobycia szczegółów z tła w kierunkach: południowym, południowo-zachodnim, zachodnim i północno-zachodnim zostało wykorzystane następujące maski:
+\[
+ \begin{pmatrix}
+  -1 & -1 & -1 \\
+  1 & -2 & 1 \\
+  1 & 1 & 1 \\
+ \end{pmatrix}
+\quad
+ \begin{pmatrix}
+  1 & -1 & -1 \\
+  1 & -2 & -1 \\
+  1 & 1 & 1 \\
+ \end{pmatrix}
+\quad
+ \begin{pmatrix}
+  1 & 1 & -1 \\
+  1 & -2 & -1 \\
+  1 & 1 & -1 \\
+ \end{pmatrix}
+\quad
+ \begin{pmatrix}
+  1 & 1 & 1 \\
+  1 & -2 & -1 \\
+  1 & -1 & -1 \\
+ \end{pmatrix}
+\]
 
 \subsubsection{Wydobywanie szczegółów z tła bez zdefiniowanego kierunku (laplasjan)}
-//TODO
+Wydobycie szczegółów z tła bez zdefiniowanego kierunku jest możliwe przy nałożeniu następujących masek:
+\[
+ \begin{pmatrix}
+  0 & -1 & 0 \\
+  -1 & 4 & -1 \\
+  0 & -1 & 0 \\
+ \end{pmatrix}
+\quad
+ \begin{pmatrix}
+  -1 & -1 & -1 \\
+  -1 & 8 & -1 \\
+  -1 & -1 & -1 \\
+ \end{pmatrix}
+\quad
+ \begin{pmatrix}
+  1 & -2 & 1 \\
+  -2 & 4 & -2 \\
+  1 & -2 & 1 \\
+ \end{pmatrix}
+\]
 
 \subsubsection{Identyfikowanie linii}
-//TODO
+Identyfikowanie linii na obrazie zostało zrealizowane po nałożeniu masek:
+\[
+ \begin{pmatrix}
+  -1 & 2 & -1 \\
+  -1 & 2 & -1 \\
+  -1 & 2 & -1 \\
+ \end{pmatrix}
+\quad
+ \begin{pmatrix}
+  -1 & -1 & -1 \\
+  2 & 2 & 2 \\
+ -1 & -1 & -1 \\
+ \end{pmatrix}
+\quad
+ \begin{pmatrix}
+  -1 & -1 & 2 \\
+  -1 & 2 & -1 \\
+  2 & -1 & -1 \\
+ \end{pmatrix}
+\quad
+ \begin{pmatrix}
+  2 & -1 & -1 \\
+  -1 & 2 & -1 \\
+  -1 & -1 & 2 \\
+ \end{pmatrix}
+\]
 
 \subsection{Filtracja nieliniowa}
 //TODO
@@ -173,22 +372,18 @@ gdzie:\\
 \subsubsection{Operator Uolisa}
 //TODO
 
-{\color{blue}
-We wprowadzeniu należy zaprezentować całą teorię potrzebną do realizacji
-zadania (przy czym należy tu ograniczyć się wyłącznie do tego, co było
-wykorzystane) tak aby osoba, która nigdy wcześniej nie zetknęła się z tą
-tematyką, potrafiła zrozumieć dalszy opis. Część ta powinna wprowadzać
-wszystkie wykorzystywane wzory, oznaczenia itp., do których należy się
-odwoływać w dalszej części niniejszgo sprawozdania. Zamieszczony tu własny
-opis teorii (a nie skopiowany!) należy poprzeć odwołaniami bibliograficznymi
-do literatury zamieszczonej na końcu. }
-
 \section{Opis implementacji}
-{\color{blue}
-Należy tu zamieścić krótki i zwięzły opis zaprojektowanych klas oraz powiązań
-między nimi. Powinien się tu również znaleźć diagram UML  (diagram klas)
-prezentujący najistotniejsze elementy stworzonej aplikacji. Należy także
-podać, w jakim języku programowania została stworzona aplikacja. }
+Aplikacja została napisana w języku programowania Java. Wybór środowiska był podyktowany dużą ilością bibliotek mogących pomóc w realizacji zadania oraz osobistymi preferencjami członków zespołu. Warstwa GUI została realizowana przy użyciu standardowej bilbioteki graficznej Javy - Swing. Aplikacja wykorzystuje następujące bilbioteki zewnętrzne:
+\begin{itemize}
+\item \textit{JavaPlot.jar} - wykorzystywana do tworzenia histogramów; jest to javowa implementacja gnuplota 
+\item \textit{log4j-1.2.17.jar} - wykorzystywana do obsługi logowania
+\item \textit{slf4j-api-1.7.12.jar} - wykorzystywana do obsługi logowania
+\item \textit{slf4j-log4j12-1.7.12.jar} - wykorzystywana do obsługi logowania
+\end{itemize}
+
+Poniżej przedstawiony został diagram UML klas znajdujących się w programie. Aby zachować czytelność, nie zamieszczono połączeń pomiędzy wywołaniami obiektów, a także ukryto informacje na temat metod i parametrów.
+
+\includegraphics[scale=0.6]{uml_diagram.png}
 
 \section{Materiały i metody}
 {\color{blue}
@@ -236,6 +431,10 @@ charakterze uniwersalnym.}
 
 \begin{thebibliography}{0}
 \end{thebibliography}
+http://ftims.edu.p.lodz.pl/pluginfile.php/18220/mod_resource/content/1/Zadanie1.pdf
+http://ics.p.lodz.pl/~tomczyk/available/po_en/second.html
+https://en.wikibooks.org/wiki/LaTeX/Mathematics
+https://pl.wikipedia.org/wiki/Filtracja_obraz%C3%B3w
 {\color{blue} 
 Na końcu należy obowiązkowo podać cytowaną w sprawozdaniu
 literaturę, z której grupa korzystała w trakcie prac nad zadaniem (przykład na
