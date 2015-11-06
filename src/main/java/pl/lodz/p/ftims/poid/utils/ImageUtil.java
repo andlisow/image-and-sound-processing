@@ -15,10 +15,9 @@ import java.io.IOException;
  * @author alisowsk
  */
 public class ImageUtil {
-    private static final Logger LOG = LoggerFactory.getLogger(ImageUtil.class);
     //TODO move to program args?
     private static final String DEFAULT_FILE_SAVE_PATH = "/home/andrzej/poid/";
-    private static final String DEFAULT_FILE_EXTENSION = "bmp";
+    private static final String DEFAULT_FILE_EXTENSION = "png";
 
     public static Image readImageFromFile(File imgFile) throws IOException {
         String imgName = imgFile.getName();
@@ -38,7 +37,7 @@ public class ImageUtil {
 
     public static void saveImageToFile(Image image) throws IOException {
         //TODO logger
-        File imgFile = new File(DEFAULT_FILE_SAVE_PATH + image.getName());
+        File imgFile = new File(DEFAULT_FILE_SAVE_PATH + image.getName().split("\\.")[0] + "." + DEFAULT_FILE_EXTENSION);
         BufferedImage bufferedImage = convertImageToBufferedImage(image);
         ImageIO.write(bufferedImage, DEFAULT_FILE_EXTENSION, imgFile);
     }

@@ -3,11 +3,13 @@ package main.java.pl.lodz.p.ftims.poid.operations.filters.linear;
 import main.java.pl.lodz.p.ftims.poid.model.Image;
 import main.java.pl.lodz.p.ftims.poid.model.Pixel.RgbColor;
 import main.java.pl.lodz.p.ftims.poid.operations.filters.AbstractFilter;
+import main.java.pl.lodz.p.ftims.poid.utils.ImageConstants;
 
 /**
  * @author alisowsk
  */
 public class LinearFilter extends AbstractFilter {
+    private static final double NORMALIZATION_COEFFICIENT = 0.7;
     private int[][] mask;
 
     public LinearFilter(int[][] mask){
@@ -27,6 +29,12 @@ public class LinearFilter extends AbstractFilter {
                 colorVal += mask[x+1][y+1] * img.getPixel(width+x,height+y).getColor(c);
             }
         }
-        return colorVal/9;
+        int result = colorVal/9;
+        if(result > ImageConstants.MAX_PIXEL_VALUE){
+            return ImageConstants.MAX_PIXEL_VALUE;
+        } else if (result < ImageConstants.MIN_PIXEL_VALUE){
+            return ImageConstants.MIN_PIXEL_VALUE;
+        }
+        return (int) (result * NORMALIZATION_COEFFICIENT);
     }
 }

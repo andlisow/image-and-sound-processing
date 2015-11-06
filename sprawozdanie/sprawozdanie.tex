@@ -18,7 +18,7 @@
 \coursegroup{Sobota, 14:15}
 
 \author{
-  \studentinfo{Jakub Antosik}{XXXXXX} \and
+  \studentinfo{Jakub Antosik}{206788} \and
   \studentinfo{Andrzej Lisowski}{206087} 
 }
 
@@ -750,25 +750,157 @@ Sekcja przedstawia wyniki modyfikacji obrazów w oparciu o histogram. W celu por
 //TODO
 
 \subsection{Filtracja liniowa oparta o splot}
-//TODO
+Sekcja przedstawia wyniki nałożenia na obrazy filtrów liniowych w oparciu o splot.
 
 \subsubsection{Filtr dolnoprzepustowy}
-//TODO
+Poniżej przedstawione zostały wyniki nałożenia filtru dolnoprzepustowego o różnych maskach na wybrane obrazy 8- i 24-bitowe. Wygląd masek znajduje się w sekcji \textit{Wprowadzenie}.
+
+\begin{figure}[H]%
+    \centering
+    \subfloat[Maska 1]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/linear/low_pass/linear_low_pass_camera_8_1.png}}}%
+    \qquad
+    \subfloat[Maska 2]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/linear/low_pass/linear_low_pass_camera_8_2.png}}}%
+    \qquad
+    \subfloat[Maska 3]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/linear/low_pass/linear_low_pass_camera_8_3.png}}}%
+    \caption{Wyniki nałożenia filtru dolnoprzepustowego o różnych maskach na obraz Camera 8-bitowy}%
+\end{figure}
+
+\begin{figure}[H]%
+    \centering
+    \subfloat[Maska 1]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/linear/low_pass/linear_low_pass_lena_24_1.png}}}%
+    \qquad
+    \subfloat[Maska 2]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/linear/low_pass/linear_low_pass_lena_24_1.png}}}%
+    \qquad
+    \subfloat[Maska 3]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/linear/low_pass/linear_low_pass_lena_24_1.png}}}%
+    \caption{Wyniki nałożenia filtru dolnoprzepustowego o różnych maskach na obraz Lena 24-bitowy}%
+\end{figure}
 
 \subsubsection{Wyostrzanie krawędzi}
-//TODO
+Poniżej przedstawione zostały wyniki wyostrzania krawędzi stosując różne maski na wybranych obrazach 8- i 24-bitowych. Wygląd masek znajduje się w sekcji \textit{Wprowadzenie}.
+
+\begin{figure}[H]%
+    \centering
+    \subfloat[Maska 1]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/linear/edge_sharpening/linear_edge_sharpening_camera_8_1.png}}}%
+    \qquad
+    \subfloat[Maska 2]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/linear/edge_sharpening/linear_edge_sharpening_camera_8_2.png}}}%
+    \qquad
+    \subfloat[Maska 3]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/linear/edge_sharpening/linear_edge_sharpening_camera_8_3.png}}}%
+    \caption{Wyniki wyostrzania krawędzi stosując różne maski na obrazie Camera 8-bitowym}%
+\end{figure}
+
+\begin{figure}[H]%
+    \centering
+    \subfloat[Maska 1]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/linear/edge_sharpening/linear_edge_sharpening_lena_24_1.png}}}%
+    \qquad
+    \subfloat[Maska 2]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/linear/edge_sharpening/linear_edge_sharpening_lena_24_1.png}}}%
+    \qquad
+    \subfloat[Maska 3]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/linear/edge_sharpening/linear_edge_sharpening_lena_24_1.png}}}%
+    \caption{Wyniki wyostrzania krawędzi stosując różne maski na obrazie Lena 24-bitowym}%
+\end{figure}
 
 \subsubsection{Wydobywanie szczegółów z tła: N, NE, E, SE}
-//TODO
+Poniżej przedstawione zostały wyniki wydobywania szczegółów z tła w kierunkach N, NE, E i SE na wybranych obrazach 8- i 24-bitowych. Wygląd masek znajduje się w sekcji \textit{Wprowadzenie}.
+
+\begin{figure}[H]%
+    \centering
+    \subfloat[Kierunek N]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/linear/details_extraction_N_NE_S_SE/linear_details_extraction_camera_8_N.png}}}%
+    \qquad
+    \subfloat[Kierunek NE]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/linear/details_extraction_N_NE_S_SE/linear_details_extraction_camera_8_NE.png}}}%
+    \qquad
+    \subfloat[Kierunek E]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/linear/details_extraction_N_NE_S_SE/linear_details_extraction_camera_8_E.png}}}%
+    \qquad
+    \subfloat[Kierunek SE]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/linear/details_extraction_N_NE_S_SE/linear_details_extraction_camera_8_SE.png}}}%
+    \caption{Wyniki wydobywania szczegółów z tła w kierunkach N, NE, E i SE na obrazie Camera 8-bitowym}%
+\end{figure}
+
+\begin{figure}[H]%
+    \centering
+    \subfloat[Kierunek N]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/linear/details_extraction_N_NE_S_SE/linear_details_extraction_lena_24_N.png}}}%
+    \qquad
+    \subfloat[Kierunek NE]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/linear/details_extraction_N_NE_S_SE/linear_details_extraction_lena_24_NE.png}}}%
+    \qquad
+    \subfloat[Kierunek E]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/linear/details_extraction_N_NE_S_SE/linear_details_extraction_lena_24_E.png}}}%
+    \qquad
+    \subfloat[Kierunek SE]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/linear/details_extraction_N_NE_S_SE/linear_details_extraction_lena_24_SE.png}}}%
+    \caption{Wyniki wydobywania szczegółów z tła w kierunkach N, NE, E i SE na obrazie Lena 24-bitowym}%
+\end{figure}
 
 \subsubsection{Wydobywanie szczegółów z tła: S, SW, W, NW}
-//TODO
+Poniżej przedstawione zostały wyniki wydobywania szczegółów z tła w kierunkach S, SW, W, NW na wybranych obrazach 8- i 24-bitowych. Wygląd masek znajduje się w sekcji \textit{Wprowadzenie}.
+
+\begin{figure}[H]%
+    \centering
+    \subfloat[Kierunek S]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/linear/details_extraction_S_SW_W_NW/linear_details_extraction_camera_8_S.png}}}%
+    \qquad
+    \subfloat[Kierunek SW]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/linear/details_extraction_S_SW_W_NW/linear_details_extraction_camera_8_SW.png}}}%
+    \qquad
+    \subfloat[Kierunek W]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/linear/details_extraction_S_SW_W_NW/linear_details_extraction_camera_8_W.png}}}%
+    \qquad
+    \subfloat[Kierunek NW]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/linear/details_extraction_S_SW_W_NW/linear_details_extraction_camera_8_NW.png}}}%
+    \caption{Wyniki wydobywania szczegółów z tła w kierunkach S, SW, W i NW na obrazie Camera 8-bitowym}%
+\end{figure}
+
+\begin{figure}[H]%
+    \centering
+    \subfloat[Kierunek S]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/linear/details_extraction_S_SW_W_NW/linear_details_extraction_lena_24_S.png}}}%
+    \qquad
+    \subfloat[Kierunek SW]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/linear/details_extraction_S_SW_W_NW/linear_details_extraction_lena_24_SW.png}}}%
+    \qquad
+    \subfloat[Kierunek W]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/linear/details_extraction_S_SW_W_NW/linear_details_extraction_lena_24_W.png}}}%
+    \qquad
+    \subfloat[Kierunek NW]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/linear/details_extraction_S_SW_W_NW/linear_details_extraction_lena_24_NW.png}}}%
+    \caption{Wyniki wydobywania szczegółów z tła w kierunkach S, SW, W i NW na obrazie Lena 24-bitowym}%
+\end{figure}
 
 \subsubsection{Wydobywanie szczegółów z tła bez zdefiniowanego kierunku (laplasjan)}
-//TODO
+Poniżej przedstawione zostały wyniki wydobywania szczegółów z tła bez zdefiniowanego kierunku na wybranych obrazach 8- i 24-bitowych. Wygląd masek znajduje się w sekcji \textit{Wprowadzenie}.
+
+\begin{figure}[H]%
+    \centering
+    \subfloat[Maska 1]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/linear/details_extraction_no_direction_laplacian/linear_details_extraction_camera_8_laplacian_1.png}}}%
+    \qquad
+    \subfloat[Maska 2]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/linear/details_extraction_no_direction_laplacian/linear_details_extraction_camera_8_laplacian_1.png}}}%
+    \qquad
+    \subfloat[Maska 3]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/linear/details_extraction_no_direction_laplacian/linear_details_extraction_camera_8_laplacian_1.png}}}%
+    \caption{Wyniki wydobywania szczegółów z tła bez zdefiniowanego kierunku na obrazie Camera 8-bitowym}%
+\end{figure}
+
+\begin{figure}[H]%
+    \centering
+    \subfloat[Maska 1]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/linear/details_extraction_no_direction_laplacian/linear_details_extraction_lena_24_laplacian_1.png}}}%
+    \qquad
+    \subfloat[Maska 2]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/linear/details_extraction_no_direction_laplacian/linear_details_extraction_lena_24_laplacian_1.png}}}%
+    \qquad
+    \subfloat[Maska 3]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/linear/details_extraction_no_direction_laplacian/linear_details_extraction_lena_24_laplacian_1.png}}}%
+    \caption{Wyniki wwydobywania szczegółów z tła bez zdefiniowanego kierunku na obrazie Lena 24-bitowym}%
+\end{figure}
 
 \subsubsection{Identyfikowanie linii}
-//TODO
+Poniżej przedstawione zostały wyniki identyfikacji linii z wybranych obrazów 8- i 24-bitowych. Wygląd masek znajduje się w sekcji \textit{Wprowadzenie}.
+
+\begin{figure}[H]%
+    \centering
+    \subfloat[Poziomy]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/linear/line_identification/linear_line_identification_camera_8_horizontal.png}}}%
+    \qquad
+    \subfloat[Pionowy]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/linear/line_identification/linear_line_identification_camera_8_vertical.png}}}%
+    \qquad
+    \subfloat[Ukośny 1]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/linear/line_identification/linear_line_identification_camera_8_top_right_to_bottom_left.png}}}%
+    \qquad
+    \subfloat[Ukośny 2]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/linear/line_identification/linear_line_identification_camera_8_top_left_to_bottom_right.png}}}%
+    \caption{Wyniki identyfikacji linii na obrazie Camera 8-bitowym}%
+\end{figure}
+
+\begin{figure}[H]%
+    \centering
+    \subfloat[Poziomy]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/linear/line_identification/linear_line_identification_lena_24_horizontal.png}}}%
+    \qquad
+    \subfloat[Pionowy]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/linear/line_identification/linear_line_identification_lena_24_vertical.png}}}%
+    \qquad
+    \subfloat[Ukośny 1]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/linear/line_identification/linear_line_identification_lena_24_top_right_to_bottom_left.png}}}%
+    \qquad
+    \subfloat[Ukośny 2]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/linear/line_identification/linear_line_identification_lena_24_top_left_to_bottom_right.png}}}%
+    \caption{Wyniki identyfikacji linii na obrazie Lena 24-bitowym}%
+\end{figure}
 
 \subsection{Filtracja nieliniowa}
 Sekcja przedstawia wyniki nałożenia na obrazy filtrów nieliniowych.
@@ -844,7 +976,48 @@ Poniżej przedstawione zostały wyniki zastosowania operatora Sobela na wybranyc
 //TODO POPRAWIĆ
 
 \section{Dyskusja}
+\noindent
+Poniższa sekcja prezentuje interpretację uzyskanych wyników oraz wnioski. Opisano również napotkane problemy oraz możliwe sposoby ich rozwiązania.
+
+\subsection{Podstawowe operacje przetwarzania obrazu}
+\noindent
+Przetworzenie obrazów podstawowymi operacjami przyniosło spodziewane rezultaty. 
+
+\subsection{Podstawowe filtry}
+\noindent
+Filtr ze średnią arytmetyczną umożliwia dokładne usunięcie szumu dopiero przy nałożeniu maski 5x5 (rys. 13-18b). Niestety, powoduje to również bardzo widoczne rozmycie obrazu.\\
+\\
+Filtr medianowy spełnia swoją role o wiele lepiej. Nadal widać różnicę pomiędzy obrazem oryginalnym, a odszumionym lecz porównując tę metodę z poprzednią (rys. 13-18 w porównaniu do rys. 19-24), widać wyraźną poprawę. Podobnie jak w przypadku filtru ze średnią arytmetyczną, po zastosowaniu większych masek, obraz staje się bardzo rozmazany.\\
+\\
+Wyostrzanie krawędzi dla obrazów w skali szarości przynosi najlepsze efekty przy zastosowaniu maski 2 (rys. 28b). Dla próbek w skali RGB (rys. 29), wyniki są porównywalne. \\
+\\
+Wydobywanie szczegółów z tła przynosi, zgodnie z oczekiwaniami, różne rezultaty przy analizie odmiennych obrazów. Wyraźnie można dostrzec korelację pomiędzy konturami elementów na obrazie a zastosowanym kierunkiem filtru (rys. 30-33).\\
+\\
+Wydobycie szczegółów z tła bez zdfiniowanego kierunku okazało się skomplikowanym zadaniem w przypadku testowych obrazów Camera i Lena. Algorytm zwrócił niesatysfakcjonujący wynik, odnajdując jedynie część konturów.\\
+\\
+Identyfikowanie linii, podobnie jak wydobywanie szczegółów z tła z zastosowanie konkretnego kierunku poszukiwań, jest ściśle związane z analziowanym obrazem. Widać to między innymi po identyfikacji pionowej obrazu Camera (rys. 36b) oraz ukośnej 1 próbki Lena (rys. 37c).\\ 
+
+\subsection{Modyfikacje obrazu w oparciu o histogram}
+//TODO
+
+\subsection{Filtracja liniowa oparta o splot}
+\noindent
+Algorytm analizowanych filtrów polega na nałożeniu odpowiedniej maski na piksele oraz ich sąsiedztwo. Normalizacja wyników, w celu dokładniejszego wyświetlenia krawędzi, została zrealizowana poprzez dodanie współczynnika wynoszącego 0.7. Mnożone są przez niego wartości wszystkich pikseli wynikowych, jeżeli są mniejsze od maksymalnej 
+Filtr dolnoprzepustowy tłumi elementy o wysokiej częstotliwości i wygładza wejściowy obraz. Zarówno rysunek 8-bitowy (rys. 26), jak i 24-bitowy (rys. 27) dobrze prezentują to zachowanie.\\
+
+
+\subsection{Filtracja nieliniowa}
+\noindent
+Filtracja nieliniowa umożliwia znalezienie krawędzi elementów, bez względu na ich położenie względem osi XOY.\\
+Operator Robertsa, a zwłaszcza jego drugi wariant, bardzo dokładnie pokazuje wszystkie wyraźne, lokalne zmiany w natężeniu barw. Widać to szczególnie dobrze na rysunkach przedstawiających ptaka (rys. 39a) oraz dziewczynę (rys. 39c).\\
+Operator Sobela również dobrze sobie radzi z odnajdywaniem krawędzi, jednakże oznacza je o wiele grubszymi liniami. Ponieważ bierze pod uwagę większe sąsiedztwo pikseli niż operator Robertsa, dokładnie odwzorowuje kontury elementów pod warunkiem, że nie są one położone blisko siebie (rys. 40a i rys.40b). W momencie w którym obraz na wejściu nie ma wyraźnych krawędzi znacznie oddalonych od siebie (rys. 40d), wynik jest niesatysfakcjonujący.\\
+Zastosowanie operatora Kirsha przynosi efekty podobne do operatora Sobela, jednakże jezcze trudniej można się doszukać oryginalnych konturów. Dobrze obrazuje to przykład Pentagonu (rys. 41b) oraz mandryla (rys. 41d).\\
+
+TODO Rosenfeld Uolis
+
 {\color{blue}
+
+
 Sekcja ta powinna zawierać dokładną interpretację uzyskanych wyników
 eksperymentów wraz ze szczegółowymi wnioskami z nich płynącymi. Najcenniejsze
 są, rzecz jasna, wnioski o charakterze uniwersalnym, które mogą być istotne
@@ -854,6 +1027,9 @@ we wcześniej przeprowadzonych eksperymentach (odwołania do konkretnych
 wyników). Jest to jedna z najważniejszych sekcji tego sprawozdania, gdyż
 prezentuje poziom zrozumienia badanego problemu.}
 \section{Wnioski}
+\noindent
+Podsumowując, do usuwania szumów nie powinno się stosować filtru ze średnią arytmetyczną, ponieważ filr medianiowy daje lepsze rezultaty. Trzeba jednak pamiętać, aby nie nałożyć zbyt dużej maski, ponieważ otrzymany obraz może się okazać zbyt rozmazany.\\
+Filtracja liniowa oparta o splot potrafi dać bardzo dobre rezultaty wyszukiwania krawędzi pod warunkiem, że szukamy ich w konretnych kierunkach.\\
 {\color{blue}W tej, przedostatniej, sekcji należy zamieścić podsumowanie
 najważniejszych wniosków z sekcji poprzedniej. Najlepiej jest je po prostu
 wypunktować. Znów, tak jak poprzednio, najistotniejsze są wnioski o
