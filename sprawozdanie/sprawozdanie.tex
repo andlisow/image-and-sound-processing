@@ -576,13 +576,150 @@ Poniżej przedstawione zostały wyniki wyznaczenia negatywu dla 3 wybranych obra
 
 
 \subsection{Podstawowe filtry}
-//TODO
+Sekcja przedstawia wyniki nałożenia na obrazy podstawowych filtrów - ze średnią arytmetyczną i medianowego.
 
 \subsubsection{Filtr ze średnią arytmetyczną}
-//TODO
+Poniżej przedstawione zostały wyniki nałożenia filtru ze średnią arytmetyczną na obraz Lena 8- i 24-bitowy dla szumów:
+\begin{itemize}
+\item Impulsowy 3\\
+\item Jednolity 3\\
+\item Normalny 3\\
+\end{itemize}
+W sprawozdaniu przedstawiono wyniki dla trzech masek: 3x3, 5x5 i 7x7.
+
+\begin{figure}[H]%
+    \centering
+    \subfloat[Maska 3x3]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/basic_filters/mean/mean_filter_lena_8_impulse_3_3x3.png}}}%
+    \qquad
+    \subfloat[Maska 5x5]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/basic_filters/mean/mean_filter_lena_8_impulse_3_5x5.png}}}%
+    \qquad
+    \subfloat[Maska 7x7]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/basic_filters/mean/mean_filter_lena_8_impulse_3_7x7.png}}}%
+    \caption{Wyniki nałożenia filtru ze średnią arytmetyczną na obraz Lena 8-bitowy, szum Impulsowy 3}%
+\end{figure}
+
+\begin{figure}[H]%
+    \centering
+    \subfloat[Maska 3x3]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/basic_filters/mean/mean_filter_lena_8_uniform_3_3x3.png}}}%
+    \qquad
+    \subfloat[Maska 5x5]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/basic_filters/mean/mean_filter_lena_8_uniform_3_5x5.png}}}%
+    \qquad
+    \subfloat[Maska 7x7]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/basic_filters/mean/mean_filter_lena_8_uniform_3_7x7.png}}}%
+    \caption{Wyniki nałożenia filtru ze średnią arytmetyczną na obraz Lena 8-bitowy, szum Jednolity 3}%
+\end{figure}
+
+\begin{figure}[H]%
+    \centering
+    \subfloat[Maska 3x3]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/basic_filters/mean/mean_filter_lena_8_normal_3_3x3.png}}}%
+    \qquad
+    \subfloat[Maska 5x5]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/basic_filters/mean/mean_filter_lena_8_normal_3_5x5.png}}}%
+    \qquad
+    \subfloat[Maska7x7]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/basic_filters/mean/mean_filter_lena_8_normal_3_7x7.png}}}%
+    \qquad
+    \caption{Wyniki nałożenia filtru ze średnią arytmetyczną na obraz Lena 8-bitowy, szum Normalny 3}%
+\end{figure}
+
+\begin{figure}[H]%
+    \centering
+    \subfloat[Maska 3x3]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/basic_filters/mean/mean_filter_lena_24_impulse_3_3x3.png}}}%
+    \qquad
+    \subfloat[Maska 5x5]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/basic_filters/mean/mean_filter_lena_24_impulse_3_5x5.png}}}%
+    \qquad
+    \subfloat[Maska 7x7]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/basic_filters/mean/mean_filter_lena_24_impulse_3_7x7.png}}}%
+    \caption{Wyniki nałożenia filtru ze średnią arytmetyczną na obraz Lena 24-bitowy, szum Impulsowy 3}%
+\end{figure}
+
+\begin{figure}[H]%
+    \centering
+    \subfloat[Maska 3x3]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/basic_filters/mean/mean_filter_lena_24_uniform_3_3x3.png}}}%
+    \qquad
+    \subfloat[Maska 5x5]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/basic_filters/mean/mean_filter_lena_24_uniform_3_5x5.png}}}%
+    \qquad
+    \subfloat[Maska 7x7]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/basic_filters/mean/mean_filter_lena_24_uniform_3_7x7.png}}}%
+    \caption{Wyniki nałożenia filtru ze średnią arytmetyczną na obraz Lena 24-bitowy, szum Jednolity 3}%
+\end{figure}
+
+\begin{figure}[H]%
+    \centering
+    \subfloat[Maska 3x3]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/basic_filters/mean/mean_filter_lena_24_normal_3_3x3.png}}}%
+    \qquad
+    \subfloat[Maska 5x5]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/basic_filters/mean/mean_filter_lena_24_normal_3_5x5.png}}}%
+    \qquad
+    \subfloat[Maska7x7]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/basic_filters/mean/mean_filter_lena_24_normal_3_7x7.png}}}%
+    \qquad
+    \caption{Wyniki nałożenia filtru ze średnią arytmetyczną na obraz Lena 24-bitowy, szum Normalny 3}%
+\end{figure}
 
 \subsubsection{Filtr medianowy}
-//TODO
+Poniżej przedstawione zostały wyniki nałożenia filtru medianowego na obraz Lena 8- i 24-bitowy dla szumów:
+\begin{itemize}
+\item Impulsowy 3\\
+\item Jednolity 3\\
+\item Normalny 3\\
+\end{itemize}
+W sprawozdaniu przedstawiono wyniki dla trzech masek: 3x3, 5x5 i 7x7.
+
+\begin{figure}[H]%
+    \centering
+    \subfloat[Maska 3x3]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/basic_filters/median/median_filter_lena_8_impulse_3_3x3.png}}}%
+    \qquad
+    \subfloat[Maska 5x5]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/basic_filters/median/median_filter_lena_8_impulse_3_5x5.png}}}%
+    \qquad
+    \subfloat[Maska 7x7]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/basic_filters/median/median_filter_lena_8_impulse_3_7x7.png}}}%
+    \caption{Wyniki nałożenia filtru medianowego na obraz Lena 8-bitowy, szum Impulsowy 3}%
+\end{figure}
+
+\begin{figure}[H]%
+    \centering
+    \subfloat[Maska 3x3]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/basic_filters/median/median_filter_lena_8_uniform_3_3x3.png}}}%
+    \qquad
+    \subfloat[Maska 5x5]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/basic_filters/median/median_filter_lena_8_uniform_3_5x5.png}}}%
+    \qquad
+    \subfloat[Maska 7x7]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/basic_filters/median/median_filter_lena_8_uniform_3_7x7.png}}}%
+    \caption{Wyniki nałożenia filtru ze średnią arytmetyczną na obraz Lena 8-bitowy, szum Jednolity 3}%
+\end{figure}
+
+\begin{figure}[H]%
+    \centering
+    \subfloat[Maska 3x3]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/basic_filters/median/median_filter_lena_8_normal_3_3x3.png}}}%
+    \qquad
+    \subfloat[Maska 5x5]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/basic_filters/median/median_filter_lena_8_normal_3_5x5.png}}}%
+    \qquad
+    \subfloat[Maska 7x7]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/basic_filters/median/median_filter_lena_8_normal_3_7x7.png}}}%
+    \qquad
+    \caption{Wyniki nałożenia filtru medianowego na obraz Lena 8-bitowy, szum Normalny 3}%
+\end{figure}
+
+\begin{figure}[H]%
+    \centering
+    \subfloat[Maska 3x3]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/basic_filters/median/median_filter_lena_24_impulse_3_3x3.png}}}%
+    \qquad
+    \subfloat[Maska 5x5]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/basic_filters/median/median_filter_lena_24_impulse_3_5x5.png}}}%
+    \qquad
+    \subfloat[Maska 7x7]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/basic_filters/median/median_filter_lena_24_impulse_3_7x7.png}}}%
+    \caption{Wyniki nałożenia filtru medianowego na obraz Lena 24-bitowy, szum Impulsowy 3}%
+\end{figure}
+
+\begin{figure}[H]%
+    \centering
+    \subfloat[Maska 3x3]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/basic_filters/median/median_filter_lena_24_uniform_3_3x3.png}}}%
+    \qquad
+    \subfloat[Maska 5x5]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/basic_filters/median/median_filter_lena_24_uniform_3_5x5.png}}}%
+    \qquad
+    \subfloat[Maska 7x7]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/basic_filters/median/median_filter_lena_24_uniform_3_7x7.png}}}%
+    \caption{Wyniki nałożenia filtru medianowego na obraz Lena 24-bitowy, szum Jednolity 3}%
+\end{figure}
+
+\begin{figure}[H]%
+    \centering
+    \subfloat[Maska 3x3]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/basic_filters/median/median_filter_lena_24_normal_3_3x3.png}}}%
+    \qquad
+    \subfloat[Maska 5x5]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/basic_filters/median/median_filter_lena_24_normal_3_5x5.png}}}%
+    \qquad
+    \subfloat[Maska 7x7]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/basic_filters/median/median_filter_lena_24_normal_3_7x7.png}}}%
+    \qquad
+    \caption{Wyniki nałożenia filtru medianowego na obraz Lena 24-bitowy, szum Normalny 3}%
+\end{figure}
+
 
 \subsection{Modyfikacje obrazu w oparciu o histogram}
 //TODO
@@ -640,17 +777,6 @@ Poniżej przedstawione zostały wyniki wyznaczenia negatywu dla 3 wybranych obra
 
 \subsubsection{Operator Uolisa}
 //TODO
-
-
-{\color{blue}
-W tej sekcji należy zaprezentować, dla każdego przeprowadzonego eksperymentu,
-kompletny zestaw wyników w postaci tabel, wykresów itp. Powinny być one tak
-ponazywane, aby było wiadomo, do czego się odnoszą. Wszystkie tabele i wykresy
-należy oczywiście opisać (opisać co jest na osiach, w kolumnach itd.) stosując
-się do przyjętych wcześniej oznaczeń. Nie należy tu komentować i interpretować
-wyników, gdyż miejsce na to jest w kolejnej sekcji. Tu również dobrze jest
-wprowadzić oznaczenia (tabel, wykresów) aby móc się do nich odwoływać
-poniżej.}
 
 \section{Dyskusja}
 {\color{blue}
