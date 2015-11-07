@@ -18,8 +18,11 @@ public class RaleighFinalProbDensFunction extends AbstractFinalProbDensFunction 
         double alpha = (gMax - gMin) / Math.sqrt(2 * Math.log(N));
         int f = img.getPixel(x,y).getColor(histogram.getColor());
         int sum = calculateSum(f, histogram);
-
-        return (int) (gMin + Math.pow(2 * Math.pow(alpha, 2) * Math.pow(Math.log((double)sum / N), -1), (double)1/2));
+        int result = (int) (gMin + Math.sqrt(2 * Math.pow(alpha, 2) * Math.log(1 /((double) sum / N))));
+        if(result > ImageConstants.MAX_PIXEL_VALUE){
+            return ImageConstants.MAX_PIXEL_VALUE;
+        }
+        return result;
     }
 
 }

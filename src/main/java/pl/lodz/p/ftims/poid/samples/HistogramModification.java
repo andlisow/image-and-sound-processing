@@ -13,7 +13,7 @@ public class HistogramModification {
     static{
         VARIANTS.put("", null);
         VARIANTS.put("Uniform final probability density function", new UniformFinalProbDensFunction());
-        VARIANTS.put("Exponential final probability density function", new ExponentialFinalProbDensFunction());
+//        VARIANTS.put("Exponential final probability density function", new ExponentialFinalProbDensFunction());
         VARIANTS.put("Raleigh final probability density function", new RaleighFinalProbDensFunction());
         VARIANTS.put("Power 2/3 final probability density function", new PowerTwoThirdsFinalProbDensFunction());
         VARIANTS.put("Hyperbolic final probability density function", new HyperbolicFinalProbDensFunction());

@@ -8,6 +8,8 @@
 \usepackage{subfig}
 \usepackage{float}
 
+\usepackage[labelfont=it]{caption}
+
 \studycycle{Informatyka, studia niestacjonarne, mgr II st.}
 \coursesemester{I}
 
@@ -19,7 +21,7 @@
 
 \author{
   \studentinfo{Jakub Antosik}{206788} \and
-  \studentinfo{Andrzej Lisowski}{206087} 
+  \studentinfo{Andrzej Lisowski}{206807} 
 }
 
 \title{Zadanie 1: Szkielet aplikacji do przetwarzania i analizy obrazów, operacje podstawowe, usuwanie szumu,
@@ -32,7 +34,7 @@ modyfikacje histogramu, filtracja liniowa i nieliniowa, splot.}
 Celem zadania było zapoznanie się z metodami analizy i przetwarzania obrazów. W części implementacyjnej należało stworzyć program w wybranym przez siebie języku programowania, który będzie w stanie przeprowadzić różne operacje na obrazie. Pełen spis funkcjonalności zostanie przedstawiony w sekcji \textit{Wprowadzenie}.
 
 \section{Wprowadzenie}
-Obraz w pamięci komputera jest reprezentowany przez macierz pikseli. Sam piksel jest zaś najmniejszym elementem obrazu, mogącym przyjmować różne wartości liczb naturalnych:\\
+Obraz w pamięci komputera jest reprezentowany przez macierz pikseli. Sam piksel jest zaś najmniejszym elementem obrazu, mogącym przyjmować różne wartości liczb naturalnych:
 \begin{itemize}
 \item 0 - 7 dla obrazów 1-bitowych
 \item 0 - 255 dla obrazów 8-bitowych (odcienie szarości)
@@ -44,7 +46,7 @@ Poniżej przedstawione zostały teoretyczne podstawy trasformacji, którym podda
 Sekcja ta opisuje podstawowe operacje przetwarzania obrazów, często wykorzystywane w codziennym życiu.
 
 \subsubsection{Zmiana jasności}
-Zmiana jasności obrazu polega na dodaniu do wartości każdego piksela pewnej stałej liczby k. Jeżeli stała jest dodatnia, mówimy o zwiększaniu jasności, jeżeli jest ujemna - jasność jest zmniejszana. W momencie, w którym wynik przekroczy wartości brzegowe piksela, przypisuje się mu p$_{\text{min}}$ lub p$_{\text{max}}$ zgodnie z poniższym wzorem:
+Zmiana jasności obrazu polega na dodaniu do wartości każdego piksela pewnej stałej liczby k. Jeżeli stała jest dodatnia, mówimy o zwiększaniu jasności, jeżeli jest ujemna - jasność jest zmniejszana. W momencie, w którym wynik przekroczy wartości brzegowe piksela, przypisuje się mu p$_{\text{min}}$ lub p$_{\text{max}}$. Wzór jest następujący:
 \[ p(i) =
   \begin{cases}
     p_{min} & \quad \text{jeżeli } i + k < 0\\
@@ -62,7 +64,7 @@ gdzie:\\
 \subsubsection{Zmiana kontrastu}
 Zmiana kontrastu obrazu polega na zwiększeniu jasności jasnych pikseli przy jednoczesnym zmniejszeniu jasności ciemnych pikseli. Ciemne piksele należą do przedziału $\langle$0,$ \frac{p_{max}}{2}$), zaś jasne do przedziału $\langle$$ \frac{p_{max}}{2}$,$p_{max}$$\rangle$.\\
 \\
-Wzór wygląda następująco:
+Ogólny wzór wygląda następująco:
 \[ p(i) =
   \begin{cases}
     i \div k  & \quad \text{jeżeli } 0 \leq i < \frac{p_{max}}{2}\\
@@ -113,7 +115,7 @@ gdzie:\\
 \textit{y$_{\text{min}}$} - minimalna wartość współrzędnej y na obrazie, y$_{\text{min}}$ = 0.\\
 
 \subsubsection{Filtr medianowy}
-Filtr medianowy jest bardzo podobny do filtru ze średnią arytmetyczną. W tym przypadku jednak, nowa wartość piksela jest medianą badanego elementu praz jego sąsiedztwa s. Sąsiedztwo może przyjmować wartości potęg kolejnych liczb nieparzystych większych od 1:\\
+Filtr medianowy jest bardzo podobny do filtru ze średnią arytmetyczną. W tym przypadku jednak, nowa wartość piksela jest medianą badanego elementu oraz jego sąsiedztwa s. Sąsiedztwo może przyjmować wartości potęg kolejnych liczb nieparzystych większych od 1:\\
 \[ s \in \{9,25,49,...\} \]
 \[ p(i) = M_{s} \]
 gdzie:\\
@@ -155,7 +157,7 @@ gdzie:\\
 \textit{f} - wartość rozważanego kanału przed modyfikacją,\\
 \textit{g} - wartość rozważanego kanału po modyfikacji,\\
 \textit{g$_{\text{min}}$} - pożądana minimalna wartość przetwarzanego kanału,\\
-\textit{$\alpha$} - współczynnik obiczany ze wzoru: TODO,\\
+\textit{$\alpha$} - współczynnik\\
 \textit{N} - suma pikseli na obrazie,\\
 \textit{H(m)} - wartość histogramu dla wartości m kanału.\\
 
@@ -166,7 +168,8 @@ gdzie:\\
 \textit{f} - wartość rozważanego kanału przed modyfikacją,\\
 \textit{g} - wartość rozważanego kanału po modyfikacji,\\
 \textit{g$_{\text{min}}$} - pożądana minimalna wartość przetwarzanego kanału,\\
-\textit{$\alpha$} - współczynnik obiczany ze wzoru: TODO,\\
+\textit{$\alpha$} - współczynnik obiczany ze wzoru:
+\[ alpha = \frac{(g_{max} - g_{min})}{\sqrt{2 \ast ln(N)}} \]
 \textit{N} - suma pikseli na obrazie,\\
 \textit{H(m)} - wartość histogramu dla wartości m kanału.\\
 
@@ -419,7 +422,7 @@ gdzie:\\
 \textit{f(x,y)} - wartość rozważanego piksela przed modyfikacją.\\
 
 \section{Opis implementacji}
-Aplikacja została napisana w języku programowania Java. Wybór środowiska był podyktowany dużą ilością bibliotek mogących pomóc w realizacji zadania oraz osobistymi preferencjami członków zespołu. Warstwa GUI została realizowana przy użyciu standardowej bilbioteki graficznej Javy - Swing. Aplikacja wykorzystuje następujące bilbioteki zewnętrzne:
+Aplikacja została napisana w języku programowania Java. Wybór środowiska był podyktowany dużą ilością bibliotek mogących pomóc w realizacji zadania oraz osobistymi preferencjami członków zespołu. Warstwa GUI została zrealizowana przy użyciu standardowej bilbioteki graficznej Javy - Swing. Aplikacja wykorzystuje następujące bilbioteki zewnętrzne:
 \begin{itemize}
 \item \textit{JavaPlot.jar} - wykorzystywana do tworzenia histogramów; jest to javowa implementacja gnuplota 
 \item \textit{log4j-1.2.17.jar} - wykorzystywana do obsługi logowania
@@ -718,7 +721,7 @@ W sprawozdaniu przedstawiono wyniki dla trzech masek: 3x3, 5x5 i 7x7.
     \subfloat[Maska 5x5]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/basic_filters/median/median_filter_lena_8_uniform_3_5x5.png}}}%
     \qquad
     \subfloat[Maska 7x7]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/basic_filters/median/median_filter_lena_8_uniform_3_7x7.png}}}%
-    \caption{Wyniki nałożenia filtru ze średnią arytmetyczną na obraz Lena 8-bitowy, szum Jednolity 3}%
+    \caption{Wyniki nałożenia filtru medianowego na obraz Lena 8-bitowy, szum Jednolity 3}%
 \end{figure}
 
 \begin{figure}[H]%
@@ -778,19 +781,60 @@ Sekcja przedstawia wyniki modyfikacji obrazów w oparciu o histogram. W celu por
 \end{figure}
 
 \subsubsection{Jednostajna wyjściowa gęstość prawdopodobieństwa}
-//TODO
+Poniżej przedstawione zostały wyniki przetworzenia obrazu Lena 24-bitowego poprzez modyfikację histogramu jednostajną wyjściową gęstością prawdopodobieństwa.
 
-\subsubsection{Wyjściowa gęstość prawdopodobieństwa o postaci wykładniczej}
-//TODO
+\begin{figure}[H]%
+    \centering
+    \subfloat[gMin=10, gMax=240]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/histogram/uniform/histogram_uniform_lena_24_10_240.png}}}%
+    \qquad
+    \subfloat[gMin=50, gMax=200]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/histogram/uniform/histogram_uniform_lena_24_50_200.png}}}%
+    \qquad
+    \subfloat[gMin=90, gMax=160]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/histogram/uniform/histogram_uniform_lena_24_90_160.png}}}%
+    \qquad
+    \caption{Obraz Lena 24-bitowy przetworzony poprzez modyfikację histogramu jednostajną wyjściową gęstością prawdopodobieństwa}%
+\end{figure}
 
 \subsubsection{Wyjściowa gęstość prawdopodobieństwa podana wzorem Raleigha}
-//TODO
+Poniżej przedstawione zostały wyniki przetworzenia obrazu Lena 24-bitowego poprzez modyfikację histogramu wyjściową gęstością prawdopodobieństwa podaną wzorem Raleigha.
+
+\begin{figure}[H]%
+    \centering
+    \subfloat[gMin=10]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/histogram/raleigh/histogram_raleigh_lena_24_10.png}}}%
+    \qquad
+    \subfloat[gMin=50]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/histogram/raleigh/histogram_raleigh_lena_24_50.png}}}%
+    \qquad
+    \subfloat[gMin=90]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/histogram/raleigh/histogram_raleigh_lena_24_90.png}}}%
+    \qquad
+    \caption{Obraz Lena 24-bitowy przetworzony poprzez modyfikację histogramu wyjściową gęstością prawdopodobieństwa podaną wzorem Raleigha}%
+\end{figure}
 
 \subsubsection{Wyjściowa gęstość prawdopodobieństwa określona przez potęgę 2/3}
-//TODO
+Poniżej przedstawione zostały wyniki przetworzenia obrazu Lena 24-bitowego poprzez modyfikację histogramu wyjściową gęstością prawdopodobieństwa określoną przez potęgę 2/3.
 
-\subsubsection{Wyjściowa gęstość prawdopodobienstwa o postaci hiperbolicznej}
-//TODO
+\begin{figure}[H]%
+    \centering
+    \subfloat[gMin=10, gMax=240]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/histogram/power_2_3/histogram_power_2_3_lena_24_10_240.png}}}%
+    \qquad
+    \subfloat[gMin=50, gMax=200]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/histogram/power_2_3/histogram_power_2_3_lena_24_50_200.png}}}%
+    \qquad
+    \subfloat[gMin=90, gMax=160]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/histogram/power_2_3/histogram_power_2_3_lena_24_90_160.png}}}%
+    \qquad
+    \caption{Obraz Lena 24-bitowy przetworzony poprzez modyfikację histogramu wyjściową gęstością prawdopodobieństwa określoną przez potęgę 2/3}%
+\end{figure}
+
+\subsubsection{Wyjściowa gęstość prawdopodobieństwa o postaci hiperbolicznej}
+Poniżej przedstawione zostały wyniki przetworzenia obrazu Lena 24-bitowego poprzez modyfikację histogramu wyjściową gęstością prawdopodobieństwa o postaci hiperbolicznej.
+
+\begin{figure}[H]%
+    \centering
+    \subfloat[gMin=10, gMax=240]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/histogram/hyperbolic/histogram_hyperbolic_lena_24_10_240.png}}}%
+    \qquad
+    \subfloat[gMin=50, gMax=200]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/histogram/hyperbolic/histogram_hyperbolic_lena_24_50_200.png}}}%
+    \qquad
+    \subfloat[gMin=90, gMax=160]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/histogram/hyperbolic/histogram_hyperbolic_lena_24_90_160.png}}}%
+    \qquad
+    \caption{Obraz Lena 24-bitowy przetworzony poprzez modyfikację histogramu wyjściową gęstością prawdopodobieństwa o postaci hiperbolicznej}%
+\end{figure}
 
 \subsection{Filtracja liniowa oparta o splot}
 Sekcja przedstawia wyniki nałożenia na obrazy filtrów liniowych w oparciu o splot.
@@ -961,7 +1005,7 @@ Poniżej przedstawione zostały wyniki zastosowania operatora Robertsa w I waria
     \qquad
     \subfloat[Mandril 24b]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/nonlinear/roberts_1/non_linear_filter_roberts_v_I_mandril_24.png}}}%
     \qquad
-    \caption{Wyniki zastosowania operatora Robertsa w I wariancie na wybrane obrazy 8- i 24-bitowe}%
+    \caption{Wyniki zastosowania operatora Robertsa w I wariancie na wybranych obrazach 8- i 24-bitowych}%
 \end{figure}
 
 \subsubsection{Operator Robertsa (Wariant II)}
@@ -977,7 +1021,7 @@ Poniżej przedstawione zostały wyniki zastosowania operatora Robertsa w II wari
     \qquad
     \subfloat[Mandril 24b]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/nonlinear/roberts_2/non_linear_filter_roberts_v_II_mandril_24.png}}}%
     \qquad
-    \caption{Wyniki zastosowania operatora Robertsa w I wariancie na wybrane obrazy 8- i 24-bitowe}%
+    \caption{Wyniki zastosowania operatora Robertsa w I wariancie na wybranych obrazach 8- i 24-bitowych}%
 \end{figure}
 
 \subsubsection{Operator Sobela}
@@ -993,11 +1037,11 @@ Poniżej przedstawione zostały wyniki zastosowania operatora Sobela na wybranyc
     \qquad
     \subfloat[Mandril 24b]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/nonlinear/sobel/non_linear_filter_sobel_mandril_24.png}}}%
     \qquad
-    \caption{Wyniki zastosowania operatora Robertsa w I wariancie na wybrane obrazy 8- i 24-bitowe}%
+    \caption{Wyniki zastosowania operatora Sobela na wybranych obrazach 8- i 24-bitowych}%
 \end{figure}
 
 \subsubsection{Operator Kirsha}
-Poniżej przedstawione zostały wyniki zastosowania operatora Sobela na wybranych obrazach 8- i 24-bitowych.
+Poniżej przedstawione zostały wyniki zastosowania operatora Kirsha na wybranych obrazach 8- i 24-bitowych.
 
 \begin{figure}[H]%
     \centering
@@ -1009,7 +1053,7 @@ Poniżej przedstawione zostały wyniki zastosowania operatora Sobela na wybranyc
     \qquad
     \subfloat[Mandril 24b]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/nonlinear/kirsh/non_linear_filter_kirsh_mandril_24.png}}}%
     \qquad
-    \caption{Wyniki zastosowania operatora Kirsha na wybrane obrazy 8- i 24-bitowe}%
+    \caption{Wyniki zastosowania operatora Kirsha na wybranych obrazach 8- i 24-bitowych}%
 \end{figure}
 
 \subsubsection{Operator Rosenfelda}
@@ -1085,30 +1129,30 @@ Filtr ze średnią arytmetyczną umożliwia dokładne usunięcie szumu dopiero p
 Filtr medianowy spełnia swoją role o wiele lepiej. Nadal widać różnicę pomiędzy obrazem oryginalnym, a odszumionym lecz porównując tę metodę z poprzednią (rys. 13-18 w porównaniu do rys. 19-24), widać wyraźną poprawę. Podobnie jak w przypadku filtru ze średnią arytmetyczną, po zastosowaniu większych masek, obraz staje się bardzo rozmazany.\\
 
 \subsection{Modyfikacje obrazu w oparciu o histogram}
-//TODO
+Modyfikacje obrazu w oparciu o histogram dały bardzo zbliżone rezultaty (rys. 26, 28, 29). Jedynym wyjątkiem jest przetworzenie poprzez modyfikację histogramu wyjściową gęstością prawdopodobieństwa podaną wzorem Raleigha. Wynikowe obrazy są negatywami (rys. 27).
 
 \subsection{Filtracja liniowa oparta o splot}
 Algorytm analizowanych filtrów polega na nałożeniu odpowiedniej maski na piksele oraz ich sąsiedztwo. Normalizacja wyników, w celu dokładniejszego wyświetlenia krawędzi, została zrealizowana poprzez dodanie współczynnika wynoszącego 0.7. Mnożone są przez niego wartości wszystkich pikseli wynikowych, jeżeli są mniejsze od maksymalnej.\\
 \\
 \indent
-Filtr dolnoprzepustowy tłumi elementy o wysokiej częstotliwości i wygładza wejściowy obraz. Zarówno rysunek 8-bitowy (rys. 26), jak i 24-bitowy (rys. 27) dobrze prezentują to zachowanie.\\
+Filtr dolnoprzepustowy tłumi elementy o wysokiej częstotliwości i wygładza wejściowy obraz. Zarówno rysunek 8-bitowy (rys. 30), jak i 24-bitowy (rys. 31) dobrze prezentują to zachowanie.\\
 \\
 \indent
-Wyostrzanie krawędzi dla obrazów w skali szarości przynosi najlepsze efekty przy zastosowaniu maski 2 (rys. 28b). Dla próbek w skali RGB (rys. 29), wyniki są porównywalne. \\
+Wyostrzanie krawędzi dla obrazów w skali szarości przynosi najlepsze efekty przy zastosowaniu maski 2 (rys. 32b). Dla próbek w skali RGB (rys. 33), wyniki są porównywalne. \\
 \\
 \indent
-Wydobywanie szczegółów z tła przynosi, zgodnie z oczekiwaniami, różne rezultaty przy analizie odmiennych obrazów. Wyraźnie można dostrzec korelację pomiędzy konturami elementów na obrazie a zastosowanym kierunkiem filtru (rys. 30-33).\\
+Wydobywanie szczegółów z tła przynosi, zgodnie z oczekiwaniami, różne rezultaty przy analizie odmiennych obrazów. Wyraźnie można dostrzec korelację pomiędzy konturami elementów na obrazie a zastosowanym kierunkiem filtru (rys. 34-37).\\
 \\
 \indent
 Wydobycie szczegółów z tła bez zdfiniowanego kierunku okazało się skomplikowanym zadaniem w przypadku testowych obrazów Camera i Lena. Algorytm zwrócił niesatysfakcjonujący wynik, odnajdując jedynie część konturów.\\
 \\
 \indent
-Identyfikowanie linii, podobnie jak wydobywanie szczegółów z tła z zastosowanie konkretnego kierunku poszukiwań, jest ściśle związane z analziowanym obrazem. Widać to między innymi po identyfikacji pionowej obrazu Camera (rys. 36b) oraz ukośnej 1 próbki Lena (rys. 37c).\\ 
+Identyfikowanie linii, podobnie jak wydobywanie szczegółów z tła z zastosowanie konkretnego kierunku poszukiwań, jest ściśle związane z analziowanym obrazem. Widać to między innymi na identyfikacji pionowej obrazu Camera (rys. 40b) oraz ukośnej 1 próbki Lena (rys. 41c).\\ 
 \\
 \indent 
 W celu zoptymalizowania filtrów z powyższej sekcji pod względem czasowym i pamięciowym, można zastosować następujące rozwiązania:
 \begin{itemize}
-\item w przypadku masek posiadających zera, można zarezerwować mniejszą ilość pamięci na jej przechowywanie, pomijając te elementy; podczas działania proramu, program nie powinien wykonywać podwójnego fora na pikselu (aby obliczyć wartości z całej maski nxn), lecz wybierać tych sąsiadów, którzy faktycznie mają wpływ na finalny wynik
+\item w przypadku masek posiadających zera, można zarezerwować mniejszą ilość pamięci na jej przechowywanie, pomijając te elementy; podczas działania program, nie powinien on wykonywać podwójnego fora na pikselu (aby obliczyć wartości z całej maski nxn), lecz wybierać tych sąsiadów, którzy faktycznie mają wpływ na finalny wynik
 \item podobnie jak w poprzednim punkcie można postąpić z elementami maski o wartościach 1 lub -1; zamiast wymnażać je przez wartość piksela i dopiero po tej operacji dodawać go do sumy, można pominąć zbędny krok  
 \end{itemize}
 
@@ -1116,25 +1160,29 @@ W celu zoptymalizowania filtrów z powyższej sekcji pod względem czasowym i pa
 Filtracja nieliniowa umożliwia znalezienie krawędzi elementów, bez względu na ich położenie względem osi XOY.\\
 \\
 \indent
-Operator Robertsa, a zwłaszcza jego drugi wariant, bardzo dokładnie pokazuje wszystkie wyraźne, lokalne zmiany w natężeniu barw. Widać to szczególnie dobrze na rysunkach przedstawiających ptaka (rys. 39a) oraz dziewczynę (rys. 39c).\\
+Operator Robertsa, a zwłaszcza jego drugi wariant, bardzo dokładnie pokazuje wszystkie wyraźne, lokalne zmiany w natężeniu barw. Widać to szczególnie dobrze na rysunkach przedstawiających ptaka (rys. 43a) oraz dziewczynę (rys. 43c).\\
 \\
 \indent
-Operator Sobela również dobrze sobie radzi z odnajdywaniem krawędzi, jednakże oznacza je o wiele grubszymi liniami. Ponieważ bierze pod uwagę większe sąsiedztwo pikseli niż operator Robertsa, dokładnie odwzorowuje kontury elementów pod warunkiem, że nie są one położone blisko siebie (rys. 40a i rys.40b). W momencie w którym obraz na wejściu nie ma wyraźnych krawędzi znacznie oddalonych od siebie (rys. 40d), wynik jest niesatysfakcjonujący.\\
+Operator Sobela również dobrze sobie radzi z odnajdywaniem krawędzi, jednakże oznacza je o wiele grubszymi liniami. Ponieważ bierze pod uwagę większe sąsiedztwo pikseli niż operator Robertsa, dokładnie odwzorowuje kontury elementów pod warunkiem, że nie są one położone blisko siebie (rys. 44a i rys.44b). W momencie w którym obraz na wejściu nie ma wyraźnych krawędzi znacznie oddalonych od siebie (rys. 44d), wynik jest niesatysfakcjonujący.\\
 \\
 \indent
-Zastosowanie operatora Kirsha przynosi efekty podobne do operatora Sobela, jednakże jezcze trudniej można się doszukać oryginalnych konturów. Dobrze obrazuje to przykład Pentagonu (rys. 41b) oraz mandryla (rys. 41d). Ze względu na dużą jasność wszystkich wyników, dane wyjściowe możnaby poddać normalizacji.\\
+Zastosowanie operatora Kirsha przynosi efekty podobne do operatora Sobela, jednakże jezcze trudniej można się doszukać oryginalnych konturów. Dobrze obrazuje to przykład Pentagonu (rys. 45b) oraz mandryla (rys. 45d). Ze względu na dużą jasność wszystkich wyników, dane wyjściowe możnaby poddać normalizacji.\\
 \\
 \indent
-Operator Rosenfelda odnajduje krawędzi (rys. 42b) lecz tworzy niepotrzebny szum tła (rys. 42a). Zwiększanie parametru R powoduje pogrubianie wynikowych linii. 
+Operator Rosenfelda odnajduje krawędzi (rys. 46b) lecz tworzy niepotrzebny szum tła (rys. 46a). Zwiększanie parametru R powoduje pogrubianie wynikowych linii. 
 \\
 \indent
-Wynik przekształcenia operatorem Uolisa został znormalizowany poprzez pomnożenie wartości każdego piksela przez liczbę 10. Bez tej operacji rezultat był nieczytelny. Po transformacji, wynik prezentuje najbardziej wyraziste krawędzie (rys. 45).
+Wynik przekształcenia operatorem Uolisa został znormalizowany poprzez pomnożenie wartości każdego piksela przez liczbę 10. Bez tej operacji rezultat był nieczytelny. Po transformacji, wynik prezentuje najbardziej wyraziste krawędzie (rys. 49).
 
 \section{Wnioski}
 Podsumowując, do usuwania szumów nie powinno się stosować filtru ze średnią arytmetyczną, ponieważ filr medianiowy daje lepsze rezultaty. Trzeba jednak pamiętać, aby nie nałożyć zbyt dużej maski, ponieważ otrzymany obraz może się okazać zbyt rozmazany.\\
 \\
 \indent
+Przetworzenie obrazu poprzez modyfikację histogramu jednostajną wyjściową gęstością prawdopodobieństwa, wyjściowa gęstością prawdopodobieństwa określoną przez potęgę 2/3 oraz wyjściową gęstością prawdopodobieństwa o postaci hiperbolicznej daje bardzo zbliżone rezultaty.\\
+\\
+\indent
 Filtracja liniowa oparta o splot potrafi dać bardzo dobre rezultaty wyszukiwania krawędzi pod warunkiem, że szukamy ich w konretnych kierunkach.\\
+\\
 \indent
 Filtracja nieliniowa daje o wiele lepsze efekty. Szczególnie operator Robertsa w wariancie 2 oraz operator Sobela pozwalają na bardzo dokładne wyróżnienie wszystkich krawędzi.
 
