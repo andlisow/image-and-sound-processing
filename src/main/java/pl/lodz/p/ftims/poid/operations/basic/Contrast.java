@@ -4,19 +4,18 @@ import main.java.pl.lodz.p.ftims.poid.model.Image;
 import main.java.pl.lodz.p.ftims.poid.model.Pixel;
 import main.java.pl.lodz.p.ftims.poid.model.Pixel.RgbColor;
 import main.java.pl.lodz.p.ftims.poid.operations.Transformable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import static main.java.pl.lodz.p.ftims.poid.utils.ImageConstants.*;
+import static main.java.pl.lodz.p.ftims.poid.utils.ImageConstants.MAX_PIXEL_VALUE;
+import static main.java.pl.lodz.p.ftims.poid.utils.ImageConstants.MIDDLE_PIXEL_VALUE;
 
 /**
  * @author alisowsk
  */
 public class Contrast implements Transformable {
-    private final float factor;
+    private final float coefficient;
 
-    public Contrast(float factor) {
-        this.factor = factor;
+    public Contrast(float coefficient) {
+        this.coefficient = coefficient;
     }
 
     @Override
@@ -36,23 +35,13 @@ public class Contrast implements Transformable {
     }
 
     private int processSingleColor(int colorVal) {
-        if(colorVal == 0){
-            colorVal = 1;
+        float temp = coefficient * (colorVal - MIDDLE_PIXEL_VALUE) + MIDDLE_PIXEL_VALUE;
+        if (temp < 0) {
+            return 0;
+        } else if((0 <= temp) && (temp <= MAX_PIXEL_VALUE)) {
+            return (int) temp;
         }
-        if (colorVal >= MIDDLE_PIXEL_VALUE) {
-            return getNewValue(colorVal, colorVal * factor);
-        }
-        return getNewValue(colorVal, colorVal / factor);
+        return MAX_PIXEL_VALUE;
     }
 
-    private int getNewValue(int oldValue, float newValue){
-        if(oldValue >= MIDDLE_PIXEL_VALUE && newValue <= MIDDLE_PIXEL_VALUE && factor < 1){
-            return MIDDLE_PIXEL_VALUE;
-        } else if(oldValue < MIDDLE_PIXEL_VALUE && newValue > MIDDLE_PIXEL_VALUE && factor < 1){
-            return MIDDLE_PIXEL_VALUE;
-        } else if (newValue > MAX_PIXEL_VALUE){
-            return MAX_PIXEL_VALUE;
-        }
-        return (int) newValue;
-    }
 }
