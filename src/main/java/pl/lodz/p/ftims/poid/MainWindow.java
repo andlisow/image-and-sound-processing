@@ -129,6 +129,7 @@ public class MainWindow extends JFrame{
         initializeNonLinearFiltersSection();
         initializeHistogramOperationsSection();
         initializeTransformButtonSection();
+        initializeFiltrationFrequencyDomainSection();
         initializeHelperGrid();
     }
 
@@ -142,45 +143,45 @@ public class MainWindow extends JFrame{
             @Override
             public void mouseClicked(MouseEvent e) {
                 operations.clear();
-                if(negativeCheckBox.isSelected()){
+                if (negativeCheckBox.isSelected()) {
                     operations.addOperation(new Negative());
                 }
-                if(brightnessCheckbox.isSelected()){
+                if (brightnessCheckbox.isSelected()) {
                     int brightnessValue = Integer.parseInt(brightnessTextField.getText());
                     operations.addOperation(new Brightness(brightnessValue));
                 }
-                if(contrastCheckbox.isSelected()){
+                if (contrastCheckbox.isSelected()) {
                     float contrastValue = Float.parseFloat(contrastTextField.getText());
                     operations.addOperation(new Contrast(contrastValue));
                 }
-                if(meanFilterCheckbox.isSelected()){
+                if (meanFilterCheckbox.isSelected()) {
                     int maskSize = Integer.parseInt(String.valueOf(BasicFiltersMasks.MASKS.get(filterMaskSizeSelectComboBox.getSelectedItem())));
                     operations.addOperation(new MeanFilter(maskSize));
                 }
-                if(medianFilterCheckbox.isSelected()){
+                if (medianFilterCheckbox.isSelected()) {
                     int maskSize = Integer.parseInt(String.valueOf(BasicFiltersMasks.MASKS.get(filterMaskSizeSelectComboBox.getSelectedItem())));
                     operations.addOperation(new MedianFilter(maskSize));
                 }
-                if(linearFiltersCheckbox.isSelected()){
-                    for(String linearFilter : LinearFilters.FILTERS.keySet()){
-                        if(linearFilter.equals(linearFiltersSelectComboBox.getSelectedItem())){
+                if (linearFiltersCheckbox.isSelected()) {
+                    for (String linearFilter : LinearFilters.FILTERS.keySet()) {
+                        if (linearFilter.equals(linearFiltersSelectComboBox.getSelectedItem())) {
                             operations.addOperation(new LinearFilter(LinearFilters.FILTERS.get(linearFilter)));
                         }
                     }
                 }
-                if(nonLinearFiltersCheckbox.isSelected()){
+                if (nonLinearFiltersCheckbox.isSelected()) {
                     Transformable nonLinearFilter = NonLinearFilters.FILTERS.get(nonLinearFiltersSelectComboBox.getSelectedItem());
-                    if(nonLinearFilter instanceof RosenfeldOperator){
+                    if (nonLinearFilter instanceof RosenfeldOperator) {
                         RosenfeldOperator operator = (RosenfeldOperator) nonLinearFilter;
                         operator.setrCoefficient(Integer.parseInt(rosenfeldOperatorTextField.getText()));
                     }
                     operations.addOperation(nonLinearFilter);
                 }
-                if(histogramOperationsCheckBox.isSelected()){
+                if (histogramOperationsCheckBox.isSelected()) {
                     List<Histogram> histograms = HistogramUtil.prepareHistograms(sourceImage);
                     GnuplotUtil.saveHistograms(histograms);
-                    for(String histogramModification : HistogramModification.VARIANTS.keySet()){
-                        if(histogramModification.equals(histogramOperationsSelectComboBox.getSelectedItem())){
+                    for (String histogramModification : HistogramModification.VARIANTS.keySet()) {
+                        if (histogramModification.equals(histogramOperationsSelectComboBox.getSelectedItem())) {
                             AbstractFinalProbDensFunction histogramOperation = HistogramModification.VARIANTS.get(histogramModification);
                             histogramOperation.setHistograms(histograms);//TODO
                             histogramOperation.setgMin(Integer.parseInt(gMinTextField.getText()));
@@ -234,7 +235,7 @@ public class MainWindow extends JFrame{
             }
         });
 
-        originalImageSelectComboBox.addActionListener (e -> {
+        originalImageSelectComboBox.addActionListener(e -> {
             String path = ((SampleFiles) originalImageSelectComboBox.getSelectedItem()).getPath();
             File file = new File(getClass().getClassLoader().getResource(path).getFile());
             originalImagePathTextInput.setText(file.getPath());
@@ -429,6 +430,58 @@ public class MainWindow extends JFrame{
         getContentPane().add(transformedImageTextLabel);
     }
 
+    private void initializeFiltrationFrequencyDomainSection(){
+        JLabel freqDomTextLabel = new JLabel("Filtration in frequency domain");
+        freqDomTextLabel.setBounds(34, 109, 265, 30);
+        getContentPane().add(freqDomTextLabel);
+
+        JCheckBox freqDomFftCheckbox = new JCheckBox("FFT");
+        freqDomFftCheckbox.setBounds(34, 137, 72, 24);
+        getContentPane().add(freqDomFftCheckbox);
+
+        JCheckBox freqDomIfftCheckbox = new JCheckBox("IFFT");
+        freqDomIfftCheckbox.setBounds(32, 256, 133, 24);
+        getContentPane().add(freqDomIfftCheckbox);
+
+        JCheckBox freqDomSpectrumCheckBox = new JCheckBox("Show spectrum");
+        freqDomSpectrumCheckBox.setHorizontalAlignment(SwingConstants.LEFT);
+        freqDomSpectrumCheckBox.setBounds(44, 160, 155, 24);
+        getContentPane().add(freqDomSpectrumCheckBox);
+
+        JComboBox freqDomSpectrumComboBox = new JComboBox(new Object[]{});
+        freqDomSpectrumComboBox.setBounds(44, 184, 98, 27);
+        getContentPane().add(freqDomSpectrumComboBox);
+
+        JCheckBox freqDomFilterCheckBox = new JCheckBox("Filter");
+        freqDomFilterCheckBox.setBounds(358, 160, 104, 24);
+        getContentPane().add(freqDomFilterCheckBox);
+
+        JComboBox freqDomFilterSelectComboBox = new JComboBox(new Object[]{});
+        freqDomFilterSelectComboBox.setBounds(356, 184, 162, 27);
+        getContentPane().add(freqDomFilterSelectComboBox);
+
+        JCheckBox freqDomSegmentationCheckbox = new JCheckBox("Segmentation");
+        freqDomSegmentationCheckbox.setBounds(184, 160, 162, 24);
+        getContentPane().add(freqDomSegmentationCheckbox);
+
+        JComboBox freqDomSegmentationComboBox = new JComboBox(new Object[]{});
+        freqDomSegmentationComboBox.setBounds(184, 184, 162, 27);
+        getContentPane().add(freqDomSegmentationComboBox);
+
+        JLabel freqDomHighPassFilterMaskLabel = new JLabel("High-pass filter mask");
+        freqDomHighPassFilterMaskLabel.setBounds(358, 215, 190, 30);
+        getContentPane().add(freqDomHighPassFilterMaskLabel);
+
+        JComboBox freqDomHighPassFilterMaskComboBox = new JComboBox(new Object[]{});
+        freqDomHighPassFilterMaskComboBox.setBounds(356, 244, 162, 27);
+        getContentPane().add(freqDomHighPassFilterMaskComboBox);
+
+        JCheckBox freqDomFilterSpectrumCheckBox = new JCheckBox("Filter spectrum");
+        freqDomFilterSpectrumCheckBox.setHorizontalAlignment(SwingConstants.LEFT);
+        freqDomFilterSpectrumCheckBox.setBounds(44, 218, 155, 24);
+        getContentPane().add(freqDomFilterSpectrumCheckBox);
+    }
+
     private void initializeHelperGrid() {
         Component horizontalStrut = Box.createHorizontalStrut(20);
         horizontalStrut.setBounds(-5, 277, 1003, 10);
@@ -449,6 +502,10 @@ public class MainWindow extends JFrame{
         Component verticalStrut_2 = Box.createVerticalStrut(20);
         verticalStrut_2.setBounds(736, 284, 5, 387);
         getContentPane().add(verticalStrut_2);
+        
+        Component horizontalStrut_2 = Box.createHorizontalStrut(20);
+        horizontalStrut_2.setBounds(0, 109, 510, 10);
+        getContentPane().add(horizontalStrut_2);
     }
 
     private void initializeMenuComponents() {
