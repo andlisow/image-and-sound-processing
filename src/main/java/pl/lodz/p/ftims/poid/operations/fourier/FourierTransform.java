@@ -8,6 +8,8 @@ import main.java.pl.lodz.p.ftims.poid.operations.fourier.filters.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.awt.*;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,7 +22,7 @@ public class FourierTransform implements Transformable {
     private FourierFilter filter;
 
     public FourierTransform(){
-
+        this.filter = null;
     }
 
     public FourierTransform(FourierFilter filter){
@@ -41,6 +43,10 @@ public class FourierTransform implements Transformable {
             //saveSpectrum();
             //swap
             //swap
+
+            //TODO button that opens folder with images
+            //Desktop.getDesktop().open(file.getParentFile());
+
 
             swapQuadrants(afterForwardComplex);
             filter = new BandPassFilter(1,254);

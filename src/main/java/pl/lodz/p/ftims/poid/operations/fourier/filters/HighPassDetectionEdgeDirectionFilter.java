@@ -7,7 +7,7 @@ import main.java.pl.lodz.p.ftims.poid.operations.Transformable;
 /**
  * @author alisowsk
  */
-public class HighPassDetectionEdgeDirectionFilter implements FourierFilter{
+public class HighPassDetectionEdgeDirectionFilter implements FourierFilter {
 
 
     @Override

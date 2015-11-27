@@ -3,6 +3,7 @@ package main.java.pl.lodz.p.ftims.poid.operations.fourier.filters;
 import main.java.pl.lodz.p.ftims.poid.model.Complex;
 import main.java.pl.lodz.p.ftims.poid.model.Image;
 import main.java.pl.lodz.p.ftims.poid.operations.Transformable;
+import main.java.pl.lodz.p.ftims.poid.utils.ImageConstants;
 
 /**
  * @author alisowsk
@@ -15,7 +16,7 @@ public class LowPassFilter implements FourierFilter {
     }
 
     public LowPassFilter() {
-        this.d = 255;
+        this.d = ImageConstants.MAX_PIXEL_VALUE;
     }
 
     @Override
@@ -25,8 +26,8 @@ public class LowPassFilter implements FourierFilter {
 
         for(int m=0; m<M ; m++) {
             for(int n=0; n<N; n++) {
-                if((Math.sqrt((m-M/2)*(m-M/2) + (n-N/2)*(n-N/2))) > d ){
-                    complexImage[m][n] = new Complex(0,0);
+                if((Math.sqrt(Math.pow((m - M/2), 2) + Math.pow((n - N/2), 2))) > d ){
+                    complexImage[m][n] = new Complex(0d, 0d);
                 }
             }
         }

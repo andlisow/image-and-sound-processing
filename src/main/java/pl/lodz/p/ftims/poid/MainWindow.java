@@ -193,6 +193,8 @@ public class MainWindow extends JFrame{
                     }
                 }
 
+
+
 //                operations.clear();
 //                operations.addOperation(new RegionGrowing());
 
