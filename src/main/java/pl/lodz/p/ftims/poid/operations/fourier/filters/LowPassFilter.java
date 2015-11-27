@@ -15,7 +15,7 @@ public class LowPassFilter implements FourierFilter {
     }
 
     public LowPassFilter() {
-        this.d = 1;
+        this.d = 255;
     }
 
     @Override
@@ -25,7 +25,7 @@ public class LowPassFilter implements FourierFilter {
 
         for(int m=0; m<M ; m++) {
             for(int n=0; n<N; n++) {
-                if((Math.sqrt((m-M/2)*(m-M/2) + (n-N/2)*(n-N/2)) ) > d ){
+                if((Math.sqrt((m-M/2)*(m-M/2) + (n-N/2)*(n-N/2))) > d ){
                     complexImage[m][n] = new Complex(0,0);
                 }
             }

@@ -4,8 +4,7 @@ import main.java.pl.lodz.p.ftims.poid.model.Complex;
 import main.java.pl.lodz.p.ftims.poid.model.Image;
 import static main.java.pl.lodz.p.ftims.poid.model.Pixel.RgbColor;
 import main.java.pl.lodz.p.ftims.poid.operations.Transformable;
-import main.java.pl.lodz.p.ftims.poid.operations.fourier.filters.FourierFilter;
-import main.java.pl.lodz.p.ftims.poid.operations.fourier.filters.LowPassFilter;
+import main.java.pl.lodz.p.ftims.poid.operations.fourier.filters.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,11 +42,12 @@ public class FourierTransform implements Transformable {
             //swap
             //swap
 
-
-            filter = new LowPassFilter(91);
+            swapQuadrants(afterForwardComplex);
+            filter = new BandPassFilter(1,254);
             if(null != filter){
                 filter.applyFilter(afterForwardComplex);
             }
+            swapQuadrants(afterForwardComplex);
 
             //saveSpectrum();
             //swap
@@ -135,26 +135,26 @@ public class FourierTransform implements Transformable {
 
     }
 
-    private double[][] swapQuadrants(double[][] normalisedResult) {
-        int size = normalisedResult.length;
+    private Complex[][] swapQuadrants(Complex[][] complexImage) {
+        int size = complexImage.length;
 
         for(int x=0; x<size/2; x++){
             for (int y=0; y<size/2; y++){
-                double temp = normalisedResult[x][y];
-                normalisedResult[x][y] = normalisedResult[x+size/2][y+size/2];
-                normalisedResult[x+size/2][y+size/2] = temp;
+                Complex temp = complexImage[x][y];
+                complexImage[x][y] = complexImage[x+size/2][y+size/2];
+                complexImage[x+size/2][y+size/2] = temp;
             }
         }
 
         for(int x=size/2; x<size; x++){
             for (int y=0; y<size/2; y++){
-                double temp = normalisedResult[x][y];
-                normalisedResult[x][y] = normalisedResult[x-size/2][y+size/2];
-                normalisedResult[x-size/2][y+size/2] = temp;
+                Complex temp = complexImage[x][y];
+                complexImage[x][y] = complexImage[x-size/2][y+size/2];
+                complexImage[x-size/2][y+size/2] = temp;
             }
         }
 
-        return normalisedResult;
+        return complexImage;
     }
 
     private double[][] getPixelValues(Complex[][] outputComplex, boolean normalize) {

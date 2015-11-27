@@ -12,6 +12,6 @@ public class HighPassDetectionEdgeDirectionFilter implements FourierFilter{
 
     @Override
     public void applyFilter(Complex[][] complexImage) {
-
+        //TODO
     }
 }
