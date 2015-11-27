@@ -162,7 +162,7 @@ public class FourierTransform implements Transformable {
         double res[][] = new double[size][size];
         for(int x=0; x<size; x++){
             for(int y=0; y<size; y++){
-                res[x][y] = outputComplex[x][y].re();
+                res[x][y] = outputComplex[x][y].getR();
             }
         }
         if(normalize){

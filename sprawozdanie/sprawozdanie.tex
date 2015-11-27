@@ -135,6 +135,38 @@ gdzie:\\
 \textit{y$_{\text{max}}$} - maksymalna wartość współrzędnej y na obrazie,\\
 \textit{y$_{\text{min}}$} - minimalna wartość współrzędnej y na obrazie, y$_{\text{min}}$ = 0.\\
 
+\subsection{Obiektywana ocena działania filtrów}
+Oprócz oceny subiektywnej, w celu porównania jakości filtrów wykorzystano 3 metody - obliczenie błędu średniokwadratowego, szczytowego stosunku sygnału do szumu oraz średniego błędu bezwzględnego. Ich opis przedstawiony jest w poniższych podsekcjach.
+
+\subsubsection{Błąd średniokwadratowy}
+Opisany jest wzorem:
+\[ MSE = \frac{1}{N \ast M} \sum_{i=1}^{N} \sum_{j=1}^{M} ([f(i, j) - f'(i, j)]^2)\]
+gdzie:\\
+\textit{N} - szerokość analizowanego obrazu,\\
+\textit{M} - wysokość analizowanego obrazu,\\
+\textit{f(x, y)} - wartość piksela wzorcowego,\\
+\textit{f(x, y)} - wartość piksela analizowanego.\\
+
+Im wyższa wartość MSE, tym 2 obrazy bardziej się od siebie różnią.
+\subsubsection{Szczytowy stosunek sygnału do szumu}
+Opisany jest wzorem:
+\[ PSNR = 10  log_{10} \frac{k^2}{MSE} \]
+gdzie:\\
+\textit{MSE} - błąd średniokwadratowy,\\
+\textit{k} - maksymalna wartość koloru, k = 255.\\
+
+Im wyższa wartość PSNR, tym 2 obrazy są do siebie bardziej podobne.
+\subsubsection{Średni błąd bezwzględny}
+Opisany jest wzorem:
+\[ MAE = \frac{1}{N \ast M} \sum_{i=1}^{N} \sum_{j=1}^{M} (|f(i, j) - f'(i, j)|)\]
+gdzie:\\
+\textit{N} - szerokość analizowanego obrazu,\\
+\textit{M} - wysokość analizowanego obrazu,\\
+\textit{f(x, y)} - wartość piksela wzorcowego,\\
+\textit{f(x, y)} - wartość piksela analizowanego.\\
+
+Podobnie jak w przypadku MSE, im wyższa wartość MAE, tym 2 obrazy bardziej się od siebie różnią. W odróżnieniu od błędu średniokwadratowego, duże różnice w pikselach mają mniejszy wpływ na wartość finalnego wyniku.
+
 \subsection{Modyfikacje obrazu w oparciu o histogram}
 Histogram umożliwia przedstawienie rozkładu pikseli o określonych wartościach na wykresie. Poniższa sekcja prezentuje modyfikacje obrazu na podstawie jego histogramu.
 
@@ -630,7 +662,7 @@ Poniżej przedstawione zostały wyniki nałożenia filtru ze średnią arytmetyc
 \item Jednolity 3
 \item Normalny 3
 \end{itemize}
-W sprawozdaniu przedstawiono wyniki dla trzech masek: 3x3, 5x5 i 7x7.
+W sprawozdaniu przedstawiono wyniki dla trzech masek: 3x3, 5x5 i 7x7. Ponadto, załączono tabelę przedstawiające wartości MSE, PSNR i MAE przed i po filtracji.
 
 \begin{figure}[H]%
     \centering
@@ -642,6 +674,18 @@ W sprawozdaniu przedstawiono wyniki dla trzech masek: 3x3, 5x5 i 7x7.
     \caption{Wyniki nałożenia filtru ze średnią arytmetyczną na obraz Lena 8-bitowy, szum Impulsowy 3}%
 \end{figure}
 
+\begin{center}
+    \begin{tabular}{| l | l | l | l |}
+    \hline
+    Maska & MSE & PNSR & MAE \\ \hline
+    - & 115,50 & 27,50 & 7,66 \\ \hline
+    3 x 3 & 147,70 & 26,44 & 8,50 \\ \hline
+    5 x 5 & 280,45 & 23,65 & 11,50 \\ \hline
+    7 x 7 & 404,07 & 22,07 & 14,04 \\ \hline
+    \end{tabular}
+    \captionof{table}{Wartości MSE, PNSR i MAE dla szumu Impulsowego 3 dla 8-bitowego obrazu Lena} 
+\end{center}
+
 \begin{figure}[H]%
     \centering
     \subfloat[Maska 3x3]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/basic_filters/mean/mean_filter_lena_8_uniform_3_3x3.png}}}%
@@ -651,6 +695,18 @@ W sprawozdaniu przedstawiono wyniki dla trzech masek: 3x3, 5x5 i 7x7.
     \subfloat[Maska 7x7]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/basic_filters/mean/mean_filter_lena_8_uniform_3_7x7.png}}}%
     \caption{Wyniki nałożenia filtru ze średnią arytmetyczną na obraz Lena 8-bitowy, szum Jednolity 3}%
 \end{figure}
+
+\begin{center}
+    \begin{tabular}{| l | l | l | l |}
+    \hline
+    Maska & MSE & PNSR & MAE \\ \hline
+    - & 80,20 & 29,09 & 7,02 \\ \hline
+    3 x 3 & 121,90 & 27,28 & 7,27 \\ \hline
+    5 x 5 & 252,19 & 24,11 & 10,38 \\ \hline
+    7 x 7 & 374,29 & 22,49 & 13,06 \\ \hline
+    \end{tabular}
+    \captionof{table}{Wartości MSE, PNSR i MAE dla szumu Jednolitego 3 dla 8-bitowego obrazu Lena} 
+\end{center}
 
 \begin{figure}[H]%
     \centering
@@ -663,6 +719,18 @@ W sprawozdaniu przedstawiono wyniki dla trzech masek: 3x3, 5x5 i 7x7.
     \caption{Wyniki nałożenia filtru ze średnią arytmetyczną na obraz Lena 8-bitowy, szum Normalny 3}%
 \end{figure}
 
+\begin{center}
+    \begin{tabular}{| l | l | l | l |}
+    \hline
+    Maska & MSE & PNSR & MAE \\ \hline
+    - & 76,48 & 29,30 & 6,85 \\ \hline
+    3 x 3 & 94,11 & 28,39 & 6,49 \\ \hline
+    5 x 5 & 177,10 & 25,65 & 8,12 \\ \hline
+    7 x 7 & 271,39 & 23,79 & 9,97 \\ \hline
+    \end{tabular}
+    \captionof{table}{Wartości MSE, PNSR i MAE dla szumu Normalnego 3 dla 8-bitowego obrazu Lena} 
+\end{center}
+
 \begin{figure}[H]%
     \centering
     \subfloat[Maska 3x3]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/basic_filters/mean/mean_filter_lena_24_impulse_3_3x3.png}}}%
@@ -672,6 +740,18 @@ W sprawozdaniu przedstawiono wyniki dla trzech masek: 3x3, 5x5 i 7x7.
     \subfloat[Maska 7x7]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/basic_filters/mean/mean_filter_lena_24_impulse_3_7x7.png}}}%
     \caption{Wyniki nałożenia filtru ze średnią arytmetyczną na obraz Lena 24-bitowy, szum Impulsowy 3}%
 \end{figure}
+
+\begin{center}
+    \begin{tabular}{| l | l | l | l |}
+    \hline
+    Maska & MSE & PNSR & MAE \\ \hline
+    - & 59,54 & 30,38 & 5,25 \\ \hline
+    3 x 3 & 116,76 & 27,46 & 7,17 \\ \hline
+    5 x 5 & 236,77 & 24,39 & 10,09 \\ \hline
+    7 x 7 & 347,44 & 22,72 & 12,50 \\ \hline
+    \end{tabular}
+    \captionof{table}{Wartości MSE, PNSR i MAE dla szumu Impulsowego 3 dla 24-bitowego obrazu Lena} 
+\end{center}
 
 \begin{figure}[H]%
     \centering
@@ -683,6 +763,18 @@ W sprawozdaniu przedstawiono wyniki dla trzech masek: 3x3, 5x5 i 7x7.
     \caption{Wyniki nałożenia filtru ze średnią arytmetyczną na obraz Lena 24-bitowy, szum Jednolity 3}%
 \end{figure}
 
+\begin{center}
+    \begin{tabular}{| l | l | l | l |}
+    \hline
+    Maska & MSE & PNSR & MAE \\ \hline
+    - & 123,18 & 27,23 & 8,71 \\ \hline
+    3 x 3 & 139,32 & 26,69 & 8,42 \\ \hline
+    5 x 5 & 258,53 & 24,01 & 11,11 \\ \hline
+    7 x 7 & 370,16 & 22,47 & 13,46 \\ \hline
+    \end{tabular}
+    \captionof{table}{Wartości MSE, PNSR i MAE dla szumu Jednolitego 3 dla 24-bitowego obrazu Lena} 
+\end{center}
+
 \begin{figure}[H]%
     \centering
     \subfloat[Maska 3x3]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/basic_filters/mean/mean_filter_lena_24_normal_3_3x3.png}}}%
@@ -693,6 +785,18 @@ W sprawozdaniu przedstawiono wyniki dla trzech masek: 3x3, 5x5 i 7x7.
     \qquad
     \caption{Wyniki nałożenia filtru ze średnią arytmetyczną na obraz Lena 24-bitowy, szum Normalny 3}%
 \end{figure}
+
+\begin{center}
+    \begin{tabular}{| l | l | l | l |}
+    \hline
+    Maska & MSE & PNSR & MAE \\ \hline
+    - & 73,99 & 29,44 & 6,81 \\ \hline
+    3 x 3 & 118,96 & 27,38 & 7,32 \\ \hline
+    5 x 5 & 237,92 & 24,37 & 10,16 \\ \hline
+    7 x 7 & 347,95 & 22,72 & 12,56 \\ \hline
+    \end{tabular}
+    \captionof{table}{Wartości MSE, PNSR i MAE dla szumu Normalnego 3 dla 24-bitowego obrazu Lena} 
+\end{center}
 
 \subsubsection{Filtr medianowy}
 Poniżej przedstawione zostały wyniki nałożenia filtru medianowego na obraz Lena 8- i 24-bitowy dla szumów:
@@ -713,6 +817,18 @@ W sprawozdaniu przedstawiono wyniki dla trzech masek: 3x3, 5x5 i 7x7.
     \caption{Wyniki nałożenia filtru medianowego na obraz Lena 8-bitowy, szum Impulsowy 3}%
 \end{figure}
 
+\begin{center}
+    \begin{tabular}{| l | l | l | l |}
+    \hline
+    Maska & MSE & PNSR & MAE \\ \hline
+    - & 115,50 & 27,50 & 7,66 \\ \hline
+    3 x 3 & 113,41 & 27,58 & 7,42 \\ \hline
+    5 x 5 & 198,45 & 25,15 & 9,12 \\ \hline
+    7 x 7 & 291,33 & 23,49 & 10,97 \\ \hline
+    \end{tabular}
+    \captionof{table}{Wartości MSE, PNSR i MAE dla szumu Impulsowego 3 dla 8-bitowego obrazu Lena} 
+\end{center}
+
 \begin{figure}[H]%
     \centering
     \subfloat[Maska 3x3]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/basic_filters/median/median_filter_lena_8_uniform_3_3x3.png}}}%
@@ -722,6 +838,18 @@ W sprawozdaniu przedstawiono wyniki dla trzech masek: 3x3, 5x5 i 7x7.
     \subfloat[Maska 7x7]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/basic_filters/median/median_filter_lena_8_uniform_3_7x7.png}}}%
     \caption{Wyniki nałożenia filtru medianowego na obraz Lena 8-bitowy, szum Jednolity 3}%
 \end{figure}
+
+\begin{center}
+    \begin{tabular}{| l | l | l | l |}
+    \hline
+    Maska & MSE & PNSR & MAE \\ \hline
+    - & 80,20 & 29,09 & 7,02 \\ \hline
+    3 x 3 & 91,63 & 28,51 & 6,44 \\ \hline
+    5 x 5 & 173,33 & 25,74 & 8,03 \\ \hline
+    7 x 7 & 268,17 & 23,85 & 9,86 \\ \hline
+    \end{tabular}
+    \captionof{table}{Wartości MSE, PNSR i MAE dla szumu Jednolitego 3 dla 8-bitowego obrazu Lena} 
+\end{center}
 
 \begin{figure}[H]%
     \centering
@@ -734,6 +862,18 @@ W sprawozdaniu przedstawiono wyniki dla trzech masek: 3x3, 5x5 i 7x7.
     \caption{Wyniki nałożenia filtru medianowego na obraz Lena 8-bitowy, szum Normalny 3}%
 \end{figure}
 
+\begin{center}
+    \begin{tabular}{| l | l | l | l |}
+    \hline
+    Maska & MSE & PNSR & MAE \\ \hline
+    - & 76,48 & 29,30 & 6,85 \\ \hline
+    3 x 3 & 94,11 & 28,39 & 6,49 \\ \hline
+    5 x 5 & 177,10 & 25,65 & 8,12 \\ \hline
+    7 x 7 & 271,39 & 23,79 & 9,97 \\ \hline
+    \end{tabular}
+    \captionof{table}{Wartości MSE, PNSR i MAE dla szumu Normalnego 3 dla 8-bitowego obrazu Lena} 
+\end{center}
+
 \begin{figure}[H]%
     \centering
     \subfloat[Maska 3x3]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/basic_filters/median/median_filter_lena_24_impulse_3_3x3.png}}}%
@@ -744,6 +884,18 @@ W sprawozdaniu przedstawiono wyniki dla trzech masek: 3x3, 5x5 i 7x7.
     \caption{Wyniki nałożenia filtru medianowego na obraz Lena 24-bitowy, szum Impulsowy 3}%
 \end{figure}
 
+\begin{center}
+    \begin{tabular}{| l | l | l | l |}
+    \hline
+    Maska & MSE & PNSR & MAE \\ \hline
+    - & 59,54 & 30,38 & 5,25 \\ \hline
+    3 x 3 & 87,46 & 28,71 & 6,05 \\ \hline
+    5 x 5 & 161,99 & 26,04 & 7,65 \\ \hline
+    7 x 7 & 246,58 & 24,21 & 9,38 \\ \hline
+    \end{tabular}
+    \captionof{table}{Wartości MSE, PNSR i MAE dla szumu Impulsowego 3 dla 24-bitowego obrazu Lena} 
+\end{center}
+
 \begin{figure}[H]%
     \centering
     \subfloat[Maska 3x3]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/basic_filters/median/median_filter_lena_24_uniform_3_3x3.png}}}%
@@ -753,6 +905,18 @@ W sprawozdaniu przedstawiono wyniki dla trzech masek: 3x3, 5x5 i 7x7.
     \subfloat[Maska 7x7]{{\includegraphics[width=2.5cm,height=2.5cm,keepaspectratio]{img/transformed/basic_filters/median/median_filter_lena_24_uniform_3_7x7.png}}}%
     \caption{Wyniki nałożenia filtru medianowego na obraz Lena 24-bitowy, szum Jednolity 3}%
 \end{figure}
+
+\begin{center}
+    \begin{tabular}{| l | l | l | l |}
+    \hline
+    Maska & MSE & PNSR & MAE \\ \hline
+    - & 123,18 & 27,23 & 8,71 \\ \hline
+    3 x 3 & 114,31 & 27,55 & 7,74 \\ \hline
+    5 x 5 & 186,61 & 25,42 & 9,16 \\ \hline
+    7 x 7 & 269,59 & 23,82 & 10,78 \\ \hline
+    \end{tabular}
+    \captionof{table}{Wartości MSE, PNSR i MAE dla szumu Jednolitego 3 dla 24-bitowego obrazu Lena} 
+\end{center}
 
 \begin{figure}[H]%
     \centering
@@ -765,6 +929,17 @@ W sprawozdaniu przedstawiono wyniki dla trzech masek: 3x3, 5x5 i 7x7.
     \caption{Wyniki nałożenia filtru medianowego na obraz Lena 24-bitowy, szum Normalny 3}%
 \end{figure}
 
+\begin{center}
+    \begin{tabular}{| l | l | l | l |}
+    \hline
+    Maska & MSE & PNSR & MAE \\ \hline
+    - & 73,99 & 29,44 & 6,81 \\ \hline
+    3 x 3 & 94,58 & 28,37 & 6,65 \\ \hline
+    5 x 5 & 167,30 & 25,90 & 8,08 \\ \hline
+    7 x 7 & 250,79 & 24,14 & 9,73 \\ \hline
+    \end{tabular}
+    \captionof{table}{Wartości MSE, PNSR i MAE dla szumu Normalnego 3 dla 24-bitowego obrazu Lena} 
+\end{center}
 
 \subsection{Modyfikacje obrazu w oparciu o histogram}
 Sekcja przedstawia wyniki modyfikacji obrazów w oparciu o histogram. W celu porównania wyników, wszystkie operacje przeprowadzane były na obrazie 24-bitowym obrazie Lena. Poniżej przedstawiono histogramy kolorów obrazu oryginalnego.
@@ -1122,10 +1297,10 @@ Poniższa sekcja prezentuje interpretację uzyskanych wyników oraz wnioski. Opi
 Przetworzenie obrazów podstawowymi operacjami przyniosło spodziewane rezultaty. 
 
 \subsection{Podstawowe filtry}
-Filtr ze średnią arytmetyczną umożliwia dokładne usunięcie szumu dopiero przy nałożeniu maski 5x5 (rys. 13-18b). Niestety, powoduje to również bardzo widoczne rozmycie obrazu.\\
+Filtr ze średnią arytmetyczną umożliwia dokładne usunięcie szumu dopiero przy nałożeniu maski 5x5 (rys. 13-18b). Niestety, powoduje to również bardzo widoczne rozmycie obrazu. Obiektywne wyniki badań działania filtru wykazały, że nakładanie większych masek znacznie zniekształca finalny obraz. \\
 \\
 \indent
-Filtr medianowy spełnia swoją role o wiele lepiej. Nadal widać różnicę pomiędzy obrazem oryginalnym, a odszumionym lecz porównując tę metodę z poprzednią (rys. 13-18 w porównaniu do rys. 19-24), widać wyraźną poprawę. Podobnie jak w przypadku filtru ze średnią arytmetyczną, po zastosowaniu większych masek, obraz staje się bardzo rozmazany.\\
+Filtr medianowy spełnia swoją rolę o wiele lepiej. Nadal widać różnicę pomiędzy obrazem oryginalnym, a odszumionym lecz porównując tę metodę z poprzednią (rys. 13-18 w porównaniu do rys. 19-24), widać wyraźną poprawę. Podobnie jak w przypadku filtru ze średnią arytmetyczną, po zastosowaniu większych masek, obraz staje się bardzo rozmazany. Obiektywne wyniki badań działania filtru wykazały, że działa on najlepiej dla szumów impulsowych. Jest to spowodowane działaniem algorytmu, który odrzuca piksele o wartościach bardzo odległych od modelu i nie bierze ich pod uwagę przy wyliczaniu nowej wartości (w przeciwieństwie do filtru ze średnią arytmetyczną).\\
 
 \subsection{Modyfikacje obrazu w oparciu o histogram}
 Modyfikacje obrazu w oparciu o histogram dały bardzo zbliżone rezultaty (rys. 26, 28, 29). Jedynym wyjątkiem jest przetworzenie poprzez modyfikację histogramu wyjściową gęstością prawdopodobieństwa podaną wzorem Raleigha. Wynikowe obrazy są negatywami (rys. 27).
@@ -1174,7 +1349,7 @@ Operator Rosenfelda odnajduje krawędzi (rys. 46b) lecz tworzy niepotrzebny szum
 Wynik przekształcenia operatorem Uolisa został znormalizowany poprzez pomnożenie wartości każdego piksela przez liczbę 10. Bez tej operacji rezultat był nieczytelny. Po transformacji, wynik prezentuje najbardziej wyraziste krawędzie (rys. 49).
 
 \section{Wnioski}
-Podsumowując, do usuwania szumów nie powinno się stosować filtru ze średnią arytmetyczną, ponieważ filr medianiowy daje lepsze rezultaty. Trzeba jednak pamiętać, aby nie nałożyć zbyt dużej maski, ponieważ otrzymany obraz może się okazać zbyt rozmazany.\\
+Podsumowując, do usuwania szumów nie powinno się stosować filtru ze średnią arytmetyczną, ponieważ filr medianiowy daje lepsze rezultaty. Potwierdziły to obiektywne metody pomiaru skuteczności filtrów. Trzeba jednak pamiętać, aby nie nałożyć zbyt dużej maski, ponieważ otrzymany obraz może się okazać zbyt rozmazany.\\
 \\
 \indent
 Przetworzenie obrazu poprzez modyfikację histogramu jednostajną wyjściową gęstością prawdopodobieństwa, wyjściowa gęstością prawdopodobieństwa określoną przez potęgę 2/3 oraz wyjściową gęstością prawdopodobieństwa o postaci hiperbolicznej daje bardzo zbliżone rezultaty.\\

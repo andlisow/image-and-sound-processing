@@ -28,7 +28,6 @@ public class MeanFilter extends AbstractFilter {
         int colorVal=0;
         for(int x=width-borderSize; x<=width+borderSize;x++){
             for(int y=height-borderSize; y<=height+borderSize; y++){
-               // LOG.error("" + x + " " + y);
                 colorVal += originalImage.getPixel(x,y).getColor(color);
             }
         }

@@ -2,6 +2,7 @@ package main.java.pl.lodz.p.ftims.poid.operations.filters.basic;
 
 import main.java.pl.lodz.p.ftims.poid.model.Image;
 import main.java.pl.lodz.p.ftims.poid.model.Pixel.RgbColor;
+import main.java.pl.lodz.p.ftims.poid.operations.comparison.Mse;
 import main.java.pl.lodz.p.ftims.poid.operations.filters.AbstractFilter;
 
 import java.util.Arrays;
