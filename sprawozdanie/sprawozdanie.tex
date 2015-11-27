@@ -62,14 +62,13 @@ gdzie:\\
 \textit{k} - zmiana jasności.\\
 
 \subsubsection{Zmiana kontrastu}
-Zmiana kontrastu obrazu polega na zwiększeniu jasności jasnych pikseli przy jednoczesnym zmniejszeniu jasności ciemnych pikseli. Ciemne piksele należą do przedziału $\langle$0,$ \frac{p_{max}}{2}$), zaś jasne do przedziału $\langle$$ \frac{p_{max}}{2}$,$p_{max}$$\rangle$.\\
+Zmiana kontrastu obrazu polega na przekształceniu obrazy przy użyciu tablicy LUT. Jej współczynniki wyznaczane są wg wzoru przedstawionego poniżej.\\
 \\
-Ogólny wzór wygląda następująco:
 \[ p(i) =
   \begin{cases}
-    i \div k  & \quad \text{jeżeli } 0 \leq i < \frac{p_{max}}{2}\\
-    i \ast k  & \quad \text{jeżeli } \frac{p_{max}}{2} \leq i \leq p_{max}\\
-    p_{max}  & \quad \text{jeżeli } i \ast k > p_{max}\\
+    0  & \quad \text{jeżeli } a(i - \frac{p_{max}}{2}) + \frac{p_{max}}{2} < 0\\
+    a(i - \frac{p_{max}}{2}) + \frac{p_{max}}{2}   & \quad \text{jeżeli } 0 \leq a(i - \frac{p_{max}}{2}) + \frac{p_{max}}{2}  \leq p_{max}\\
+    p_{max}  & \quad \text{jeżeli } a(i - \frac{p_{max}}{2}) + \frac{p_{max}}{2} > p_{max}\\
   \end{cases}
 \]
 gdzie:\\

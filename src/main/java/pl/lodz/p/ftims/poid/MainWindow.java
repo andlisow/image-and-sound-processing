@@ -193,9 +193,8 @@ public class MainWindow extends JFrame{
                     }
                 }
 
-                operations.clear();
-                operations.addOperation(new RegionGrowing());
-//                operations.addOperation(new Ifft());
+//                operations.clear();
+//                operations.addOperation(new RegionGrowing());
 
                 resultImage = operations.processImage(sourceImage);
                 BufferedImage resultBufferedImage = ImageUtil.convertImageToBufferedImage(resultImage);
