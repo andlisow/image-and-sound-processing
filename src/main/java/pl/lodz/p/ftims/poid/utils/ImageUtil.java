@@ -32,7 +32,7 @@ public class ImageUtil {
                 pixels[x][y] = new Pixel(redValue, greenValue, blueValue);
             }
         }
-        return new Image(imgName, pixels);
+        return new Image(imgName, pixels, img.getRaster().getNumDataElements());
     }
 
     public static void saveImageToFile(Image image) throws IOException {
@@ -61,5 +61,15 @@ public class ImageUtil {
 
     public static int getRgbValue(Pixel pixel){
         return pixel.getRed() << 16 | pixel.getGreen() << 8 | pixel.getBlue();
+    }
+
+    public static int getGrayScaleValue(Pixel pixel){
+        int r = (pixel.getRed() >> 16) & 0xFF;
+        int g = (pixel.getGreen() >> 8) & 0xFF;
+        int b = (pixel.getBlue() & 0xFF);
+
+        int grayLevel = (r + g + b) / 3;
+        int gray = (grayLevel << 16) + (grayLevel << 8) + grayLevel;
+        return gray;
     }
 }

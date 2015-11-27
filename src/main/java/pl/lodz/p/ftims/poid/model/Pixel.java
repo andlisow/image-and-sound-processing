@@ -1,5 +1,7 @@
 package main.java.pl.lodz.p.ftims.poid.model;
 
+import main.java.pl.lodz.p.ftims.poid.utils.ImageUtil;
+
 /**
  * @author alisowsk
  */
@@ -7,6 +9,13 @@ public class Pixel {
     private int red;
     private int green;
     private int blue;
+    private int gray;
+
+    public int getGrayScale() {
+        //TODO - now we assume that all colors are the same
+        return red;
+    }
+
     public enum RgbColor {
         RED, GREEN, BLUE;
     }

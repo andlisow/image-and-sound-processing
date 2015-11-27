@@ -12,6 +12,7 @@ import main.java.pl.lodz.p.ftims.poid.operations.filters.basic.MedianFilter;
 import main.java.pl.lodz.p.ftims.poid.operations.filters.linear.LinearFilter;
 import main.java.pl.lodz.p.ftims.poid.operations.filters.nonlinear.RosenfeldOperator;
 import main.java.pl.lodz.p.ftims.poid.operations.fourier.FourierTransform;
+import main.java.pl.lodz.p.ftims.poid.operations.fourier.segmentation.RegionGrowing;
 import main.java.pl.lodz.p.ftims.poid.operations.histogram.AbstractFinalProbDensFunction;
 import main.java.pl.lodz.p.ftims.poid.samples.HistogramModification;
 import main.java.pl.lodz.p.ftims.poid.samples.SampleFiles;
@@ -193,7 +194,7 @@ public class MainWindow extends JFrame{
                 }
 
                 operations.clear();
-                operations.addOperation(new FourierTransform());
+                operations.addOperation(new RegionGrowing());
 //                operations.addOperation(new Ifft());
 
                 resultImage = operations.processImage(sourceImage);
