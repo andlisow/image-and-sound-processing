@@ -42,6 +42,10 @@ public enum SampleFiles {
     GIRL_24 ("main/resources/bit24/girlc_small.bmp"),
     LENA_24 ("main/resources/bit24/lenac_small.bmp"),
     MANDRIL_24 ("main/resources/bit24/mandrilc_small.bmp"),
+
+    FOURIER_F5_1 ("main/resources/highpass_filter_with_detection_of_edge_direction/images/F5test1.bmp"),
+    FOURIER_F5_2 ("main/resources/highpass_filter_with_detection_of_edge_direction/images/F5test2.bmp"),
+    FOURIER_F5_3 ("main/resources/highpass_filter_with_detection_of_edge_direction/images/F5test3.bmp"),
     ;
 
     private String path;

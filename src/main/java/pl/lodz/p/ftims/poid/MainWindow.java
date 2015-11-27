@@ -11,6 +11,7 @@ import main.java.pl.lodz.p.ftims.poid.operations.filters.basic.MeanFilter;
 import main.java.pl.lodz.p.ftims.poid.operations.filters.basic.MedianFilter;
 import main.java.pl.lodz.p.ftims.poid.operations.filters.linear.LinearFilter;
 import main.java.pl.lodz.p.ftims.poid.operations.filters.nonlinear.RosenfeldOperator;
+import main.java.pl.lodz.p.ftims.poid.operations.fourier.FourierTransform;
 import main.java.pl.lodz.p.ftims.poid.operations.histogram.AbstractFinalProbDensFunction;
 import main.java.pl.lodz.p.ftims.poid.samples.HistogramModification;
 import main.java.pl.lodz.p.ftims.poid.samples.SampleFiles;
@@ -190,6 +191,11 @@ public class MainWindow extends JFrame{
                         }
                     }
                 }
+
+                operations.clear();
+                operations.addOperation(new FourierTransform());
+//                operations.addOperation(new Ifft());
+
                 resultImage = operations.processImage(sourceImage);
                 BufferedImage resultBufferedImage = ImageUtil.convertImageToBufferedImage(resultImage);
                 java.awt.Image resultBufferedScaledImage = resultBufferedImage.getScaledInstance(MAX_IMG_WIDTH, MAX_IMG_HEIGHT, java.awt.Image.SCALE_FAST);

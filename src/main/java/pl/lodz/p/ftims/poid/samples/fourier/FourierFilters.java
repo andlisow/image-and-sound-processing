@@ -11,7 +11,7 @@ import java.util.Map;
  * @author alisowsk
  */
 public class FourierFilters {
-    public static final Map<String, Transformable> FILTERS = new LinkedHashMap<>();
+    public static final Map<String, FourierFilter> FILTERS = new LinkedHashMap<>();
     static{
         FILTERS.put("Low-pass", new LowPassFilter());
         FILTERS.put("High-pass", new HighPassFilter());

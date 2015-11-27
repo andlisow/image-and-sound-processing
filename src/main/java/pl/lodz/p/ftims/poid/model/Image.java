@@ -8,12 +8,14 @@ public class Image {
     private Pixel[][] pixels;
     private int width;
     private int height;
+    private int colorsNum;
 
-    public Image(String imgName, Pixel[][] pixels) {
+    public Image(String imgName, Pixel[][] pixels, int colorsNum) {
         this.name = imgName;
         this.pixels = pixels;
         this.width = pixels.length;
         this.height = pixels[0].length;
+        this.colorsNum = colorsNum;
     }
 
     public Image(Image other) {
@@ -46,5 +48,9 @@ public class Image {
 
     public int getHeight() {
         return height;
+    }
+
+    public int getColorsNum() {
+        return colorsNum;
     }
 }
