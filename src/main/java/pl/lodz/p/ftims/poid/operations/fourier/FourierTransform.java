@@ -2,16 +2,16 @@ package main.java.pl.lodz.p.ftims.poid.operations.fourier;
 
 import main.java.pl.lodz.p.ftims.poid.model.Complex;
 import main.java.pl.lodz.p.ftims.poid.model.Image;
-import static main.java.pl.lodz.p.ftims.poid.model.Pixel.RgbColor;
 import main.java.pl.lodz.p.ftims.poid.operations.Transformable;
-import main.java.pl.lodz.p.ftims.poid.operations.fourier.filters.*;
+import main.java.pl.lodz.p.ftims.poid.operations.fourier.filters.FourierFilter;
+import main.java.pl.lodz.p.ftims.poid.utils.ImageConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.awt.*;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+
+import static main.java.pl.lodz.p.ftims.poid.model.Pixel.RgbColor;
 
 /**
  * @author alisowsk
@@ -40,24 +40,23 @@ public class FourierTransform implements Transformable {
 
             Complex[][] afterForwardComplex = runDif2d(srcComplex);
 
-            //saveSpectrum();
-            //swap
-            //swap
+            saveSpectrum();
+            //swapColumnsWithRows
+            //swapColumnsWithRows
 
             //TODO button that opens folder with images
             //Desktop.getDesktop().open(file.getParentFile());
 
 
             swapQuadrants(afterForwardComplex);
-            filter = new BandPassFilter(1,254);
             if(null != filter){
                 filter.applyFilter(afterForwardComplex);
             }
             swapQuadrants(afterForwardComplex);
 
             //saveSpectrum();
-            //swap
-            //swap
+            //swapColumnsWithRows
+            //swapColumnsWithRows
 
             Complex[][] afterInverseComplex = runIDif2d(afterForwardComplex);
 
@@ -75,17 +74,26 @@ public class FourierTransform implements Transformable {
         return resultImage;
     }
 
-    private Complex[][] runDif2d(Complex[][] srcComplex) {
-        int size = srcComplex.length;
-        Complex[][] afterRowTransformComplex = new Complex[size][size];
-        Complex[][] afterColTransformComplex = new Complex[size][size];
+    private void saveSpectrum() {
+
+
+    }
+
+    private Complex[][] runDif2d(Complex[][] complexImage) {
+        int size = complexImage.length;
+
+        final int rows = complexImage.length;
+        final int cols = complexImage[0].length;
+
+        Complex[][] afterRowTransformComplex = new Complex[rows][cols];
+        Complex[][] afterColTransformComplex = new Complex[size][cols];
 
         for(int x=0; x<size; x++){
-            Complex[] complex = srcComplex[x];
+            Complex[] complex = complexImage[x];
             afterRowTransformComplex[x] = dif1d(complex);
         }
 
-        afterRowTransformComplex = swap(afterRowTransformComplex);
+        afterRowTransformComplex = swapColumnsWithRows(afterRowTransformComplex);
 
         for(int x=0; x<size; x++){
             Complex[] complex = afterRowTransformComplex[x];
@@ -105,7 +113,7 @@ public class FourierTransform implements Transformable {
             afterRowTransformComplex[x] = iDiff1d(complex);
         }
 
-        afterRowTransformComplex = swap(afterRowTransformComplex);
+        afterRowTransformComplex = swapColumnsWithRows(afterRowTransformComplex);
 
         for(int x=0; x<size; x++){
             Complex[] complex = afterRowTransformComplex[x];
@@ -163,26 +171,33 @@ public class FourierTransform implements Transformable {
         return complexImage;
     }
 
-    private double[][] getPixelValues(Complex[][] outputComplex, boolean normalize) {
-        int size = outputComplex.length;
-        double res[][] = new double[size][size];
-        for(int x=0; x<size; x++){
-            for(int y=0; y<size; y++){
-                res[x][y] = outputComplex[x][y].getR();
+    private double[][] getPixelValues(Complex[][] complexImage, boolean normalize) {
+        final int rows = complexImage.length;
+        final int cols = complexImage[0].length;
+
+        double res[][] = new double[rows][cols];
+        for(int x=0; x<rows; x++){
+            for(int y=0; y<cols; y++){
+                res[x][y] = complexImage[x][y].getReal();
             }
         }
+
         if(normalize){
             res = normalise(res);
         }
+
         return res;
     }
 
-    private double [][] normalise(double[][] values){
-        int size = values.length;
+    private double[][] normalise(double[][] values){
+        final int rows = values.length;
+        final int cols = values[0].length;
+
         double curMin = values[0][0];
         double curMax = values[0][0];
-        for(int x=0;x<size;x++){
-            for(int y=0; y<size;y++){
+
+        for(int x=0; x<rows; x++){
+            for(int y=0; y<cols; y++){
                 if(curMax < values[x][y]){
                     curMax = values[x][y];
                 }
@@ -192,23 +207,27 @@ public class FourierTransform implements Transformable {
             }
         }
 
-        for(int x=0;x<size;x++){
-            for(int y=0; y<size;y++) {
-                values[x][y] = 255 * Math.log(values[x][y] + 1) / Math.log(curMax + 1);
+        for(int x=0; x<rows; x++){
+            for(int y=0; y<cols; y++) {
+                values[x][y] = ImageConstants.MAX_PIXEL_VALUE * Math.log(values[x][y] + 1) / Math.log(curMax + 1);
             }
         }
+
         return values;
     }
 
-    private Complex[][] swap(Complex[][] middleComplex) {
-        int size = middleComplex.length;
-        Complex [][] newTab = new Complex[size][size];
-        for(int x=0; x<size; x++){
-            for(int y=0; y<size; y++){
-                newTab[x][y] = middleComplex[y][x];
+    private Complex[][] swapColumnsWithRows(Complex[][] complexImage) {
+        final int rows = complexImage.length;
+        final int cols = complexImage[0].length;
+
+        Complex[][] swappedTab = new Complex[rows][cols];
+        for(int x=0; x<rows; x++){
+            for(int y=0; y<cols; y++){
+                swappedTab[x][y] = complexImage[y][x];
             }
         }
-        return newTab;
+
+        return swappedTab;
     }
 
     public static Complex[] dif1d(Complex[] x) {

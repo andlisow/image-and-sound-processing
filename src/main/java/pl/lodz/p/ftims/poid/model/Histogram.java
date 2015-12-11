@@ -1,8 +1,11 @@
 package main.java.pl.lodz.p.ftims.poid.model;
 
 import main.java.pl.lodz.p.ftims.poid.model.Pixel.RgbColor;
+import main.java.pl.lodz.p.ftims.poid.utils.ImageConstants;
 
 /**
+ * Model of histogram.
+ *
  * @author alisowsk
  */
 public class Histogram {
@@ -13,7 +16,7 @@ public class Histogram {
     public Histogram(String name, RgbColor color) {
         this.name = name;
         this.color = color;
-        this.values = new int[256];
+        this.values = new int[ImageConstants.NUMBER_OF_PIXEL_VALUES];
     }
 
     public String getName() {

@@ -1,51 +1,52 @@
 package main.java.pl.lodz.p.ftims.poid.model;
 
 /**
+ * Model of complex number.
+ *
  * @author alisowsk
  */
 public class Complex {
-    private final double r;
-    private final double i;
+    private final double real;
+    private final double imaginary;
 
     public Complex(double real, double imaginary) {
-        r = real;
-        i = imaginary;
+        this.real = real;
+        this.imaginary = imaginary;
     }
 
-    // return abs/modulus/magnitude and angle/phase/argument
-    public double abs()   { return Math.hypot(r, i); }  // Math.sqrt(r*r + i*i)
+    public double abs()   { return Math.hypot(real, imaginary); }
 
-    public double phase() { return Math.atan2(i, r); }  // between -pi and pi
+    public double phase() { return Math.atan2(imaginary, real); }
 
-    public Complex plus(Complex b) {
-        Complex a = this;
-        double real = a.r + b.r;
-        double imag = a.i + b.i;
-        return new Complex(real, imag);
+    public Complex plus(Complex second) {
+        Complex first = this;
+        double realPart = first.real + second.real;
+        double imaginaryPart = first.imaginary + second.imaginary;
+        return new Complex(realPart, imaginaryPart);
     }
 
-    public Complex minus(Complex b) {
-        Complex a = this;
-        double real = a.r - b.r;
-        double imag = a.i - b.i;
-        return new Complex(real, imag);
+    public Complex minus(Complex second) {
+        Complex first = this;
+        double realPart = first.real - second.real;
+        double imaginaryPart = first.imaginary - second.imaginary;
+        return new Complex(realPart, imaginaryPart);
     }
 
-    public Complex times(Complex b) {
-        Complex a = this;
-        double real = a.r * b.r - a.i * b.i;
-        double imag = a.r * b.i + a.i * b.r;
-        return new Complex(real, imag);
+    public Complex times(Complex second) {
+        Complex first = this;
+        double realPart = first.real * second.real - first.imaginary * second.imaginary;
+        double imaginaryPart = first.real * second.imaginary + first.imaginary * second.real;
+        return new Complex(realPart, imaginaryPart);
     }
 
     public Complex times(double alpha) {
-        return new Complex(alpha * r, alpha * i);
+        return new Complex(alpha * real, alpha * imaginary);
     }
 
-    public Complex conjugate() {  return new Complex(r, -i); }
+    public Complex conjugate() {  return new Complex(real, -imaginary); }
 
-    public double getR() { return r; }
+    public double getReal() { return real; }
 
-    public double getI() { return i; }
+    public double getImaginary() { return imaginary; }
 
 }

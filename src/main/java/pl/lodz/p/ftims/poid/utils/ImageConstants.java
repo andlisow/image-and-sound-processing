@@ -11,6 +11,8 @@ public class ImageConstants {
 
     public static final int MAX_PIXEL_VALUE = 255;
 
+    public static final int NUMBER_OF_PIXEL_VALUES = 256;
+
     private ImageConstants(){
 
     }

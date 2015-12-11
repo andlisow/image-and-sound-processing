@@ -1,6 +1,8 @@
 package main.java.pl.lodz.p.ftims.poid.model;
 
 /**
+ * Model of image.
+ *
  * @author alisowsk
  */
 public class Image {

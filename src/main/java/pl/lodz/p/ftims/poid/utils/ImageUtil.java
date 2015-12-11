@@ -15,13 +15,17 @@ import java.io.IOException;
  * @author alisowsk
  */
 public class ImageUtil {
+    private static final Logger LOG = LoggerFactory.getLogger(ImageUtil.class);
+
     //TODO move to program args?
+    //TODO configuration file on start of the program
     private static final String DEFAULT_FILE_SAVE_PATH = "/home/andrzej/poid/";
     private static final String DEFAULT_FILE_EXTENSION = "png";
 
     public static Image readImageFromFile(File imgFile) throws IOException {
         String imgName = imgFile.getName();
         //TODO check if file is proper image, if not throw ex
+        //TODO custom ex
         BufferedImage img = ImageIO.read(imgFile);
         Pixel[][] pixels = new Pixel[img.getWidth()][img.getHeight()];
         for(int x=0; x< img.getWidth(); x++){
@@ -53,7 +57,8 @@ public class ImageUtil {
         BufferedImage result = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB );
         for(int x = 0; x < width; x++){
             for(int y = 0; y < height; y++){
-                result.setRGB(x, y, ImageUtil.getRgbValue(image.getPixels()[x][y]));
+                int rgbValue = getRgbValue(image.getPixels()[x][y]);
+                result.setRGB(x, y, rgbValue);
             }
         }
         return result;

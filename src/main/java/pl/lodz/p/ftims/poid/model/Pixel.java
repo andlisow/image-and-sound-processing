@@ -1,7 +1,5 @@
 package main.java.pl.lodz.p.ftims.poid.model;
 
-import main.java.pl.lodz.p.ftims.poid.utils.ImageUtil;
-
 /**
  * @author alisowsk
  */
