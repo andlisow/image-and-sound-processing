@@ -4,23 +4,30 @@ import main.java.pl.lodz.p.ftims.poid.model.Complex;
 import main.java.pl.lodz.p.ftims.poid.model.Image;
 import main.java.pl.lodz.p.ftims.poid.operations.Transformable;
 import main.java.pl.lodz.p.ftims.poid.utils.ImageConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author alisowsk
  */
 public class LowPassFilter implements FourierFilter {
-    private static int d;
+    private static final Logger LOG = LoggerFactory.getLogger(LowPassFilter.class);
+
+    private int d;
 
     public LowPassFilter(int d){
         this.d = d;
     }
 
     public LowPassFilter() {
-        this.d = ImageConstants.MAX_PIXEL_VALUE;
+        this.d = ImageConstants.MIN_PIXEL_VALUE;
     }
 
     @Override
     public void applyFilter(Complex[][] complexImage) {
+LOG.error("d" + d);
+
+
         int M = complexImage.length;
         int N = complexImage[0].length;
 
@@ -31,5 +38,10 @@ public class LowPassFilter implements FourierFilter {
                 }
             }
         }
+    }
+
+    @Override
+    public void setMaxOrL(int maxOrL) {
+        this.d = maxOrL;
     }
 }

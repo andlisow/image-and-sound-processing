@@ -49,4 +49,11 @@ public class Complex {
 
     public double getImaginary() { return imaginary; }
 
+    public static Complex fromPolar(double r, double theta) {
+        double imaginary = (r * Math.sin(theta));
+        double real = (r * Math.cos(theta));
+
+        return new Complex(real, imaginary);
+    }
+
 }

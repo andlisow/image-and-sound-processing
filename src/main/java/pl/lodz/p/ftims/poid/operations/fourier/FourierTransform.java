@@ -2,12 +2,16 @@ package main.java.pl.lodz.p.ftims.poid.operations.fourier;
 
 import main.java.pl.lodz.p.ftims.poid.model.Complex;
 import main.java.pl.lodz.p.ftims.poid.model.Image;
+import main.java.pl.lodz.p.ftims.poid.model.Pixel;
 import main.java.pl.lodz.p.ftims.poid.operations.Transformable;
 import main.java.pl.lodz.p.ftims.poid.operations.fourier.filters.FourierFilter;
+import main.java.pl.lodz.p.ftims.poid.operations.fourier.filters.SpectrumFilter;
 import main.java.pl.lodz.p.ftims.poid.utils.ImageConstants;
+import main.java.pl.lodz.p.ftims.poid.utils.ImageUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,13 +44,13 @@ public class FourierTransform implements Transformable {
 
             Complex[][] afterForwardComplex = runDif2d(srcComplex);
 
-            saveSpectrum();
-            //swapColumnsWithRows
-            //swapColumnsWithRows
+            swapQuadrants(afterForwardComplex);
+            saveSpectrum("before_filter" + image.getName(), afterForwardComplex, Spectrum.PHASE, color);
+            saveSpectrum("before_filter" + image.getName(), afterForwardComplex, Spectrum.ABS, color);
+            swapQuadrants(afterForwardComplex);
 
             //TODO button that opens folder with images
             //Desktop.getDesktop().open(file.getParentFile());
-
 
             swapQuadrants(afterForwardComplex);
             if(null != filter){
@@ -54,13 +58,16 @@ public class FourierTransform implements Transformable {
             }
             swapQuadrants(afterForwardComplex);
 
-            //saveSpectrum();
-            //swapColumnsWithRows
-            //swapColumnsWithRows
+            if(null != filter){
+                swapQuadrants(afterForwardComplex);
+                saveSpectrum("after_filter" + image.getName(), afterForwardComplex, Spectrum.PHASE, color);
+                saveSpectrum("after_filter" + image.getName(), afterForwardComplex, Spectrum.ABS, color);
+                swapQuadrants(afterForwardComplex);
+            }
 
             Complex[][] afterInverseComplex = runIDif2d(afterForwardComplex);
 
-            double normalisedResult[][] = getPixelValues(afterInverseComplex, false);
+            double normalisedResult[][] = getPixelValues(afterInverseComplex, false, Spectrum.NULL);
 
             //normalisedResult = swapQuadrants(normalisedResult);
 
@@ -74,9 +81,23 @@ public class FourierTransform implements Transformable {
         return resultImage;
     }
 
-    private void saveSpectrum() {
+    private void saveSpectrum(String imgName, Complex[][] complexImage, Spectrum spectrum, RgbColor analysedColor) {
+        double[][] pixelValues = getPixelValues(complexImage, true, spectrum);
+        int size = pixelValues.length;
+        Pixel[][] pixels = new Pixel[size][size];
 
+        for(int x=0; x<size; x++){
+            for(int y=0; y<size; y++){
+                pixels[x][y] = new Pixel((int) pixelValues[x][y]);
+            }
+        }
 
+        Image image = new Image(spectrum + "_" + analysedColor + "_" + imgName, pixels, 3);
+        try {
+            ImageUtil.saveImageToFile(image);
+        } catch (IOException e) {
+            LOG.error("An error has occurred while saving image", e);
+        }
     }
 
     private Complex[][] runDif2d(Complex[][] complexImage) {
@@ -171,14 +192,20 @@ public class FourierTransform implements Transformable {
         return complexImage;
     }
 
-    private double[][] getPixelValues(Complex[][] complexImage, boolean normalize) {
+    private double[][] getPixelValues(Complex[][] complexImage, boolean normalize, Spectrum spectrum) {
         final int rows = complexImage.length;
         final int cols = complexImage[0].length;
 
         double res[][] = new double[rows][cols];
         for(int x=0; x<rows; x++){
             for(int y=0; y<cols; y++){
-                res[x][y] = complexImage[x][y].getReal();
+                if(Spectrum.NULL == spectrum){
+                    res[x][y] = complexImage[x][y].getReal();
+                } else if(Spectrum.PHASE == spectrum){
+                    res[x][y] = complexImage[x][y].phase();
+                } else if(Spectrum.ABS == spectrum){
+                    res[x][y] = complexImage[x][y].abs();
+                }
             }
         }
 
@@ -280,5 +307,9 @@ public class FourierTransform implements Transformable {
             res.put(color, complex2DTable);
         }
         return res;
+    }
+
+    private enum Spectrum {
+        ABS, PHASE, NULL;
     }
 }

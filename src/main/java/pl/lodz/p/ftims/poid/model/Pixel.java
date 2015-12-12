@@ -21,6 +21,10 @@ public class Pixel {
     public Pixel() {
     }
 
+    public Pixel(int gray){
+        this(gray, gray, gray);
+    }
+
     public Pixel(int red, int green, int blue) {
         this.red = red;
         this.green = green;

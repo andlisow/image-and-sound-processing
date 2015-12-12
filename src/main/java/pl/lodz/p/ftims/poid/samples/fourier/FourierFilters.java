@@ -1,7 +1,5 @@
 package main.java.pl.lodz.p.ftims.poid.samples.fourier;
 
-import main.java.pl.lodz.p.ftims.poid.operations.Transformable;
-import main.java.pl.lodz.p.ftims.poid.operations.filters.nonlinear.*;
 import main.java.pl.lodz.p.ftims.poid.operations.fourier.filters.*;
 
 import java.util.LinkedHashMap;
@@ -18,6 +16,7 @@ public class FourierFilters {
         FILTERS.put("Band-pass", new BandPassFilter());
         FILTERS.put("Band-cut", new BandCutFilter());
         FILTERS.put("High-pass det. edge dir.", new HighPassDetectionEdgeDirectionFilter());
+        FILTERS.put("Spectrum", new SpectrumFilter());
     }
 
     private FourierFilters(){

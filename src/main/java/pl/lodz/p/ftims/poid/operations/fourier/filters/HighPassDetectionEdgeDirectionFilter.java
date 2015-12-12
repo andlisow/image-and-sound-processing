@@ -9,7 +9,6 @@ import main.java.pl.lodz.p.ftims.poid.operations.Transformable;
  */
 public class HighPassDetectionEdgeDirectionFilter implements FourierFilter {
 
-
     @Override
     public void applyFilter(Complex[][] complexImage) {
         //TODO

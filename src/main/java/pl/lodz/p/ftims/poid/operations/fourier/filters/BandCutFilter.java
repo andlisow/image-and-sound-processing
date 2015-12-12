@@ -7,8 +7,8 @@ import main.java.pl.lodz.p.ftims.poid.utils.ImageConstants;
  * @author alisowsk
  */
 public class BandCutFilter implements FourierFilter {
-    private final int dMin;
-    private final int dMax;
+    private int dMin;
+    private int dMax;
 
     public BandCutFilter(int dMin, int dMax){
         this.dMin = dMin;
@@ -35,5 +35,15 @@ public class BandCutFilter implements FourierFilter {
                 }
             }
         }
+    }
+
+    @Override
+    public void setMinOrK(int minOrK) {
+        this.dMin = minOrK;
+    }
+
+    @Override
+    public void setMaxOrL(int maxOrL) {
+        this.dMax = maxOrL;
     }
 }

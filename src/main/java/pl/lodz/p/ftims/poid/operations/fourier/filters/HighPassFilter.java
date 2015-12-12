@@ -9,14 +9,14 @@ import main.java.pl.lodz.p.ftims.poid.utils.ImageConstants;
  * @author alisowsk
  */
 public class HighPassFilter implements FourierFilter {
-    private final int d;
+    private int d;
 
     public HighPassFilter(int d){
         this.d = d;
     }
 
     public HighPassFilter() {
-        this.d = ImageConstants.MIN_PIXEL_VALUE;
+        this.d = ImageConstants.MAX_PIXEL_VALUE;
     }
 
     @Override
@@ -35,5 +35,10 @@ public class HighPassFilter implements FourierFilter {
         }
 
         complexImage[M/2][N/2] = dc;
+    }
+
+    @Override
+    public void setMinOrK(int minOrK) {
+        this.d = minOrK;
     }
 }

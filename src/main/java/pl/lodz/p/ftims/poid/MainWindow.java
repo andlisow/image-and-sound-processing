@@ -12,13 +12,14 @@ import main.java.pl.lodz.p.ftims.poid.operations.filters.basic.MedianFilter;
 import main.java.pl.lodz.p.ftims.poid.operations.filters.linear.LinearFilter;
 import main.java.pl.lodz.p.ftims.poid.operations.filters.nonlinear.RosenfeldOperator;
 import main.java.pl.lodz.p.ftims.poid.operations.fourier.FourierTransform;
-import main.java.pl.lodz.p.ftims.poid.operations.fourier.segmentation.RegionGrowing;
+import main.java.pl.lodz.p.ftims.poid.operations.fourier.filters.FourierFilter;
 import main.java.pl.lodz.p.ftims.poid.operations.histogram.AbstractFinalProbDensFunction;
 import main.java.pl.lodz.p.ftims.poid.samples.HistogramModification;
 import main.java.pl.lodz.p.ftims.poid.samples.SampleFiles;
 import main.java.pl.lodz.p.ftims.poid.samples.filters.BasicFiltersMasks;
 import main.java.pl.lodz.p.ftims.poid.samples.filters.linear.LinearFilters;
 import main.java.pl.lodz.p.ftims.poid.samples.filters.nonlinear.NonLinearFilters;
+import main.java.pl.lodz.p.ftims.poid.samples.fourier.FourierFilters;
 import main.java.pl.lodz.p.ftims.poid.utils.GnuplotUtil;
 import main.java.pl.lodz.p.ftims.poid.utils.HistogramUtil;
 import main.java.pl.lodz.p.ftims.poid.utils.ImageUtil;
@@ -102,6 +103,21 @@ public class MainWindow extends JFrame{
     // transform button section
     private JButton startTransformButton;
 
+    // transform in frequency domain section
+    private JTextField freqDomMinValTextInput;
+    private JTextField freqDomMaxValTextInput;
+    private JCheckBox freqDomCheckbox;
+    private JCheckBox freqDomFilterCheckBox;
+    private JComboBox freqDomFilterSelectComboBox;
+    private JComboBox freqDomHighPassFilterMaskComboBox;
+    private JLabel freqDomHighPassFilterMaskTextLabel;
+    private JLabel freqDomMinValTextLabel;
+    private JLabel freqDomMaxValTextLabel;
+
+    // segmentation section
+    private JCheckBox segmentationCheckbox;
+    private JComboBox segmentationComboBox;
+
     // logic components
     private Image sourceImage;
     private Image resultImage;
@@ -132,6 +148,7 @@ public class MainWindow extends JFrame{
         initializeHistogramOperationsSection();
         initializeTransformButtonSection();
         initializeFiltrationFrequencyDomainSection();
+        initializeSegmentationSection();
         initializeHelperGrid();
     }
 
@@ -192,11 +209,29 @@ public class MainWindow extends JFrame{
                         }
                     }
                 }
-
-
-
-//                operations.clear();
-//                operations.addOperation(new RegionGrowing());
+                if (freqDomCheckbox.isSelected()){
+                    if(freqDomFilterCheckBox.isSelected()){
+                        for (String fourierFilter : FourierFilters.FILTERS.keySet()) {
+                            if (fourierFilter.equals(freqDomFilterSelectComboBox.getSelectedItem())) {
+                                FourierFilter filter = FourierFilters.FILTERS.get(fourierFilter);
+                                int minOrK=0;
+                                int maxOrL=0;
+                                //TODO change order
+                                if(freqDomMinValTextInput.getText() != null && !freqDomMinValTextInput.getText().isEmpty()){
+                                    minOrK = Integer.parseInt(freqDomMinValTextInput.getText());
+                                }
+                                if(freqDomMaxValTextInput.getText() != null && !freqDomMaxValTextInput.getText().isEmpty()){
+                                    maxOrL = Integer.parseInt(freqDomMaxValTextInput.getText());
+                                }
+                                filter.setMinOrK(minOrK);
+                                filter.setMaxOrL(maxOrL);
+                                operations.addOperation(new FourierTransform(filter));
+                            }
+                        }
+                    } else {
+                        operations.addOperation(new FourierTransform());
+                    }
+                }
 
                 resultImage = operations.processImage(sourceImage);
                 BufferedImage resultBufferedImage = ImageUtil.convertImageToBufferedImage(resultImage);
@@ -439,55 +474,53 @@ public class MainWindow extends JFrame{
     }
 
     private void initializeFiltrationFrequencyDomainSection(){
-        JLabel freqDomTextLabel = new JLabel("Filtration in frequency domain");
-        freqDomTextLabel.setBounds(34, 109, 265, 30);
-        getContentPane().add(freqDomTextLabel);
+        freqDomCheckbox = new JCheckBox("Filtration in frequency domain");
+        freqDomCheckbox.setBounds(34, 124, 244, 24);
+        getContentPane().add(freqDomCheckbox);
 
-        JCheckBox freqDomFftCheckbox = new JCheckBox("FFT");
-        freqDomFftCheckbox.setBounds(34, 137, 72, 24);
-        getContentPane().add(freqDomFftCheckbox);
-
-        JCheckBox freqDomIfftCheckbox = new JCheckBox("IFFT");
-        freqDomIfftCheckbox.setBounds(32, 256, 133, 24);
-        getContentPane().add(freqDomIfftCheckbox);
-
-        JCheckBox freqDomSpectrumCheckBox = new JCheckBox("Show spectrum");
-        freqDomSpectrumCheckBox.setHorizontalAlignment(SwingConstants.LEFT);
-        freqDomSpectrumCheckBox.setBounds(44, 160, 155, 24);
-        getContentPane().add(freqDomSpectrumCheckBox);
-
-        JComboBox freqDomSpectrumComboBox = new JComboBox(new Object[]{});
-        freqDomSpectrumComboBox.setBounds(44, 184, 98, 27);
-        getContentPane().add(freqDomSpectrumComboBox);
-
-        JCheckBox freqDomFilterCheckBox = new JCheckBox("Filter");
-        freqDomFilterCheckBox.setBounds(358, 160, 104, 24);
+        freqDomFilterCheckBox = new JCheckBox("Filter");
+        freqDomFilterCheckBox.setBounds(61, 149, 104, 24);
         getContentPane().add(freqDomFilterCheckBox);
 
-        JComboBox freqDomFilterSelectComboBox = new JComboBox(new Object[]{});
-        freqDomFilterSelectComboBox.setBounds(356, 184, 162, 27);
+        freqDomFilterSelectComboBox = new JComboBox(FourierFilters.FILTERS.keySet().toArray());
+        freqDomFilterSelectComboBox.setBounds(60, 174, 162, 27);
         getContentPane().add(freqDomFilterSelectComboBox);
 
-        JCheckBox freqDomSegmentationCheckbox = new JCheckBox("Segmentation");
-        freqDomSegmentationCheckbox.setBounds(184, 160, 162, 24);
-        getContentPane().add(freqDomSegmentationCheckbox);
+        freqDomHighPassFilterMaskTextLabel = new JLabel("High-pass filter mask");
+        freqDomHighPassFilterMaskTextLabel.setBounds(61, 260, 190, 30);
+        getContentPane().add(freqDomHighPassFilterMaskTextLabel);
 
-        JComboBox freqDomSegmentationComboBox = new JComboBox(new Object[]{});
-        freqDomSegmentationComboBox.setBounds(184, 184, 162, 27);
-        getContentPane().add(freqDomSegmentationComboBox);
-
-        JLabel freqDomHighPassFilterMaskLabel = new JLabel("High-pass filter mask");
-        freqDomHighPassFilterMaskLabel.setBounds(358, 215, 190, 30);
-        getContentPane().add(freqDomHighPassFilterMaskLabel);
-
-        JComboBox freqDomHighPassFilterMaskComboBox = new JComboBox(new Object[]{});
-        freqDomHighPassFilterMaskComboBox.setBounds(356, 244, 162, 27);
+        freqDomHighPassFilterMaskComboBox = new JComboBox(new Object[]{});
+        freqDomHighPassFilterMaskComboBox.setBounds(215, 263, 162, 27);
         getContentPane().add(freqDomHighPassFilterMaskComboBox);
 
-        JCheckBox freqDomFilterSpectrumCheckBox = new JCheckBox("Filter spectrum");
-        freqDomFilterSpectrumCheckBox.setHorizontalAlignment(SwingConstants.LEFT);
-        freqDomFilterSpectrumCheckBox.setBounds(44, 218, 155, 24);
-        getContentPane().add(freqDomFilterSpectrumCheckBox);
+        freqDomMinValTextLabel = new JLabel("Min (k)");
+        freqDomMinValTextLabel.setBounds(61, 199, 49, 30);
+        getContentPane().add(freqDomMinValTextLabel);
+
+        freqDomMinValTextInput = new JTextField();
+        freqDomMinValTextInput.setColumns(10);
+        freqDomMinValTextInput.setBounds(122, 201, 92, 27);
+        getContentPane().add(freqDomMinValTextInput);
+
+        freqDomMaxValTextLabel = new JLabel("Max (l)");
+        freqDomMaxValTextLabel.setBounds(61, 234, 49, 30);
+        getContentPane().add(freqDomMaxValTextLabel);
+
+        freqDomMaxValTextInput = new JTextField();
+        freqDomMaxValTextInput.setColumns(10);
+        freqDomMaxValTextInput.setBounds(122, 236, 92, 27);
+        getContentPane().add(freqDomMaxValTextInput);
+    }
+
+    private void initializeSegmentationSection(){
+        segmentationCheckbox = new JCheckBox("Segmentation");
+        segmentationCheckbox.setBounds(341, 122, 162, 24);
+        getContentPane().add(segmentationCheckbox);
+
+        segmentationComboBox = new JComboBox(new Object[]{});
+        segmentationComboBox.setBounds(341, 148, 162, 27);
+        getContentPane().add(segmentationComboBox);
     }
 
     private void initializeHelperGrid() {
