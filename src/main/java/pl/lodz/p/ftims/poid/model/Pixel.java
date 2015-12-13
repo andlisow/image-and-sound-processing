@@ -15,6 +15,10 @@ public class Pixel {
         return (int) (0.299 * red  + 0.587 * green + 0.114 * blue);
     }
 
+    public int getGray() {
+        return red;
+    }
+
     public enum RgbColor {
         RED, GREEN, BLUE;
     }

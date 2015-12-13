@@ -3,28 +3,38 @@ package main.java.pl.lodz.p.ftims.poid.operations.fourier.segmentation.tree;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
+
 /**
- * Created by <a href="mailto:171131@edu.p.lodz.pl">Andrzej Lisowski</a> on 13.12.15.
+ * @author alisowsk
  */
 public class QuadNode {
     private static final Logger LOG = LoggerFactory.getLogger(QuadNode.class);
 
     PixelPoint[][] values;
 
-    boolean visited;
+    public int maxX;
+    public int maxY;
+    public int minX;
+    public int minY;
+
     boolean hasChildren = false;
     private QuadNode NW = null;
     private QuadNode NE = null;
     private QuadNode SE = null;
     private QuadNode SW = null;
-    private QuadNode firstLeaf;
 
-    public QuadNode(PixelPoint[][] values) {
+    public QuadNode(PixelPoint[][] values, int minX, int maxX, int minY, int maxY) {
         this.values = values;
+        this.minX = minX;
+        this.maxX = maxX;
+        this.minY = minY;
+        this.maxY = maxY;
     }
 
-    public void executeSplit(int threshold) {
+    public void executeSplit(int threshold, List<PixelPoint[][]> leavesValues) {
         if(values.length == 1){
+            leavesValues.add(values);
             return;
         }
 
@@ -45,13 +55,14 @@ public class QuadNode {
 
         if((curMax - curMin) > threshold){
             hasChildren = true;
-            split(threshold);
+            split(threshold, leavesValues);
         } else {
+            leavesValues.add(values);
             LOG.info("Similar region found");
         }
     }
 
-    private void split(int threshold){
+    private void split(int threshold, List<PixelPoint[][]> leavesValues){
         LOG.error("Length of splitting region: " + values.length);
 
         int quadSize = values.length/2;
@@ -75,28 +86,13 @@ public class QuadNode {
             }
         }
 
-        NW = new QuadNode(valuesNW);
-        NW.executeSplit(threshold);
-        NE = new QuadNode(valuesNE);
-        NE.executeSplit(threshold);
-        SE = new QuadNode(valuesSW);
-        SE.executeSplit(threshold);
-        SW = new QuadNode(valuesSW);
-        SW.executeSplit(threshold);
-    }
-
-    public QuadNode getFirstLeaf() {
-        if(NW != null && !NW.visited){
-            return NW;
-        } else if(NE != null && !NE.visited){
-            return NE;
-        } else if(SW != null && !SW.visited){
-            return SW;
-        } else if(SE != null && !SE.visited){
-            return SE;
-        } else {
-            visited = true;
-            return this;
-        }
+        NW = new QuadNode(valuesNW, minX, maxX/2, minY, minY/2);
+        NW.executeSplit(threshold, leavesValues);
+        NE = new QuadNode(valuesNE, maxX/2, maxX, minY, minY/2);
+        NE.executeSplit(threshold, leavesValues);
+        SE = new QuadNode(valuesSE, maxX/2, maxX, minY/2, minY);
+        SE.executeSplit(threshold, leavesValues);
+        SW = new QuadNode(valuesSW, maxX, maxX/2, minY/2, minY);
+        SW.executeSplit(threshold, leavesValues);
     }
 }

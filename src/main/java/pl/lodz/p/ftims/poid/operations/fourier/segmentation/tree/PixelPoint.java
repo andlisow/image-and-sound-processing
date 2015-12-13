@@ -1,9 +1,7 @@
 package main.java.pl.lodz.p.ftims.poid.operations.fourier.segmentation.tree;
 
-import main.java.pl.lodz.p.ftims.poid.model.Pixel;
-
 /**
- * Created by <a href="mailto:171131@edu.p.lodz.pl">Andrzej Lisowski</a> on 13.12.15.
+ * @author alisowsk
  */
 public class PixelPoint {
     private int value;
