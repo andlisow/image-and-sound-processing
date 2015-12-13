@@ -20,6 +20,7 @@ import main.java.pl.lodz.p.ftims.poid.samples.filters.BasicFiltersMasks;
 import main.java.pl.lodz.p.ftims.poid.samples.filters.linear.LinearFilters;
 import main.java.pl.lodz.p.ftims.poid.samples.filters.nonlinear.NonLinearFilters;
 import main.java.pl.lodz.p.ftims.poid.samples.fourier.FourierFilters;
+import main.java.pl.lodz.p.ftims.poid.samples.segmentation.Segmentation;
 import main.java.pl.lodz.p.ftims.poid.utils.GnuplotUtil;
 import main.java.pl.lodz.p.ftims.poid.utils.HistogramUtil;
 import main.java.pl.lodz.p.ftims.poid.utils.ImageUtil;
@@ -230,6 +231,14 @@ public class MainWindow extends JFrame{
                         }
                     } else {
                         operations.addOperation(new FourierTransform());
+                    }
+                }
+                if(segmentationCheckbox.isSelected()){
+                    for (String segmentation : Segmentation.SEGMENTATIONS.keySet()) {
+                        if (segmentation.equals(segmentationComboBox.getSelectedItem())) {
+                            Transformable segm = Segmentation.SEGMENTATIONS.get(segmentation);
+                            operations.addOperation(segm);
+                        }
                     }
                 }
 
@@ -518,7 +527,7 @@ public class MainWindow extends JFrame{
         segmentationCheckbox.setBounds(341, 122, 162, 24);
         getContentPane().add(segmentationCheckbox);
 
-        segmentationComboBox = new JComboBox(new Object[]{});
+        segmentationComboBox = new JComboBox(Segmentation.SEGMENTATIONS.keySet().toArray());
         segmentationComboBox.setBounds(341, 148, 162, 27);
         getContentPane().add(segmentationComboBox);
     }

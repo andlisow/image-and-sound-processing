@@ -12,6 +12,18 @@ public class Image {
     private int height;
     private int colorsNum;
 
+    public Image(String imgName, int height, int width){
+        this.name = imgName;
+        this.height = height;
+        this.width = width;
+        this.pixels = new Pixel[width][height];
+        for(int x=0; x<width; x++){
+            for(int y=0; y<height; y++){
+                this.pixels[x][y] = new Pixel(-10,-10,-10);
+            }
+        }
+    }
+
     public Image(String imgName, Pixel[][] pixels, int colorsNum) {
         this.name = imgName;
         this.pixels = pixels;

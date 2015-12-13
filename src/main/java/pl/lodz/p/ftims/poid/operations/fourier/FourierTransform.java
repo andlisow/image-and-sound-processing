@@ -5,7 +5,6 @@ import main.java.pl.lodz.p.ftims.poid.model.Image;
 import main.java.pl.lodz.p.ftims.poid.model.Pixel;
 import main.java.pl.lodz.p.ftims.poid.operations.Transformable;
 import main.java.pl.lodz.p.ftims.poid.operations.fourier.filters.FourierFilter;
-import main.java.pl.lodz.p.ftims.poid.operations.fourier.filters.SpectrumFilter;
 import main.java.pl.lodz.p.ftims.poid.utils.ImageConstants;
 import main.java.pl.lodz.p.ftims.poid.utils.ImageUtil;
 import org.slf4j.Logger;
@@ -109,12 +108,22 @@ public class FourierTransform implements Transformable {
         Complex[][] afterRowTransformComplex = new Complex[rows][cols];
         Complex[][] afterColTransformComplex = new Complex[size][cols];
 
+        for(int x=0; x<size; x++) {
+            Complex[] complex = complexImage[x];
+            applyHamming(complex,size);
+        }
+
         for(int x=0; x<size; x++){
             Complex[] complex = complexImage[x];
             afterRowTransformComplex[x] = dif1d(complex);
         }
 
         afterRowTransformComplex = swapColumnsWithRows(afterRowTransformComplex);
+
+        for(int x=0; x<size; x++) {
+            Complex[] complex = afterRowTransformComplex[x];
+            applyHamming(complex,size);
+        }
 
         for(int x=0; x<size; x++){
             Complex[] complex = afterRowTransformComplex[x];
@@ -123,6 +132,20 @@ public class FourierTransform implements Transformable {
 
         return afterColTransformComplex;
     }
+
+    private void applyHamming(Complex[] complexImage, int size) {
+        int n = complexImage.length;
+        double sum = 0;
+            for (int x=0; x<n; x++) { //calculate non-normalized window function
+                double z = (x + 0.5) * (2 * Math.PI / n);
+                double w = 0;
+                w = 0.54 - 0.46 * Math.cos(z);
+                complexImage[x].setReal(complexImage[x].getReal()* w);
+                sum += w;
+            }
+    }
+
+
 
     private Complex[][] runIDif2d(Complex[][] afterForwardComplex) {
         int size = afterForwardComplex.length;

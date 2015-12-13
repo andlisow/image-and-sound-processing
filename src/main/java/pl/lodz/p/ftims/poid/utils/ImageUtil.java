@@ -69,12 +69,6 @@ public class ImageUtil {
     }
 
     public static int getGrayScaleValue(Pixel pixel){
-        int r = (pixel.getRed() >> 16) & 0xFF;
-        int g = (pixel.getGreen() >> 8) & 0xFF;
-        int b = (pixel.getBlue() & 0xFF);
-
-        int grayLevel = (r + g + b) / 3;
-        int gray = (grayLevel << 16) + (grayLevel << 8) + grayLevel;
-        return gray;
+        return (int) (0.299 * pixel.getRed()  + 0.587 * pixel.getGreen() + 0.114 * pixel.getBlue());
     }
 }

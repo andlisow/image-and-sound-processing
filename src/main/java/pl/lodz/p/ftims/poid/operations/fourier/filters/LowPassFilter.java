@@ -25,9 +25,6 @@ public class LowPassFilter implements FourierFilter {
 
     @Override
     public void applyFilter(Complex[][] complexImage) {
-LOG.error("d" + d);
-
-
         int M = complexImage.length;
         int N = complexImage[0].length;
 

@@ -6,8 +6,8 @@ package main.java.pl.lodz.p.ftims.poid.model;
  * @author alisowsk
  */
 public class Complex {
-    private final double real;
-    private final double imaginary;
+    private double real;
+    private double imaginary;
 
     public Complex(double real, double imaginary) {
         this.real = real;
@@ -56,4 +56,7 @@ public class Complex {
         return new Complex(real, imaginary);
     }
 
+    public void setReal(double real) {
+        this.real = real;
+    }
 }
