@@ -12,10 +12,10 @@ public class Image {
     private int height;
     private int colorsNum;
 
-    public Image(String imgName, int height, int width){
+    public Image(String imgName, int width, int height){
         this.name = imgName;
-        this.height = height;
         this.width = width;
+        this.height = height;
         this.pixels = new Pixel[width][height];
         for(int x=0; x<width; x++){
             for(int y=0; y<height; y++){

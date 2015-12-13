@@ -13,6 +13,7 @@ import main.java.pl.lodz.p.ftims.poid.operations.filters.linear.LinearFilter;
 import main.java.pl.lodz.p.ftims.poid.operations.filters.nonlinear.RosenfeldOperator;
 import main.java.pl.lodz.p.ftims.poid.operations.fourier.FourierTransform;
 import main.java.pl.lodz.p.ftims.poid.operations.fourier.filters.FourierFilter;
+import main.java.pl.lodz.p.ftims.poid.operations.fourier.segmentation.RegionSegmentation;
 import main.java.pl.lodz.p.ftims.poid.operations.histogram.AbstractFinalProbDensFunction;
 import main.java.pl.lodz.p.ftims.poid.samples.HistogramModification;
 import main.java.pl.lodz.p.ftims.poid.samples.SampleFiles;
@@ -118,6 +119,10 @@ public class MainWindow extends JFrame{
     // segmentation section
     private JCheckBox segmentationCheckbox;
     private JComboBox segmentationComboBox;
+    private JTextField segmentationThresholdTexInput;
+    private JTextField segmentationMinPixForRegionTextInput;
+    private JLabel segmentationMinPixForRegionTextLabel;
+    private JLabel segmentationThresholdTextLabel;
 
     // logic components
     private Image sourceImage;
@@ -236,7 +241,9 @@ public class MainWindow extends JFrame{
                 if(segmentationCheckbox.isSelected()){
                     for (String segmentation : Segmentation.SEGMENTATIONS.keySet()) {
                         if (segmentation.equals(segmentationComboBox.getSelectedItem())) {
-                            Transformable segm = Segmentation.SEGMENTATIONS.get(segmentation);
+                            RegionSegmentation segm = Segmentation.SEGMENTATIONS.get(segmentation);
+                            segm.setThreshold(Integer.parseInt(segmentationThresholdTexInput.getText()));
+                            segm.setMinimumPixelsForRegion(Integer.parseInt(segmentationMinPixForRegionTextInput.getText()));
                             operations.addOperation(segm);
                         }
                     }
@@ -530,6 +537,24 @@ public class MainWindow extends JFrame{
         segmentationComboBox = new JComboBox(Segmentation.SEGMENTATIONS.keySet().toArray());
         segmentationComboBox.setBounds(341, 148, 162, 27);
         getContentPane().add(segmentationComboBox);
+
+        segmentationThresholdTexInput = new JTextField();
+        segmentationThresholdTexInput.setColumns(10);
+        segmentationThresholdTexInput.setBounds(411, 201, 92, 27);
+        getContentPane().add(segmentationThresholdTexInput);
+
+        segmentationThresholdTextLabel = new JLabel("Threshold");
+        segmentationThresholdTextLabel.setBounds(310, 199, 104, 30);
+        getContentPane().add(segmentationThresholdTextLabel);
+
+        segmentationMinPixForRegionTextInput = new JTextField();
+        segmentationMinPixForRegionTextInput.setColumns(10);
+        segmentationMinPixForRegionTextInput.setBounds(411, 236, 92, 27);
+        getContentPane().add(segmentationMinPixForRegionTextInput);
+
+        segmentationMinPixForRegionTextLabel = new JLabel("Min pix./reg.");
+        segmentationMinPixForRegionTextLabel.setBounds(310, 234, 104, 30);
+        getContentPane().add(segmentationMinPixForRegionTextLabel);
     }
 
     private void initializeHelperGrid() {

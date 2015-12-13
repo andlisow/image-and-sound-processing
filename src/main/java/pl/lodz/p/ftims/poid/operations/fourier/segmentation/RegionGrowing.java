@@ -3,8 +3,6 @@ package main.java.pl.lodz.p.ftims.poid.operations.fourier.segmentation;
 import main.java.pl.lodz.p.ftims.poid.model.Image;
 import main.java.pl.lodz.p.ftims.poid.model.Pixel;
 import main.java.pl.lodz.p.ftims.poid.model.Pixel.RgbColor;
-import main.java.pl.lodz.p.ftims.poid.operations.Transformable;
-import main.java.pl.lodz.p.ftims.poid.utils.ImageUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,99 +13,132 @@ import java.util.Stack;
 /**
  * @author alisowsk
  */
-public class RegionGrowing implements Transformable {
+public class RegionGrowing implements RegionSegmentation {
     private static final Logger LOG = LoggerFactory.getLogger(RegionGrowing.class);
 
-    private static final int THRESHOLD = 100;
-    private static final int MINIMUM_PIXELS_FOR_REGION = 20;
     private static final int SEED_NUM_ROWS = 8;
     private static final int SEED_NUM_COLS = 8;
     private static final int SEED_NUM = SEED_NUM_COLS * SEED_NUM_ROWS;
 
-    @Override
-    public Image process(Image originalImage) {
-        int size = originalImage.getHeight();
-        Image imageWithRegions = new Image(originalImage.getName(), size, size);
-        Image resultImage = new Image(originalImage);
+    private int threshold;
+    private int minimumPixelsForRegion;
 
-        PixelPoint[] seedPoints = prepareSeedPoints(originalImage, size);
-
-        runRegionGrowing(originalImage, imageWithRegions, seedPoints);
-        applyMaskToResultImage(size, imageWithRegions, resultImage);
-
-        return resultImage;
+    public RegionGrowing(){
+        this.threshold = 10;
+        this.minimumPixelsForRegion = 20;
     }
 
-    private PixelPoint[] prepareSeedPoints(Image originalImage, int size) {
+    public RegionGrowing(int threshold, int minimumPixelsForRegion){
+        this.threshold = threshold;
+        this.minimumPixelsForRegion = minimumPixelsForRegion;
+    }
+
+    @Override
+    public Image process(Image original) {
+        int width = original.getWidth();
+        int height = original.getHeight();
+
+        Image regionsMask = new Image(original.getName(), width, height);
+        Image result = new Image(original);
+
+        PixelPoint[] seedPoints = prepareSeedPoints(original);
+
+        runRegionGrowing(original, regionsMask, seedPoints);
+        applyMaskToResultImage(regionsMask, result);
+
+        return result;
+    }
+
+    private PixelPoint[] prepareSeedPoints(Image image) {
+        int width = image.getWidth();
+        int height = image.getHeight();
+
         PixelPoint[] seedPoints = new PixelPoint[SEED_NUM];
         for(int x=0; x< SEED_NUM_ROWS; x++){
             for(int y=0; y< SEED_NUM_COLS; y++){
-                seedPoints[x * SEED_NUM_ROWS + y] = new PixelPoint(originalImage.getPixel(x*(size/SEED_NUM_ROWS), y*(size/SEED_NUM_COLS)), x*(size/SEED_NUM_ROWS), y*(size/SEED_NUM_COLS));
+                seedPoints[x * SEED_NUM_ROWS + y] = new PixelPoint(image.getPixel(x*(width/SEED_NUM_ROWS), y*(height/SEED_NUM_COLS)), x*(width/SEED_NUM_ROWS), y*(height/SEED_NUM_COLS));
             }
         }
+
         return seedPoints;
     }
 
-    private void runRegionGrowing(Image originalImage, Image imageWithRegions, PixelPoint[] seedPoints) {
-        int size = originalImage.getHeight();
-        List<List<PixelPoint>> regions = new ArrayList<>();
+    private void runRegionGrowing(Image original, Image regionsMask, PixelPoint[] seeds) {
+        int width = original.getWidth();
+        int height = original.getHeight();
 
-        for(PixelPoint seed : seedPoints){
+        for(PixelPoint seed : seeds){
+            int min = ((seed.pixel.getGrayScale() - threshold) > 0) ? seed.pixel.getGrayScale() - threshold : 0;
+            int max = ((seed.pixel.getGrayScale() + threshold) < 255) ? seed.pixel.getGrayScale() + threshold : 255;
+
             Stack<PixelPoint> stack = new Stack<>();
             List<PixelPoint> region = new ArrayList<>();
 
-            if(imageWithRegions.getPixel(seed.x,seed.y).getGrayScale() == -10) {
+            if(regionsMask.getPixel(seed.x,seed.y).getGrayScale() < 0) { //meaning it was not examined yet
                 stack.push(seed);
 
                 while (!stack.isEmpty()) {
-                    PixelPoint cur = stack.pop();
+                    PixelPoint curFromStack = stack.pop();
                     for (int x = -1; x < 2; x++) {
                         for (int y = -1; y < 2; y++) {
-                            if (cur.x + x >= size || cur.x + x <= 0 || cur.y + y >= size || cur.y + y <= 0) {
+                            if (curFromStack.x+x >= width || curFromStack.x+x <= 0 || curFromStack.y+y >= height || curFromStack.y+y <= 0) {
                                 continue;
                             }
-                            if (imageWithRegions.getPixel(cur.x + x, cur.y + y).getGrayScale() == 255) {
+                            if (regionsMask.getPixel(curFromStack.x+x, curFromStack.y+y).getGrayScale() == 255) {
                                 continue;
                             }
-                            PixelPoint examinedPixelPoint = new PixelPoint(imageWithRegions.getPixel(cur.x + x, cur.y + y), cur.x + x, cur.y + y);
-                            if (cur.pixel.getGrayScale() - originalImage.getPixel(cur.x + x, cur.y + y).getGrayScale() <= THRESHOLD) {
+
+                            PixelPoint curFromNeighbourhood = new PixelPoint(regionsMask.getPixel(curFromStack.x+x, curFromStack.y+y), curFromStack.x+x, curFromStack.y+y);
+
+                            if (original.getPixel(curFromStack.x+x, curFromStack.y+y).getGrayScale() <= max
+                                    && original.getPixel(curFromStack.x+x, curFromStack.y+y).getGrayScale() >= min) {
                                 for (RgbColor color : RgbColor.values()){
-                                    imageWithRegions.getPixel(cur.x + x, cur.y + y).setColor(color, 255);
+                                    regionsMask.getPixel(curFromStack.x+x, curFromStack.y+y).setColor(color, 255);
                                 }
-                                region.add(examinedPixelPoint);
-                                stack.push(examinedPixelPoint);
+                                region.add(curFromNeighbourhood);
+                                stack.push(curFromNeighbourhood);
                             }
                         }
                     }
                 }
 
-                if(region.size() > MINIMUM_PIXELS_FOR_REGION){
-                    regions.add(region);
-                }
-
-                if(region.size() < MINIMUM_PIXELS_FOR_REGION){
+                if(region.size() < minimumPixelsForRegion){
                     for(PixelPoint point : region){
                         for (Pixel.RgbColor color : Pixel.RgbColor.values()) {
-                            imageWithRegions.getPixel(point.x, point.y).setColor(color, -10);
+                            regionsMask.getPixel(point.x, point.y).setColor(color, -10);
                         }
                     }
                 }
+
                 region.clear();
             }
         }
 
     }
 
-    private void applyMaskToResultImage(int size, Image imageWithRegions, Image resultImage) {
-        for (int x = 0; x < size; x++) {
-            for (int y = 0; y < size; y++) {
+    private void applyMaskToResultImage(Image imageWithRegions, Image result) {
+        int width = result.getWidth();
+        int height = result.getHeight();
+
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
                 if(imageWithRegions.getPixel(x,y).getGrayScale() == 255){
-                    resultImage.getPixel(x,y).setRed(0);
-                    resultImage.getPixel(x,y).setGreen(255);
-                    resultImage.getPixel(x,y).setBlue(255);
+                    result.getPixel(x, y).setRed(0);
+                    result.getPixel(x, y).setGreen(255);
+                    result.getPixel(x, y).setBlue(255);
                 }
             }
         }
+    }
+
+    @Override
+    public void setThreshold(int threshold) {
+        this.threshold = threshold;
+    }
+
+    @Override
+    public void setMinimumPixelsForRegion(int minimumPixelsForRegion) {
+        this.minimumPixelsForRegion = minimumPixelsForRegion;
     }
 
     private class PixelPoint {

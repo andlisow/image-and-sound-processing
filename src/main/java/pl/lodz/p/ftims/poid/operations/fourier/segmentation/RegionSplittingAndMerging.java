@@ -12,7 +12,7 @@ import java.util.Stack;
 /**
  * @author alisowsk
  */
-public class RegionSplittingAndMerging implements Transformable {
+public class RegionSplittingAndMerging implements RegionSegmentation {
     private static final int THRESHOLD = 100;
     private static final int SEED_X = 64;
     private static final int SEED_Y = 64;
@@ -104,6 +104,16 @@ public class RegionSplittingAndMerging implements Transformable {
 //                }
 //            }
 //        }
+    }
+
+    @Override
+    public void setThreshold(int threshold) {
+
+    }
+
+    @Override
+    public void setMinimumPixelsForRegion(int minimumPixelsForRegion) {
+
     }
 
     private class PixelPoint {
