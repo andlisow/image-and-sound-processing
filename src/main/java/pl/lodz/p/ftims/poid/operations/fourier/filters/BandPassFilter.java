@@ -27,6 +27,8 @@ public class BandPassFilter implements FourierFilter {
         int M = complexImage.length;
         int N = complexImage[0].length;
 
+        Complex dc = complexImage[M/2][N/2];
+
         double x;
 
         for(int m=0; m<M ; m++) {
@@ -37,6 +39,8 @@ public class BandPassFilter implements FourierFilter {
                 }
             }
         }
+
+        complexImage[M/2][N/2] = dc;
     }
 
     @Override

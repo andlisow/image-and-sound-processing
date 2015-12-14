@@ -87,6 +87,9 @@ public class FourierTransform implements Transformable {
 
         for(int x=0; x<size; x++){
             for(int y=0; y<size; y++){
+                if(pixelValues[x][y] < 0){
+                    pixelValues[x][y] = 0;
+                }
                 pixels[x][y] = new Pixel((int) pixelValues[x][y]);
             }
         }
@@ -108,10 +111,10 @@ public class FourierTransform implements Transformable {
         Complex[][] afterRowTransformComplex = new Complex[rows][cols];
         Complex[][] afterColTransformComplex = new Complex[size][cols];
 
-        for(int x=0; x<size; x++) {
-            Complex[] complex = complexImage[x];
-            applyHamming(complex,size);
-        }
+//        for(int x=0; x<size; x++) {
+//            Complex[] complex = complexImage[x];
+//            applyHamming(complex,size);
+//        }
 
         for(int x=0; x<size; x++){
             Complex[] complex = complexImage[x];
@@ -120,10 +123,10 @@ public class FourierTransform implements Transformable {
 
         afterRowTransformComplex = swapColumnsWithRows(afterRowTransformComplex);
 
-        for(int x=0; x<size; x++) {
-            Complex[] complex = afterRowTransformComplex[x];
-            applyHamming(complex,size);
-        }
+//        for(int x=0; x<size; x++) {
+//            Complex[] complex = afterRowTransformComplex[x];
+//            applyHamming(complex,size);
+//        }
 
         for(int x=0; x<size; x++){
             Complex[] complex = afterRowTransformComplex[x];

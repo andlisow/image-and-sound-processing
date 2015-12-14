@@ -27,12 +27,9 @@ public class RegionSplittingAndMerging implements RegionSegmentation {
 
         PixelPoint[][] pixelPoints = new PixelPoint[size][size];
 
-        for (RgbColor color : RgbColor.values()){
-            for(int x=0; x<size; x++){
-                for(int y=0; y<size; y++){
-                    resultImage.getPixel(x, y).setColor(color, ImageUtil.getGrayScaleValue(resultImage.getPixel(x, y)));
-                    pixelPoints[x][y] = new PixelPoint(ImageUtil.getGrayScaleValue(resultImage.getPixel(x, y)),x,y);
-                }
+        for (int x = 0; x < size; x++) {
+            for (int y = 0; y < size; y++) {
+                pixelPoints[x][y] = new PixelPoint(ImageUtil.getGrayScaleValue(originalImage.getPixel(x, y)), x, y);
             }
         }
 
@@ -41,10 +38,10 @@ public class RegionSplittingAndMerging implements RegionSegmentation {
 
         List<PixelPoint[][]> regions = tree.getRegions();
         TreeMap<Integer, PixelPoint[][]> regionsMap = new TreeMap<>();
-        for(int i=0; i<regions.size(); i++){
+        for (int i = 0; i < regions.size(); i++) {
             PixelPoint[][] region = regions.get(i);
-            for(int x=0; x<region.length; x++){
-                for(int y=0; y<region[0].length; y++) {
+            for (int x = 0; x < region.length; x++) {
+                for (int y = 0; y < region[0].length; y++) {
                     imageWithRegionNumbers.getPixel(region[x][y].getX(), region[x][y].getY()).setColor(RgbColor.RED, i);
                     imageWithRegionNumbers.getPixel(region[x][y].getX(), region[x][y].getY()).setColor(RgbColor.GREEN, i);
                     imageWithRegionNumbers.getPixel(region[x][y].getX(), region[x][y].getY()).setColor(RgbColor.BLUE, i);
@@ -54,72 +51,74 @@ public class RegionSplittingAndMerging implements RegionSegmentation {
         }
 
         Image regionsMask = new Image(originalImage.getName(), size, size);
-        Image finalMask = new Image(originalImage.getName(), size, size);
-        while(!regionsMap.isEmpty()){
+        while (!regionsMap.isEmpty()) {
             Integer curKey = regionsMap.firstEntry().getKey();
+
             PixelPoint[][] cur = regionsMap.get(curKey);
             Stack<Integer> regionNumbers = new Stack<>();
-            Image finalMask2 = new Image(originalImage.getName(), size, size);
+            Image finalMask = new Image(originalImage.getName(), size, size);
             regionNumbers.add(curKey);
+            Set<Integer> alreadyAnalysed = new TreeSet<>();
+            alreadyAnalysed.add(curKey);
             int regionElements = 0;
-            int curMin=-10;
-            int curMax=-10;
-            while (cur!=null){
+            int curMin = getMin(cur);
+            int curMax = getMax(cur);
+            while (cur != null) {
 
-                for(int x=0; x<cur.length; x++){
-                    for(int y=0; y<cur.length; y++){
-                        regionsMask.getPixel(cur[x][y].getX(),cur[x][y].getY()).setColor(RgbColor.RED, cur[x][y].getValue());
-                        regionsMask.getPixel(cur[x][y].getX(),cur[x][y].getY()).setColor(RgbColor.GREEN, cur[x][y].getValue());
-                        regionsMask.getPixel(cur[x][y].getX(),cur[x][y].getY()).setColor(RgbColor.BLUE, cur[x][y].getValue());
-                        regionElements++;
-                        finalMask2.getPixel(cur[x][y].getX(),cur[x][y].getY()).setColor(RgbColor.RED, cur[x][y].getValue());
-                        finalMask2.getPixel(cur[x][y].getX(),cur[x][y].getY()).setColor(RgbColor.GREEN, cur[x][y].getValue());
-                        finalMask2.getPixel(cur[x][y].getX(),cur[x][y].getY()).setColor(RgbColor.BLUE, cur[x][y].getValue());
+                for (int x = 0; x < cur.length; x++) {
+                    for (int y = 0; y < cur.length; y++) {
+                        regionsMask.getPixel(cur[x][y].getX(), cur[x][y].getY()).setColor(RgbColor.RED, cur[x][y].getValue());
+                        regionsMask.getPixel(cur[x][y].getX(), cur[x][y].getY()).setColor(RgbColor.GREEN, cur[x][y].getValue());
+                        regionsMask.getPixel(cur[x][y].getX(), cur[x][y].getY()).setColor(RgbColor.BLUE, cur[x][y].getValue());
+                        if (!alreadyAnalysed.contains(curKey)) {
+                            regionElements++;
+                        }
+                        finalMask.getPixel(cur[x][y].getX(), cur[x][y].getY()).setColor(RgbColor.RED, cur[x][y].getValue());
+                        finalMask.getPixel(cur[x][y].getX(), cur[x][y].getY()).setColor(RgbColor.GREEN, cur[x][y].getValue());
+                        finalMask.getPixel(cur[x][y].getX(), cur[x][y].getY()).setColor(RgbColor.BLUE, cur[x][y].getValue());
                     }
                 }
+                alreadyAnalysed.add(curKey);
                 Set<Integer> adjacentRegions = new HashSet<>();
-                for(int x=1; x<regionsMask.getWidth()-1; x++){
-                    for(int y=1; y<regionsMask.getHeight()-1; y++){
-                        if(((regionsMask.getPixel(x,y).getGray() == -10 && regionsMask.getPixel(x+1,y).getGray() != -10))
-                                ||((regionsMask.getPixel(x,y).getGray() == -10 && regionsMask.getPixel(x-1,y).getGray() != -10))
-                                ||((regionsMask.getPixel(x,y).getGray() == -10 && regionsMask.getPixel(x,y+1).getGray() != -10))
-                                ||((regionsMask.getPixel(x,y).getGray() == -10 && regionsMask.getPixel(x,y-1).getGray() != -10))){
-                            int regionNumber = imageWithRegionNumbers.getPixel(x,y).getGray();
+                for (int x = 1; x < regionsMask.getWidth() - 1; x++) {
+                    for (int y = 1; y < regionsMask.getHeight() - 1; y++) {
+                        if (((regionsMask.getPixel(x, y).getGray() == -10 && regionsMask.getPixel(x + 1, y).getGray() != -10))
+                                || ((regionsMask.getPixel(x, y).getGray() == -10 && regionsMask.getPixel(x - 1, y).getGray() != -10))
+                                || ((regionsMask.getPixel(x, y).getGray() == -10 && regionsMask.getPixel(x, y + 1).getGray() != -10))
+                                || ((regionsMask.getPixel(x, y).getGray() == -10 && regionsMask.getPixel(x, y - 1).getGray() != -10))) {
+                            int regionNumber = imageWithRegionNumbers.getPixel(x, y).getGray();
                             adjacentRegions.add(regionNumber);
                         }
                     }
                 }
 
-                if(curMin < 0){
-                    curMin = getMin(cur);
-                }
-                if(curMax < 0){
-                    curMax = getMax(cur);
-                }
-
-                for(Integer key : adjacentRegions){
+                for (Integer key : adjacentRegions) {
                     PixelPoint[][] region = regionsMap.get(key);
-                    if(region!=null){
+                    if (region != null) {
                         int regionMin = getMin(region);
                         int regionMax = getMax(region);
 
                         int newMin = (regionMin < curMin) ? regionMin : curMin;
                         int newMax = (regionMax > curMax) ? regionMax : curMax;
 
-                        if(Math.abs(newMax - newMin) <= threshold){
-                            for(int x=0; x<region.length; x++){
-                                for(int y=0; y<region.length; y++){
-                                    regionsMask.getPixel(region[x][y].getX(),region[x][y].getY()).setColor(RgbColor.RED, region[x][y].getValue());
-                                    regionsMask.getPixel(region[x][y].getX(),region[x][y].getY()).setColor(RgbColor.GREEN, region[x][y].getValue());
-                                    regionsMask.getPixel(region[x][y].getX(),region[x][y].getY()).setColor(RgbColor.BLUE, region[x][y].getValue());
-                                    regionElements++;
-                                    finalMask2.getPixel(region[x][y].getX(),region[x][y].getY()).setColor(RgbColor.RED, region[x][y].getValue());
-                                    finalMask2.getPixel(region[x][y].getX(),region[x][y].getY()).setColor(RgbColor.GREEN, region[x][y].getValue());
-                                    finalMask2.getPixel(region[x][y].getX(),region[x][y].getY()).setColor(RgbColor.BLUE, region[x][y].getValue());
+                        if (Math.abs(newMax - newMin) <= threshold) {
+                            for (int x = 0; x < region.length; x++) {
+                                for (int y = 0; y < region.length; y++) {
+                                    regionsMask.getPixel(region[x][y].getX(), region[x][y].getY()).setColor(RgbColor.RED, region[x][y].getValue());
+                                    regionsMask.getPixel(region[x][y].getX(), region[x][y].getY()).setColor(RgbColor.GREEN, region[x][y].getValue());
+                                    regionsMask.getPixel(region[x][y].getX(), region[x][y].getY()).setColor(RgbColor.BLUE, region[x][y].getValue());
+                                    if (!alreadyAnalysed.contains(curKey)) {
+                                        regionElements++;
+                                    }
+                                    finalMask.getPixel(region[x][y].getX(), region[x][y].getY()).setColor(RgbColor.RED, region[x][y].getValue());
+                                    finalMask.getPixel(region[x][y].getX(), region[x][y].getY()).setColor(RgbColor.GREEN, region[x][y].getValue());
+                                    finalMask.getPixel(region[x][y].getX(), region[x][y].getY()).setColor(RgbColor.BLUE, region[x][y].getValue());
                                 }
                             }
-                            if(!regionNumbers.contains(key))
-                            regionNumbers.add(key);
+                            if (!regionNumbers.contains(key)) {
+                                regionNumbers.add(key);
+                            }
+                            alreadyAnalysed.add(curKey);
                         }
                     }
                 }
@@ -128,28 +127,38 @@ public class RegionSplittingAndMerging implements RegionSegmentation {
                 curKey = regionNumbers.pop();
                 cur = regionsMap.get(curKey);
             }
-            if(regionElements >= minimumPixelsForRegion){
-                for (int i = 0; i < finalMask2.getHeight(); i++) {
-                        for (int j = 0; j < finalMask2.getWidth(); j++) {
-                            if(finalMask2.getPixel(i,j).getGray() >= 0) {
-                                finalMask.getPixel(i,j).setColor(RgbColor.RED, 0);
-                                finalMask.getPixel(i,j).setColor(RgbColor.GREEN, 255);
-                                finalMask.getPixel(i,j).setColor(RgbColor.BLUE, 255);
-                            }
+            if (regionElements >= minimumPixelsForRegion) {
+                for (int i = 0; i < finalMask.getHeight(); i++) {
+                    for (int j = 0; j < finalMask.getWidth(); j++) {
+                        if (finalMask.getPixel(i, j).getGray() >= 0) {
+                            resultImage.getPixel(i, j).setColor(RgbColor.RED, 0);
+                            resultImage.getPixel(i, j).setColor(RgbColor.GREEN, 255);
+                            resultImage.getPixel(i, j).setColor(RgbColor.BLUE, 255);
                         }
                     }
                 }
+            } else {
+                for (int i = 0; i < finalMask.getHeight(); i++) {
+                    for (int j = 0; j < finalMask.getWidth(); j++) {
+                        if (finalMask.getPixel(i, j).getGray() >= 0) {
+                            regionsMask.getPixel(i, j).setColor(RgbColor.RED, -10);
+                            regionsMask.getPixel(i, j).setColor(RgbColor.GREEN, -10);
+                            regionsMask.getPixel(i, j).setColor(RgbColor.BLUE, -10);
+                        }
+                    }
+                }
+            }
         }
 
-        return finalMask;
+        return resultImage;
     }
 
     private int getMin(PixelPoint[][] pixelPoints) {
         int min = pixelPoints[0][0].getValue();
-        for(int i=0; i<pixelPoints.length; i++){
-            for(int j=0; j<pixelPoints[0].length; j++){
+        for (int i = 0; i < pixelPoints.length; i++) {
+            for (int j = 0; j < pixelPoints[0].length; j++) {
                 int curVal = pixelPoints[i][j].getValue();
-                if(min > curVal){
+                if (min > curVal) {
                     min = curVal;
                 }
             }
@@ -159,10 +168,10 @@ public class RegionSplittingAndMerging implements RegionSegmentation {
 
     private int getMax(PixelPoint[][] pixelPoints) {
         int max = pixelPoints[0][0].getValue();
-        for(int i=0; i<pixelPoints.length; i++){
-            for(int j=0; j<pixelPoints[0].length; j++){
+        for (int i = 0; i < pixelPoints.length; i++) {
+            for (int j = 0; j < pixelPoints[0].length; j++) {
                 int curVal = pixelPoints[i][j].getValue();
-                if(max < curVal){
+                if (max < curVal) {
                     max = curVal;
                 }
             }
