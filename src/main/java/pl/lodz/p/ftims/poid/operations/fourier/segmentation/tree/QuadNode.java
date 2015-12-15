@@ -13,23 +13,13 @@ public class QuadNode {
 
     PixelPoint[][] values;
 
-    public int maxX;
-    public int maxY;
-    public int minX;
-    public int minY;
-
-    boolean hasChildren = false;
     private QuadNode NW = null;
     private QuadNode NE = null;
     private QuadNode SE = null;
     private QuadNode SW = null;
 
-    public QuadNode(PixelPoint[][] values, int minX, int maxX, int minY, int maxY) {
+    public QuadNode(PixelPoint[][] values) {
         this.values = values;
-        this.minX = minX;
-        this.maxX = maxX;
-        this.minY = minY;
-        this.maxY = maxY;
     }
 
     public void executeSplit(int threshold, List<PixelPoint[][]> leavesValues) {
@@ -53,8 +43,7 @@ public class QuadNode {
             }
         }
 
-        if((curMax - curMin) > threshold){
-            hasChildren = true;
+        if(Math.abs(curMax - curMin) >= threshold){
             split(threshold, leavesValues);
         } else {
             leavesValues.add(values);
@@ -86,13 +75,13 @@ public class QuadNode {
             }
         }
 
-        NW = new QuadNode(valuesNW, minX, maxX/2, minY, minY/2);
+        NW = new QuadNode(valuesNW);
         NW.executeSplit(threshold, leavesValues);
-        NE = new QuadNode(valuesNE, maxX/2, maxX, minY, minY/2);
+        NE = new QuadNode(valuesNE);
         NE.executeSplit(threshold, leavesValues);
-        SE = new QuadNode(valuesSE, maxX/2, maxX, minY/2, minY);
+        SE = new QuadNode(valuesSE);
         SE.executeSplit(threshold, leavesValues);
-        SW = new QuadNode(valuesSW, maxX, maxX/2, minY/2, minY);
+        SW = new QuadNode(valuesSW);
         SW.executeSplit(threshold, leavesValues);
     }
 }

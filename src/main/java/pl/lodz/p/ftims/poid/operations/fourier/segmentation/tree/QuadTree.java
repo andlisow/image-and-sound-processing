@@ -19,7 +19,7 @@ public class QuadTree {
      * Creates an empty QuadTree with the bounds
      */
     public QuadTree(PixelPoint[][] values) {
-        this.root = new QuadNode(values, 0, values.length,0, values.length);
+        this.root = new QuadNode(values);
     }
 
     public void process(int threshold){
