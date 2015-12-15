@@ -66,7 +66,7 @@ public class RegionGrowing implements RegionSegmentation {
     private void runRegionGrowing(Image original, Image regionsMask, PixelPoint[] seeds) {
         int width = original.getWidth();
         int height = original.getHeight();
-
+        int regions =0;
         for(PixelPoint seed : seeds){
             int min = ((seed.pixel.getGrayScale() - threshold) > 0) ? seed.pixel.getGrayScale() - threshold : 0;
             int max = ((seed.pixel.getGrayScale() + threshold) < 255) ? seed.pixel.getGrayScale() + threshold : 255;
@@ -84,7 +84,7 @@ public class RegionGrowing implements RegionSegmentation {
                             if (curFromStack.x+x >= width || curFromStack.x+x <= 0 || curFromStack.y+y >= height || curFromStack.y+y <= 0) {
                                 continue;
                             }
-                            if (regionsMask.getPixel(curFromStack.x+x, curFromStack.y+y).getGrayScale() == 255) {
+                            if (regionsMask.getPixel(curFromStack.x+x, curFromStack.y+y).getGrayScale() >= 0) {
                                 continue;
                             }
 
@@ -93,7 +93,7 @@ public class RegionGrowing implements RegionSegmentation {
                             if (original.getPixel(curFromStack.x+x, curFromStack.y+y).getGrayScale() <= max
                                     && original.getPixel(curFromStack.x+x, curFromStack.y+y).getGrayScale() >= min) {
                                 for (RgbColor color : RgbColor.values()){
-                                    regionsMask.getPixel(curFromStack.x+x, curFromStack.y+y).setColor(color, 255);
+                                    regionsMask.getPixel(curFromStack.x+x, curFromStack.y+y).setColor(color, Math.abs(255 - 15*regions));
                                 }
                                 region.add(curFromNeighbourhood);
                                 stack.push(curFromNeighbourhood);
@@ -108,6 +108,8 @@ public class RegionGrowing implements RegionSegmentation {
                             regionsMask.getPixel(point.x, point.y).setColor(color, -10);
                         }
                     }
+                } else {
+                    regions++;
                 }
 
                 region.clear();
@@ -122,10 +124,10 @@ public class RegionGrowing implements RegionSegmentation {
 
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                if(imageWithRegions.getPixel(x,y).getGrayScale() == 255){
+                if(imageWithRegions.getPixel(x,y).getGrayScale() >= 0){
                     result.getPixel(x, y).setRed(0);
-                    result.getPixel(x, y).setGreen(255);
-                    result.getPixel(x, y).setBlue(255);
+                    result.getPixel(x, y).setGreen(imageWithRegions.getPixel(x,y).getGreen());
+                    result.getPixel(x, y).setBlue(imageWithRegions.getPixel(x,y).getBlue());
                 }
             }
         }

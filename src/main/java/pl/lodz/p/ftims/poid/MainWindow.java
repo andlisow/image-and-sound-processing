@@ -13,6 +13,7 @@ import main.java.pl.lodz.p.ftims.poid.operations.filters.linear.LinearFilter;
 import main.java.pl.lodz.p.ftims.poid.operations.filters.nonlinear.RosenfeldOperator;
 import main.java.pl.lodz.p.ftims.poid.operations.fourier.FourierTransform;
 import main.java.pl.lodz.p.ftims.poid.operations.fourier.filters.FourierFilter;
+import main.java.pl.lodz.p.ftims.poid.operations.fourier.filters.HighPassDetectionEdgeDirectionFilter;
 import main.java.pl.lodz.p.ftims.poid.operations.fourier.segmentation.RegionSegmentation;
 import main.java.pl.lodz.p.ftims.poid.operations.histogram.AbstractFinalProbDensFunction;
 import main.java.pl.lodz.p.ftims.poid.samples.HistogramModification;
@@ -21,6 +22,7 @@ import main.java.pl.lodz.p.ftims.poid.samples.filters.BasicFiltersMasks;
 import main.java.pl.lodz.p.ftims.poid.samples.filters.linear.LinearFilters;
 import main.java.pl.lodz.p.ftims.poid.samples.filters.nonlinear.NonLinearFilters;
 import main.java.pl.lodz.p.ftims.poid.samples.fourier.FourierFilters;
+import main.java.pl.lodz.p.ftims.poid.samples.fourier.FourierHighPassMasks;
 import main.java.pl.lodz.p.ftims.poid.samples.segmentation.Segmentation;
 import main.java.pl.lodz.p.ftims.poid.utils.GnuplotUtil;
 import main.java.pl.lodz.p.ftims.poid.utils.HistogramUtil;
@@ -222,12 +224,20 @@ public class MainWindow extends JFrame{
                                 FourierFilter filter = FourierFilters.FILTERS.get(fourierFilter);
                                 int minOrK=0;
                                 int maxOrL=0;
-                                //TODO change order
                                 if(freqDomMinValTextInput.getText() != null && !freqDomMinValTextInput.getText().isEmpty()){
                                     minOrK = Integer.parseInt(freqDomMinValTextInput.getText());
                                 }
                                 if(freqDomMaxValTextInput.getText() != null && !freqDomMaxValTextInput.getText().isEmpty()){
                                     maxOrL = Integer.parseInt(freqDomMaxValTextInput.getText());
+                                }
+                                if(filter instanceof HighPassDetectionEdgeDirectionFilter){
+                                    Image mask = null;
+                                    for (String maskName : FourierHighPassMasks.MASKS.keySet()) {
+                                        if (maskName.equals(freqDomHighPassFilterMaskComboBox.getSelectedItem())) {
+                                            mask = FourierHighPassMasks.MASKS.get(maskName);
+                                        }
+                                    }
+                                    ((HighPassDetectionEdgeDirectionFilter) filter).setMask(mask);
                                 }
                                 filter.setMinOrK(minOrK);
                                 filter.setMaxOrL(maxOrL);
@@ -506,7 +516,7 @@ public class MainWindow extends JFrame{
         freqDomHighPassFilterMaskTextLabel.setBounds(61, 260, 190, 30);
         getContentPane().add(freqDomHighPassFilterMaskTextLabel);
 
-        freqDomHighPassFilterMaskComboBox = new JComboBox(new Object[]{});
+        freqDomHighPassFilterMaskComboBox = new JComboBox(FourierHighPassMasks.MASKS.keySet().toArray());
         freqDomHighPassFilterMaskComboBox.setBounds(215, 263, 162, 27);
         getContentPane().add(freqDomHighPassFilterMaskComboBox);
 

@@ -51,6 +51,7 @@ public class RegionSplittingAndMerging implements RegionSegmentation {
         }
 
         Image regionsMask = new Image(originalImage.getName(), size, size);
+        int foundRegions=0;
         while (!regionsMap.isEmpty()) {
             Integer curKey = regionsMap.firstEntry().getKey();
 
@@ -73,9 +74,9 @@ public class RegionSplittingAndMerging implements RegionSegmentation {
                         if (!alreadyAnalysed.contains(curKey)) {
                             regionElements++;
                         }
-                        finalMask.getPixel(cur[x][y].getX(), cur[x][y].getY()).setColor(RgbColor.RED, cur[x][y].getValue());
-                        finalMask.getPixel(cur[x][y].getX(), cur[x][y].getY()).setColor(RgbColor.GREEN, cur[x][y].getValue());
-                        finalMask.getPixel(cur[x][y].getX(), cur[x][y].getY()).setColor(RgbColor.BLUE, cur[x][y].getValue());
+                        finalMask.getPixel(cur[x][y].getX(), cur[x][y].getY()).setColor(RgbColor.RED, 0);
+                        finalMask.getPixel(cur[x][y].getX(), cur[x][y].getY()).setColor(RgbColor.GREEN, Math.abs(255 - foundRegions * 15));
+                        finalMask.getPixel(cur[x][y].getX(), cur[x][y].getY()).setColor(RgbColor.BLUE, Math.abs(255 - foundRegions * 15));
                     }
                 }
                 alreadyAnalysed.add(curKey);
@@ -110,9 +111,9 @@ public class RegionSplittingAndMerging implements RegionSegmentation {
                                     if (!alreadyAnalysed.contains(curKey)) {
                                         regionElements++;
                                     }
-                                    finalMask.getPixel(region[x][y].getX(), region[x][y].getY()).setColor(RgbColor.RED, region[x][y].getValue());
-                                    finalMask.getPixel(region[x][y].getX(), region[x][y].getY()).setColor(RgbColor.GREEN, region[x][y].getValue());
-                                    finalMask.getPixel(region[x][y].getX(), region[x][y].getY()).setColor(RgbColor.BLUE, region[x][y].getValue());
+                                    finalMask.getPixel(region[x][y].getX(), region[x][y].getY()).setColor(RgbColor.RED, 0);
+                                    finalMask.getPixel(region[x][y].getX(), region[x][y].getY()).setColor(RgbColor.GREEN, Math.abs(255 - foundRegions*15));
+                                    finalMask.getPixel(region[x][y].getX(), region[x][y].getY()).setColor(RgbColor.BLUE, Math.abs(255 - foundRegions * 15));
                                 }
                             }
                             if (!regionNumbers.contains(key)) {
@@ -131,12 +132,13 @@ public class RegionSplittingAndMerging implements RegionSegmentation {
                 for (int i = 0; i < finalMask.getHeight(); i++) {
                     for (int j = 0; j < finalMask.getWidth(); j++) {
                         if (finalMask.getPixel(i, j).getGray() >= 0) {
-                            resultImage.getPixel(i, j).setColor(RgbColor.RED, 0);
-                            resultImage.getPixel(i, j).setColor(RgbColor.GREEN, 255);
-                            resultImage.getPixel(i, j).setColor(RgbColor.BLUE, 255);
+                            resultImage.getPixel(i, j).setRed(0);
+                            resultImage.getPixel(i, j).setGreen(finalMask.getPixel(i, j).getGreen());
+                            resultImage.getPixel(i, j).setBlue(finalMask.getPixel(i, j).getBlue());
                         }
                     }
                 }
+                foundRegions++;
             } else {
                 for (int i = 0; i < finalMask.getHeight(); i++) {
                     for (int j = 0; j < finalMask.getWidth(); j++) {

@@ -59,4 +59,8 @@ public class Complex {
     public void setReal(double real) {
         this.real = real;
     }
+
+    public void setImaginary(double imaginary) {
+        this.imaginary = imaginary;
+    }
 }

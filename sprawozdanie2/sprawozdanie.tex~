@@ -31,32 +31,68 @@
 
 \section{Cel}
 Celem zadania było zapoznanie się z transformatą Fouriera, filtracją w dziedzinie częstotliwości oraz segmentacją obrazu. W części implementacyjnej należało stworzyć program w wybranym przez siebie języku programowania, który będzie w stanie przeprowadzić analizowane operacje. W tym celu, wykorzystano aplikację z zadania 1.\\
+\\
+\indent
 Szczegółowy opis zadania został przedstawiony w [1].
 
 \section{Wprowadzenie}
-//TODO
+Filtracje obrazów można podzielić na realizowane w układzie przestrzennym i w dziedzinie częstotliwości. Pierwsze zagadnienie było analizowane w zadaniu 1. Poniższe sprawozdanie przedstawia badanie drugiej grupy filtracji - przeprowadzanych w dziedzinie częstotliwości.  
 
 \subsection{Transformata Fouriera i odwrotna transformata Fouriera}
-//TODO
+Transformata Fouriera umożliwia przekształcenie obrazu z układu przestrzennego w reprezentację częstotliwościową. Znajduje ona zastosowanie w fitracji próbki, co jest spowodowane bardzo łatwą modyfikacją wybranych grup częstotliwości. DFT jest operacją całkowicie odwracalną, więc po nałożeniu filtru wykorzystuje się transformatę odwrotną i otrzymuje zmodyfikowany obraz. Dokładny opis DFT i IDFT znajduje się w [2].
 
 \subsection{Szybka transformata Fouriera i odwrotna szybka transformata Fouriera}
-//TODO
+Dyskretna transformata Fouriera jest operacją o złożoności obliczeniowej $\mathcal{O}(N^{2}N)$). W celu zoptymalizowania tego procesu, pojawiło się kilka propozycji. Jedną z nich jest jest algorytm Cooleya-Tukeya o złożoności $\mathcal{O}(N\log{2}N)$, bazujący na metodzie dziel i zwyciężaj. Dokładny opis FFT i IFFT znajduje się w [11].
 
 \subsection{Filtracja}
-//TODO
+Jednym z zastosowań transformaty Fouriera jest możliwość szybkiej filtracji obrazów. W poniższej sekcji przedstawione zostały preanalziowane metody.
+
+\subsubsection{Filtr dolnoprzepustowy (górnozaporowy)}
+Filtr dolnoprzepustowy jest używany do usuwania pikseli o wysokiej częstotliwości. Jako parametr przyjmuje maksymalną wartość piksela (częstotliwości), który znajdzie się w zmodyfikowanym obrazie. Jest on wykorzystywany do usuwania szumów.
+
+\subsubsection{Filtr górnoprzepustowy (dolnozaporowy)}
+Filtr górnoprzepustowy jest używany do usuwania pikseli o niskiej częstotliwości. Jako parametr przyjmuje minimalną wartość piksela (częstotliwości), który znajdzie się w zmodyfikowanym obrazie. Jest on wykorzystywany do wyostrzania krawędzi.
+
+\subsubsection{Filtr pasmowoprzepustowy}
+Filtr górnoprzepustowy jest używany do usuwania pikseli o niskich i wysokich częstotliwościach. Jako parametry przyjmuje minimalną i maksymalną wartość pikseli (częstotliwości), które znajdą się w zmodyfikowanym obrazie.
+
+\subsubsection{Filtr pasmowozaporowy}
+Filtr pasmowozaporowy jest używany do usuwania pikseli o częstotliwościach środkowych. Jako parametry przyjmuje minimalną i maksymalną wartość pikseli (częstotliwości), które zostaną usunięte z modyfikowanego obrazu.
+
+\subsubsection{Filtr z detekcją krawędzi}
+Filtr z detekcją krawędzi jest modyfikacją filtru górnoprzepustowego. Jest używany do usuwania pikseli o niskiej częstotliwości. Jako parametry przyjmuje minimalną wartość piksela (częstotliwości), który znajdzie się w zmodyfikowanym obrazie oraz maskę. Jest on wykorzystywany do wyostrzania krawędzi położnych w konkretnym kierunku (np. N-S, E-W).
+
+\subsubsection{Filtr modyfikujący fazę widma tranformaty Fouriera}
+Filtr modyfikujący fazę widma transformaty Foueriera jest wykorzystywany do podzielenia obrazu na 4 części o wybranych rozmiarach. Jako parametry przyjmuje stałe całkowite \textit{k} i \textit{l} będące współczynnikami przesunięcia obrazu.
 
 \subsection{Segmentacja}
-//TODO
+Segmentacja obrazu jest procesem podzielenia go na zbiór regionów, będących jednorodnymi pod względem założonych wcześniej parametrów. Poniższa sekcja przedstawia opis dwóch metod segmentacji - rozrostu i podziału obszarów.
+
+\subsubsection{Metoda rozrostu obszarów}
+Metoda rozrostu obszarów polega na wyborze określonej liczby pikseli, będących \textit{ziarnami}. Wartość ziarna jest porównywana z sąsiadującymi pikselami. Jeżeli są podobne, tzn. ich miara podobieństwa spełnia wybrane wcześniej kryteria, sąsiad jest dołączany do regionu. Rozrost trwa do momentu aż obszar nie potrafi znaleźć dodatkowych, podobnych do niego pikseli. Następnie kolejne ziarna rozpoczynają tworzenie homogenicznego regionu, aż do wykorzystania wszystkich z nich. 
+
+\subsubsection{Metoda podziału obszarów}
+Metoda podziału obszarów po
 
 \section{Opis implementacji}
-Opis implementacji został przedstawiony w sprawozdaniu do zadania 1 [3]. Zadanie 2 zostało zrealizowane poprzez rozszerzenie funkcjonalności programu o dodatkowe metody - transformatę Fouriera, filtracje w dziedzinie częstotliwości oraz segmentację obrazów.
+Opis implementacji został przedstawiony w sprawozdaniu do zadania 1 [3]. Zadanie 2 zostało zrealizowane poprzez rozszerzenie funkcjonalności programu o dodatkowe metody - transformatę Fouriera, filtracje w dziedzinie częstotliwości oraz segmentację obrazów.\\
+\\
+\indent
+Szybka transformata Fouriera została zrealizowana w oparciu o algorytm Cooleya-Tukeya dla obrazów o liczbie pikseli będącej wielokrotnością liczby 2. Funkcjonalności segmentacji zostały zaimplementowane z wykorzystaniem sterty, umożliwiającej rozrost regionów. Do podziału obszarów wykorzystano zmodyfikowane drzewo czwórkowe.
 
 \section{Materiały i metody}
-Opis materiałów został przedstawiony w sprawozdaniu do zadania 1 [3]. Dodatkowe obrazy, użyte w celu analizy filtru z detekcją krawędzi są przedstawione poniżej.
-//TODO
+Opis materiałów został przedstawiony w sprawozdaniu do zadania 1 [3]. Poniżej zamieszczono maski, użyte w filtrze z detekcją krawędzi.
+\begin{figure}[H]%
+    \centering
+    \subfloat[Maska 1]{{\includegraphics[width=3cm,height=3cm,keepaspectratio]{img/original/edge-detection/mask/F5mask1.png}}}%
+    \qquad
+    \qquad
+    \subfloat[Maska 2]{{\includegraphics[width=3cm,height=3cm,keepaspectratio]{img/original/edge-detection/mask/F5mask2.png}}}%
+    \caption{Maski użyte w filtrze z detekcją krawędzi.}%
+\end{figure} 
 
 \section{Wyniki}
-//TODO
+Sekcja prezentuje wyniki przeprowadzanej analizy filtracji w dziedzinie częstotliwości oraz segmentacji obrazów.
 
 \subsection{Szybka transformata Fouriera i odwrotna szybka transformata Fouriera}
 Poniżej przedstawione zostały widma mocy i widma fazy dla wybranych obrazów 8- i 24-bitowych.
@@ -200,7 +236,51 @@ Wyniki zastosowania filtru pasmowozaporowego na obrazie 8-bitowym Messer są prz
 \end{figure}  
 
 \subsubsection{Filtr z detekcją krawędzi}
-//TODO
+Wyniki zastosowania filtru z detekcją krawędzi na obrazie 8-bitowym Camera są przedstawione poniżej.
+
+\begin{figure}[H]%
+    \centering
+    \subfloat[Obraz bez filtra]{{\includegraphics[width=3cm,height=3cm,keepaspectratio]{img/transformed/filters/edge-detection/edge_detection_camera_8_before.png}}}%
+    \qquad
+    \qquad
+    \subfloat[Widmo mocy bez filtra]{{\includegraphics[width=3cm,height=3cm,keepaspectratio]{img/transformed/filters/edge-detection/edge_detection_abs_before_camera_8_mask_1.png}}}%    
+    \qquad
+    \qquad
+    \subfloat[Widmo fazy bez filtra]{{\includegraphics[width=3cm,height=3cm,keepaspectratio]{img/transformed/filters/edge-detection/edge_detection_phase_before_camera_8_mask_1.png}}}%    
+    \qquad   
+    \qquad 
+    \subfloat[Obraz z filtem]{{\includegraphics[width=3cm,height=3cm,keepaspectratio]{img/transformed/filters/edge-detection/edge_detection_camera_8_after_mask_1.png}}}%
+    \qquad
+    \qquad
+    \subfloat[Widmo mocy z filtrem]{{\includegraphics[width=3cm,height=3cm,keepaspectratio]{img/transformed/filters/edge-detection/edge_detection_abs_after_camera_8_mask_1.png}}}%
+    \qquad
+    \qquad
+    \subfloat[Widmo faze z filtrem]{{\includegraphics[width=3cm,height=3cm,keepaspectratio]{img/transformed/filters/edge-detection/edge_detection_phase_after_camera_8_mask_1.png}}}%
+    \qquad
+    \caption{Zastosowanie filtru z detekcją krawędzi i maską 1 na obrazie Camera 8-bitowym; min=20.}%
+\end{figure}  
+
+\begin{figure}[H]%
+    \centering
+    \subfloat[Obraz bez filtra]{{\includegraphics[width=3cm,height=3cm,keepaspectratio]{img/transformed/filters/edge-detection/edge_detection_camera_8_before.png}}}%
+    \qquad
+    \qquad
+    \subfloat[Widmo mocy bez filtra]{{\includegraphics[width=3cm,height=3cm,keepaspectratio]{img/transformed/filters/edge-detection/edge_detection_abs_before_camera_8_mask_2.png}}}%    
+    \qquad
+    \qquad
+    \subfloat[Widmo fazy bez filtra]{{\includegraphics[width=3cm,height=3cm,keepaspectratio]{img/transformed/filters/edge-detection/edge_detection_phase_before_camera_8_mask_2.png}}}%    
+    \qquad   
+    \qquad 
+    \subfloat[Obraz z filtem]{{\includegraphics[width=3cm,height=3cm,keepaspectratio]{img/transformed/filters/edge-detection/edge_detection_camera_8_after_mask_2.png}}}%
+    \qquad
+    \qquad
+    \subfloat[Widmo mocy z filtrem]{{\includegraphics[width=3cm,height=3cm,keepaspectratio]{img/transformed/filters/edge-detection/edge_detection_abs_after_camera_8_mask_2.png}}}%
+    \qquad
+    \qquad
+    \subfloat[Widmo faze z filtrem]{{\includegraphics[width=3cm,height=3cm,keepaspectratio]{img/transformed/filters/edge-detection/edge_detection_phase_after_camera_8_mask_2.png}}}%
+    \qquad
+    \caption{Zastosowanie filtru z detekcją krawędzi i maską 2 na obrazie Camera 8-bitowym; min=20.}%
+\end{figure}  
 
 \subsubsection{Filtr modyfikujący fazę widma transformaty Fouriera}
 Wyniki zastosowania filtru modyfikującego fazę widma transformaty Foueriera na obrazie 8-bitowym Bird są przedstawione poniżej. 
@@ -295,7 +375,8 @@ Wyniki zastosowania metody podziału obszarów w celu segmentacji regionów na o
 \bibitem{doc_linear_fitering}\text{$http://fourier.eng.hmc.edu/e101/lectures/Image_Processing/node6.html, 2015$}
 \bibitem{doc_linear_fitering}\text{$http://users.ecs.soton.ac.uk/msn/book/new\_demo/fourier/, 2015$}
 \bibitem{doc_linear_fitering}\text{$https://pl.wikipedia.org/wiki/Algorytm\_Cooleya-Tukeya, 2015$}
-\bibitem{doc_linear_fitering}\text{$https://www.cs.cf.ac.uk/Dave/Vision\_lecture/node35.html, 2015$}
+\bibitem{doc_linear_fitering}\text{$http://librow.com/articles/article-10, 2015$}
+\bibitem{doc_linear_fitering}\text{$https://www.cs.cf.ac.uk/Dave/Vision_lecture/node34.html, 2015$}
 \end{thebibliography}
 
 \end{document}
