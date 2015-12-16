@@ -30,7 +30,7 @@
 \maketitle
 
 \section{Cel}
-Celem zadania było zapoznanie się z transformatą Fouriera, filtracją w dziedzinie częstotliwości oraz segmentacją obrazu. W części implementacyjnej należało stworzyć program w wybranym przez siebie języku programowania, który będzie w stanie przeprowadzić analizowane operacje. W tym celu, wykorzystano aplikację z zadania 1.\\
+Celem zadania było zapoznanie się z transformatą Fouriera, filtracją w dziedzinie częstotliwości oraz segmentacją obrazu. W części implementacyjnej należało stworzyć program w wybranym przez siebie języku programowania, który będzie w stanie przeprowadzić analizowane operacje. Do tego celu wykorzystano aplikację z zadania 1.\\
 \\
 \indent
 Szczegółowy opis zadania został przedstawiony w [1].
@@ -42,10 +42,10 @@ Filtracje obrazów można podzielić na realizowane w układzie przestrzennym i 
 Transformata Fouriera umożliwia przekształcenie obrazu z układu przestrzennego w reprezentację częstotliwościową. Znajduje ona zastosowanie w fitracji próbki, co jest spowodowane bardzo łatwą modyfikacją wybranych grup częstotliwości. DFT jest operacją całkowicie odwracalną, więc po nałożeniu filtru wykorzystuje się transformatę odwrotną i otrzymuje zmodyfikowany obraz. Dokładny opis DFT i IDFT znajduje się w [2].
 
 \subsection{Szybka transformata Fouriera i odwrotna szybka transformata Fouriera}
-Dyskretna transformata Fouriera jest operacją o złożoności obliczeniowej $\mathcal{O}(N^{2})$). W celu zoptymalizowania tego procesu, pojawiło się kilka propozycji. Jedną z nich jest jest algorytm Cooleya-Tukeya o złożoności $\mathcal{O}(N\log{2}N)$, bazujący na metodzie dziel i zwyciężaj. Dokładny opis FFT i IFFT znajduje się w [11].
+Dyskretna transformata Fouriera jest operacją o złożoności obliczeniowej $\mathcal{O}(N^{2})$. Pojawiło się kilka propozycji umożliwiających optymalizację tego procesu. Jedną z nich jest jest algorytm Cooleya-Tukeya o złożoności $\mathcal{O}(N\log{2}N)$, bazujący na metodzie dziel i zwyciężaj. Dokładny opis FFT i IFFT znajduje się w [11].
 
 \subsection{Filtracja}
-Jednym z zastosowań transformaty Fouriera jest możliwość szybkiej filtracji obrazów. W poniższej sekcji przedstawione zostały preanalziowane metody.
+Jednym z zastosowań transformaty Fouriera jest możliwość szybkiej filtracji obrazów. W poniższej sekcji przedstawione zostały przeanalizowane metody.
 
 \subsubsection{Filtr dolnoprzepustowy (górnozaporowy)}
 Filtr dolnoprzepustowy jest używany do usuwania pikseli o wysokiej częstotliwości. Jako parametr przyjmuje maksymalną wartość piksela (częstotliwości), który znajdzie się w zmodyfikowanym obrazie. Jest on wykorzystywany do usuwania szumów.
@@ -62,7 +62,7 @@ Filtr pasmowozaporowy jest używany do usuwania pikseli o częstotliwościach ś
 \subsubsection{Filtr z detekcją krawędzi}
 Filtr z detekcją krawędzi jest modyfikacją filtru górnoprzepustowego. Jest używany do usuwania pikseli o niskiej częstotliwości. Jako parametry przyjmuje minimalną wartość piksela (częstotliwości), który znajdzie się w zmodyfikowanym obrazie oraz maskę. Jest on wykorzystywany do wyostrzania krawędzi położnych w konkretnym kierunku (np. N-S, E-W).
 
-\subsubsection{Filtr modyfikujący fazę widma tranformaty Fouriera}
+\subsubsection{Filtr modyfikujący fazę widma transformaty Fouriera}
 Filtr modyfikujący fazę widma transformaty Foueriera jest wykorzystywany do podzielenia obrazu na 4 części o wybranych rozmiarach. Jako parametry przyjmuje stałe całkowite \textit{k} i \textit{l} będące współczynnikami przesunięcia obrazu.
 
 \subsection{Segmentacja}
@@ -78,10 +78,10 @@ Metoda podziału obszarów składa się z dwóch operacji. Pierwszym krokiem jes
 Opis implementacji został przedstawiony w sprawozdaniu do zadania 1 [3]. Zadanie 2 zostało zrealizowane poprzez rozszerzenie funkcjonalności programu o dodatkowe metody - transformatę Fouriera, filtracje w dziedzinie częstotliwości oraz segmentację obrazów.\\
 \\
 \indent
-Szybka transformata Fouriera została zrealizowana w oparciu o algorytm Cooleya-Tukeya dla obrazów o liczbie pikseli będącej wielokrotnością liczby 2. Funkcjonalności segmentacji zostały zaimplementowane z wykorzystaniem sterty, umożliwiającej rozrost regionów. Do podziału obszarów wykorzystano zmodyfikowane drzewo czwórkowe.
+Szybka transformata Fouriera została zrealizowana w oparciu o algorytm Cooleya-Tukeya dla obrazów o liczbie pikseli będącej wielokrotnością liczby 2. Funkcjonalności segmentacji zostały zaimplementowane z wykorzystaniem sterty umożliwiającej rozrost regionów. Do podziału obszarów wykorzystano zmodyfikowane drzewo czwórkowe.
 
 \section{Materiały i metody}
-Opis materiałów został przedstawiony w sprawozdaniu do zadania 1 [3]. Poniżej zamieszczono maski, użyte w filtrze z detekcją krawędzi.
+Opis materiałów został przedstawiony w sprawozdaniu do zadania 1 [3]. Poniżej zamieszczono maski użyte w filtrze z detekcją krawędzi.
 \begin{figure}[H]%
     \centering
     \subfloat[Maska 1]{{\includegraphics[width=3cm,height=3cm,keepaspectratio]{img/original/edge-detection/mask/F5mask1.png}}}%
@@ -137,19 +137,19 @@ Poniżej przedstawione zostały widma mocy i widma fazy dla wybranych obrazów 8
 \end{figure} 
 
 \subsection{Filtracja}
-Sekcja ta prezentuje wyniki wyniki zastosowania filtracji dla wybranych obrazów 8-bitowych. Zaprezentowane są próbki oraz widma mocy i fazy przed i po filtracji. 
+Sekcja ta prezentuje wyniki zastosowania filtracji dla wybranych obrazów 8-bitowych. Zaprezentowane są próbki oraz widma mocy i fazy przed i po filtracji. 
 
 \subsubsection{Filtr dolnoprzepustowy (górnozaporowy)}
 Wyniki zastosowania filtru dolnoprzepustowego na obrazie 8-bitowym Lena zaszumionym szumem jednostajnym 3 są przedstawione poniżej.
 \begin{figure}[H]%
     \centering
-    \subfloat[Obraz bez filtra]{{\includegraphics[width=3cm,height=3cm,keepaspectratio]{img/transformed/filters/low-pass/low_pass_lena_uniform_3_before.png}}}%
+    \subfloat[Obraz bez filtru]{{\includegraphics[width=3cm,height=3cm,keepaspectratio]{img/transformed/filters/low-pass/low_pass_lena_uniform_3_before.png}}}%
     \qquad
     \qquad
-    \subfloat[Widmo mocy bez filtra]{{\includegraphics[width=3cm,height=3cm,keepaspectratio]{img/transformed/filters/low-pass/low_pass_abs_before_lena_8.png}}}%    
+    \subfloat[Widmo mocy bez filtru]{{\includegraphics[width=3cm,height=3cm,keepaspectratio]{img/transformed/filters/low-pass/low_pass_abs_before_lena_8.png}}}%    
     \qquad
     \qquad
-    \subfloat[Widmo fazy bez filtra]{{\includegraphics[width=3cm,height=3cm,keepaspectratio]{img/transformed/filters/low-pass/low_pass_phase_before_lena_8.png}}}%    
+    \subfloat[Widmo fazy bez filtru]{{\includegraphics[width=3cm,height=3cm,keepaspectratio]{img/transformed/filters/low-pass/low_pass_phase_before_lena_8.png}}}%    
     \qquad   
     \qquad 
     \subfloat[Obraz z filtrem]{{\includegraphics[width=3cm,height=3cm,keepaspectratio]{img/transformed/filters/low-pass/low_pass_lena_uniform_3_after.png}}}%
@@ -160,20 +160,20 @@ Wyniki zastosowania filtru dolnoprzepustowego na obrazie 8-bitowym Lena zaszumio
     \qquad
     \subfloat[Widmo fazy z filtrem]{{\includegraphics[width=3cm,height=3cm,keepaspectratio]{img/transformed/filters/low-pass/low_pass_phase_after_lena_8.png}}}%
     \qquad
-    \caption{Zastosowanie filtru dolnoprzepustowego na obrazie Lena 8-bitowym zaszumionym szumem jenostajnym; max=10.}%
+    \caption{Zastosowanie filtru dolnoprzepustowego na obrazie Lena 8-bitowym zaszumionym szumem jednostajnym; max=10.}%
 \end{figure}  
 
 \subsubsection{Filtr górnoprzepustowy (dolnozaporowy)}
 Wyniki zastosowania filtru górnoprzepustowego na obrazie 8-bitowym Pentagon są przedstawione poniżej. 
 \begin{figure}[H]%
     \centering
-    \subfloat[Obraz bez filtra]{{\includegraphics[width=3cm,height=3cm,keepaspectratio]{img/transformed/filters/high-pass/high_pass_pentagon_before.png}}}%
+    \subfloat[Obraz bez filtru]{{\includegraphics[width=3cm,height=3cm,keepaspectratio]{img/transformed/filters/high-pass/high_pass_pentagon_before.png}}}%
     \qquad
     \qquad
-    \subfloat[Widmo mocy bez filtra]{{\includegraphics[width=3cm,height=3cm,keepaspectratio]{img/transformed/filters/high-pass/high_pass_abs_before_pentagon_8.png}}}%    
+    \subfloat[Widmo mocy bez filtru]{{\includegraphics[width=3cm,height=3cm,keepaspectratio]{img/transformed/filters/high-pass/high_pass_abs_before_pentagon_8.png}}}%    
     \qquad
     \qquad
-    \subfloat[Widmo fazy bez filtra]{{\includegraphics[width=3cm,height=3cm,keepaspectratio]{img/transformed/filters/high-pass/high_pass_phase_before_pentagon_8.png}}}%    
+    \subfloat[Widmo fazy bez filtru]{{\includegraphics[width=3cm,height=3cm,keepaspectratio]{img/transformed/filters/high-pass/high_pass_phase_before_pentagon_8.png}}}%    
     \qquad   
     \qquad 
     \subfloat[Obraz z filtrem]{{\includegraphics[width=3cm,height=3cm,keepaspectratio]{img/transformed/filters/high-pass/high_pass_pentagon_after.png}}}%
@@ -191,13 +191,13 @@ Wyniki zastosowania filtru górnoprzepustowego na obrazie 8-bitowym Pentagon są
 Wyniki zastosowania filtru pasmowoprzepustowego na obrazie 8-bitowym Lena są przedstawione poniżej. 
 \begin{figure}[H]%
     \centering
-    \subfloat[Obraz bez filtra]{{\includegraphics[width=3cm,height=3cm,keepaspectratio]{img/transformed/filters/band-pass/band_pass_lena_before.png}}}%
+    \subfloat[Obraz bez filtru]{{\includegraphics[width=3cm,height=3cm,keepaspectratio]{img/transformed/filters/band-pass/band_pass_lena_before.png}}}%
     \qquad
     \qquad
-    \subfloat[Widmo mocy bez filtra]{{\includegraphics[width=3cm,height=3cm,keepaspectratio]{img/transformed/filters/band-pass/band_pass_abs_before_lena_8.png}}}%    
+    \subfloat[Widmo mocy bez filtru]{{\includegraphics[width=3cm,height=3cm,keepaspectratio]{img/transformed/filters/band-pass/band_pass_abs_before_lena_8.png}}}%    
     \qquad
     \qquad
-    \subfloat[Widmo fazy bez filtra]{{\includegraphics[width=3cm,height=3cm,keepaspectratio]{img/transformed/filters/band-pass/band_pass_phase_before_lena_8.png}}}%    
+    \subfloat[Widmo fazy bez filtru]{{\includegraphics[width=3cm,height=3cm,keepaspectratio]{img/transformed/filters/band-pass/band_pass_phase_before_lena_8.png}}}%    
     \qquad   
     \qquad 
     \subfloat[Obraz z filtem]{{\includegraphics[width=3cm,height=3cm,keepaspectratio]{img/transformed/filters/band-pass/band_pass_lena_after.png}}}%
@@ -215,13 +215,13 @@ Wyniki zastosowania filtru pasmowoprzepustowego na obrazie 8-bitowym Lena są pr
 Wyniki zastosowania filtru pasmowozaporowego na obrazie 8-bitowym Messer są przedstawione poniżej. 
 \begin{figure}[H]%
     \centering
-    \subfloat[Obraz bez filtra]{{\includegraphics[width=3cm,height=3cm,keepaspectratio]{img/transformed/filters/band-cut/band_cut_messer_before.png}}}%
+    \subfloat[Obraz bez filtru]{{\includegraphics[width=3cm,height=3cm,keepaspectratio]{img/transformed/filters/band-cut/band_cut_messer_before.png}}}%
     \qquad
     \qquad
-    \subfloat[Widmo mocy bez filtra]{{\includegraphics[width=3cm,height=3cm,keepaspectratio]{img/transformed/filters/band-cut/band_cut_abs_before_messer_8.png}}}%    
+    \subfloat[Widmo mocy bez filtru]{{\includegraphics[width=3cm,height=3cm,keepaspectratio]{img/transformed/filters/band-cut/band_cut_abs_before_messer_8.png}}}%    
     \qquad
     \qquad
-    \subfloat[Widmo fazy bez filtra]{{\includegraphics[width=3cm,height=3cm,keepaspectratio]{img/transformed/filters/band-cut/band_cut_phase_before_messer_8.png}}}%    
+    \subfloat[Widmo fazy bez filtru]{{\includegraphics[width=3cm,height=3cm,keepaspectratio]{img/transformed/filters/band-cut/band_cut_phase_before_messer_8.png}}}%    
     \qquad   
     \qquad 
     \subfloat[Obraz z filtem]{{\includegraphics[width=3cm,height=3cm,keepaspectratio]{img/transformed/filters/band-cut/band_cut_messer_after.png}}}%
@@ -240,13 +240,13 @@ Wyniki zastosowania filtru z detekcją krawędzi na obrazie 8-bitowym Camera są
 
 \begin{figure}[H]%
     \centering
-    \subfloat[Obraz bez filtra]{{\includegraphics[width=3cm,height=3cm,keepaspectratio]{img/transformed/filters/edge-detection/edge_detection_camera_8_before.png}}}%
+    \subfloat[Obraz bez filtru]{{\includegraphics[width=3cm,height=3cm,keepaspectratio]{img/transformed/filters/edge-detection/edge_detection_camera_8_before.png}}}%
     \qquad
     \qquad
-    \subfloat[Widmo mocy bez filtra]{{\includegraphics[width=3cm,height=3cm,keepaspectratio]{img/transformed/filters/edge-detection/edge_detection_abs_before_camera_8_mask_1.png}}}%    
+    \subfloat[Widmo mocy bez filtru]{{\includegraphics[width=3cm,height=3cm,keepaspectratio]{img/transformed/filters/edge-detection/edge_detection_abs_before_camera_8_mask_1.png}}}%    
     \qquad
     \qquad
-    \subfloat[Widmo fazy bez filtra]{{\includegraphics[width=3cm,height=3cm,keepaspectratio]{img/transformed/filters/edge-detection/edge_detection_phase_before_camera_8_mask_1.png}}}%    
+    \subfloat[Widmo fazy bez filtru]{{\includegraphics[width=3cm,height=3cm,keepaspectratio]{img/transformed/filters/edge-detection/edge_detection_phase_before_camera_8_mask_1.png}}}%    
     \qquad   
     \qquad 
     \subfloat[Obraz z filtem]{{\includegraphics[width=3cm,height=3cm,keepaspectratio]{img/transformed/filters/edge-detection/edge_detection_camera_8_after_mask_1.png}}}%
@@ -262,13 +262,13 @@ Wyniki zastosowania filtru z detekcją krawędzi na obrazie 8-bitowym Camera są
 
 \begin{figure}[H]%
     \centering
-    \subfloat[Obraz bez filtra]{{\includegraphics[width=3cm,height=3cm,keepaspectratio]{img/transformed/filters/edge-detection/edge_detection_camera_8_before.png}}}%
+    \subfloat[Obraz bez filtru]{{\includegraphics[width=3cm,height=3cm,keepaspectratio]{img/transformed/filters/edge-detection/edge_detection_camera_8_before.png}}}%
     \qquad
     \qquad
-    \subfloat[Widmo mocy bez filtra]{{\includegraphics[width=3cm,height=3cm,keepaspectratio]{img/transformed/filters/edge-detection/edge_detection_abs_before_camera_8_mask_2.png}}}%    
+    \subfloat[Widmo mocy bez filtru]{{\includegraphics[width=3cm,height=3cm,keepaspectratio]{img/transformed/filters/edge-detection/edge_detection_abs_before_camera_8_mask_2.png}}}%    
     \qquad
     \qquad
-    \subfloat[Widmo fazy bez filtra]{{\includegraphics[width=3cm,height=3cm,keepaspectratio]{img/transformed/filters/edge-detection/edge_detection_phase_before_camera_8_mask_2.png}}}%    
+    \subfloat[Widmo fazy bez filtru]{{\includegraphics[width=3cm,height=3cm,keepaspectratio]{img/transformed/filters/edge-detection/edge_detection_phase_before_camera_8_mask_2.png}}}%    
     \qquad   
     \qquad 
     \subfloat[Obraz z filtem]{{\includegraphics[width=3cm,height=3cm,keepaspectratio]{img/transformed/filters/edge-detection/edge_detection_camera_8_after_mask_2.png}}}%
@@ -286,10 +286,10 @@ Wyniki zastosowania filtru z detekcją krawędzi na obrazie 8-bitowym Camera są
 Wyniki zastosowania filtru modyfikującego fazę widma transformaty Foueriera na obrazie 8-bitowym Bird są przedstawione poniżej. 
 \begin{figure}[H]%
     \centering
-    \subfloat[Obraz bez filtra]{{\includegraphics[width=3cm,height=3cm,keepaspectratio]{img/transformed/filters/spectrum-modification/spectrum_modification_bird_before.png}}}%
+    \subfloat[Obraz bez filtru]{{\includegraphics[width=3cm,height=3cm,keepaspectratio]{img/transformed/filters/spectrum-modification/spectrum_modification_bird_before.png}}}%
     \qquad
     \qquad
-    \subfloat[Widmo mocy bez filtra]{{\includegraphics[width=3cm,height=3cm,keepaspectratio]{img/transformed/filters/spectrum-modification/spectrum_modification_abs_before_bird_8.png}}}%    
+    \subfloat[Widmo mocy bez filtru]{{\includegraphics[width=3cm,height=3cm,keepaspectratio]{img/transformed/filters/spectrum-modification/spectrum_modification_abs_before_bird_8.png}}}%    
     \qquad
     \qquad
     \subfloat[Widmo fazy bez filtra]{{\includegraphics[width=3cm,height=3cm,keepaspectratio]{img/transformed/filters/spectrum-modification/spectrum_modification_phase_before_bird_8.png}}}%    
@@ -362,11 +362,12 @@ Poniższa sekcja prezentuje interpretację uzyskanych wyników oraz wnioski. Opi
 Nałożenie filtru dolnoprzepustowego powoduje usuwanie wysokich częstotliwości z obrazu. Może być on zatem zastosowany do odszumiania próbek (rys. 4). Im większa wartość współczynnika d$_{\text{min}}$, tym rezultat jest bardziej rozmazany.\\
 \\
 \indent
-Filtr górnoprzepustowy może być wykorzystywany do wyszukiwania krawędzi w obrazie, ponieważ usuwa elementy o niskiej częstotliwości (rys. 5). Ważnym elementem filtru jest tzw. \textit{DC component}, który jest częstotliwością średnią i nie powinien być naruszany w wyniku modyfikacji.\\
+Filtr górnoprzepustowy może być wykorzystywany do wyszukiwania krawędzi w obrazie, ponieważ usuwa elementy o niskiej częstotliwości (rys. 5). Ważnym elementem filtru jest tzw. \textit{DC component}, który jest częstotliwością zerową i nie powinien być naruszany w wyniku modyfikacji.\\
 \\
 \indent
-Filtr pasmowoprzepustowy usuwa z obrazu zarówno częstotliwości wysokie i niskie. Pozostawia jedynie wybrany przez użytkownika zakres (rys. 6).\\
+Filtr pasmowoprzepustowy usuwa z obrazu zarówno częstotliwości wysokie, jak i niskie. Pozostawia jedynie wybrany przez użytkownika zakres (rys. 6).\\
 \\
+\indent
 Filtr pasmowozaporowy jest używany do usuwania wybranego zakresu częstotliwości, pozostawiając te najwyższe i najniższe (rys. 7).\\
 \\
 \indent
@@ -376,13 +377,15 @@ Filtr z detekcją krawędzi, będący modyfikacją filtru górnoprzepustowego, p
 Nałożenie filtru modyfikującego fazę widma transformaty Fouriera powoduje przesunięcie pionowe i poziome obrazu (rys. 10). Wartości dodanie przemieszczają rezultat w dół i w prawo, natomiast ujemne - w górę i w lewo.\\
 
 \subsection{Segmentacja}
-//TODO
-
+Zastosowanie metody rozrostu obszarów w procesie segmentacji przyniosło bardzo dobre rezultaty. Na początku badania wybrano 64 ziarna, równomiernie rozłożone na obrazie. Znalezione regiony bardzo dobrze oddawały faktyczne skupiska pikseli o podobnych kolorych (rys. 11c, rys. 11d).\\
+\\
+\indent
+Metoda podziału obszarów również dobrze spełniła swoje zadanie. Wyniki okazały się jednak zauważalnie gorsze od tych uzyskanych w wyniku analizy metody rozrostu. Prawdopodobnie było to spowodowane metodą łączenia obszarów, która była inicjalowana po całym procesie podziału, zamiast po każdorazowym tworzeniu nowych regionów. 
 
 \begin{thebibliography}{1}
-\bibitem{instruction_pol}\text{$http://ftims.edu.p.lodz.pl/pluginfile.php/19300/mod_resource/content/3/$}\\
+\bibitem{instruction_pol}\text{$http://ftims.edu.p.lodz.pl/pluginfile.php/19300/mod\_resource/content/3/$}\\
 \text{$Zadanie2.pdf, 2015$}
-\bibitem{instruction_pol}\text{$http://ftims.edu.p.lodz.pl/pluginfile.php/19301/mod_resource/content/0/$}\\
+\bibitem{instruction_pol}\text{$http://ftims.edu.p.lodz.pl/pluginfile.php/19301/mod\_resource/content/0/$}\\
 \text{$dft.pdf, 2015$}
 \bibitem{instruction_pol}\text{$https://github.com/alisowsk/image-and-sound-processing/blob/master/$}\\
 \text{$sprawozdanie/sprawozdanie.pdf, 2015$}
@@ -390,11 +393,11 @@ Nałożenie filtru modyfikującego fazę widma transformaty Fouriera powoduje pr
 \bibitem{instruction_latex}\text{$https://en.wikibooks.org/wiki/LaTeX/Mathematics, 2015$}
 \bibitem{doc_linear_fitering}\text{$http://lodev.org/cgtutor/fourier.html, 2015$}
 \bibitem{doc_linear_fitering}\text{$http://www.doc.ic.ac.uk/~dfg/vision/v02.html, 2015$}
-\bibitem{doc_linear_fitering}\text{$http://fourier.eng.hmc.edu/e101/lectures/Image_Processing/node6.html, 2015$}
+\bibitem{doc_linear_fitering}\text{$http://fourier.eng.hmc.edu/e101/lectures/Image\_Processing/node6.html, 2015$}
 \bibitem{doc_linear_fitering}\text{$http://users.ecs.soton.ac.uk/msn/book/new\_demo/fourier/, 2015$}
 \bibitem{doc_linear_fitering}\text{$https://pl.wikipedia.org/wiki/Algorytm\_Cooleya-Tukeya, 2015$}
 \bibitem{doc_linear_fitering}\text{$http://librow.com/articles/article-10, 2015$}
-\bibitem{doc_linear_fitering}\text{$https://www.cs.cf.ac.uk/Dave/Vision_lecture/node34.html, 2015$}
+\bibitem{doc_linear_fitering}\text{$https://www.cs.cf.ac.uk/Dave/Vision\_lecture/node34.html, 2015$}
 \end{thebibliography}
 
 \end{document}

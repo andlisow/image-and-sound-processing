@@ -43,7 +43,7 @@ public class QuadNode {
             }
         }
 
-        if(Math.abs(curMax - curMin) >= threshold){
+        if(Math.abs(curMax - curMin) > threshold){
             split(threshold, leavesValues);
         } else {
             leavesValues.add(values);
