@@ -65,6 +65,15 @@ Filtr z detekcją krawędzi jest modyfikacją filtru górnoprzepustowego. Jest u
 \subsubsection{Filtr modyfikujący fazę widma transformaty Fouriera}
 Filtr modyfikujący fazę widma transformaty Foueriera jest wykorzystywany do podzielenia obrazu na 4 części o wybranych rozmiarach. Jako parametry przyjmuje stałe całkowite \textit{k} i \textit{l} będące współczynnikami przesunięcia obrazu.
 
+\subsection{Okno Hanninga}
+Okna czasowe są wykorzystywane do poprawy charakterystyki próbkowanego sygnału. Transformata Fouriera przyjmuje, że analizowany sygnał jest sygnałem ciągłym, natomiast w rzeczywistości jest on dyskretny. Powoduje to w rezultacie ścięty przebieg falowy, który ma wpływ na wyciek widma. Jednym z okien czasowych jest okno Hanninga. Polega ono na wymnożeniu piseli obrazu w dziedzieni czasu wg następującego wzoru:\\
+\[ w(n) = 0.5 * (1 - cos \frac{2 \ast \pi \ast n}{N - 1}) \]
+\\
+gdzie:\\
+\textit{w(n)} - wartość piksela po nałożeniu okna,\\
+\textit{n} - numer piksela w sygnale 1D,\\
+\textit{N} - liczba pikseli w sygnale 1D.\\
+
 \subsection{Segmentacja}
 Segmentacja obrazu jest procesem podzielenia go na zbiór regionów, będących jednorodnymi pod względem założonych wcześniej parametrów. Poniższa sekcja przedstawia opis dwóch metod segmentacji - rozrostu i podziału obszarów.
 
@@ -306,6 +315,22 @@ Wyniki zastosowania filtru modyfikującego fazę widma transformaty Foueriera na
     \caption{Zastosowanie filtru modyfikującego fazę widma transformaty Fouriera na obrazie Bird 8-bitowym; k=40, l=200.}%
 \end{figure} 
 
+\subsubsection{Okno Hanninga}
+Wyniki zastosowania okna Hanninga na obrazie 8-bitowym Lena są przedstawione poniżej.
+\begin{figure}[H]%
+    \centering
+    \subfloat[Obraz po nałożeniu okna Hanninga]{{\includegraphics[width=3cm,height=3cm,keepaspectratio]{img/transformed/hann/hann_window_lena_8.png}}}%
+    \qquad
+    \qquad
+    \subfloat[Widmo mocy]{{\includegraphics[width=3cm,height=3cm,keepaspectratio]{img/transformed/hann/hann_window_abs_lena_8.png}}}%
+    \qquad
+    \qquad
+    \subfloat[Widmo fazy]{{\includegraphics[width=3cm,height=3cm,keepaspectratio]{img/transformed/hann/hann_window_phase_lena_8.png}}}%
+    \qquad
+    \qquad
+    \caption{Zastosowanie okna Hanninga na obrazie 8-bitowym Lena.}%
+\end{figure} 
+
 \subsection{Segmentacja}
 Sekcja ta prezentuje wyniki wyniki zastosowania segmentacji dla obrazu 24-bitowego Girl. Zaprezentowane są nałożone maski dla różnych parametrów progu i minimalnej ilości pikseli na obszar.
 
@@ -375,9 +400,12 @@ Filtr z detekcją krawędzi, będący modyfikacją filtru górnoprzepustowego, p
 \\
 \indent
 Nałożenie filtru modyfikującego fazę widma transformaty Fouriera powoduje przesunięcie pionowe i poziome obrazu (rys. 10). Wartości dodanie przemieszczają rezultat w dół i w prawo, natomiast ujemne - w górę i w lewo.\\
+\\
+\indent
+Nałożenie okna Hanninga powoduje stopniowe wyciemnianie obrazu wynikowego na jego krańcach (rys. 11a). Dzięki temu wszelkie błędy wynikające z dyskretnego charaketeru sygnału wejściowego są niewidoczne. Wyraźnie widać różnicę w widmie mocy i fazy dla obrazu z nałożonym oknem (rys. 11b i 11c) w porównaniu do zwykłego przekształcenia (rys. 2a i 2b).
 
 \subsection{Segmentacja}
-Zastosowanie metody rozrostu obszarów w procesie segmentacji przyniosło bardzo dobre rezultaty. Na początku badania wybrano 64 ziarna, równomiernie rozłożone na obrazie. Znalezione regiony bardzo dobrze oddawały faktyczne skupiska pikseli o podobnych kolorych (rys. 11c, rys. 11d).\\
+Zastosowanie metody rozrostu obszarów w procesie segmentacji przyniosło bardzo dobre rezultaty. Na początku badania wybrano 64 ziarna, równomiernie rozłożone na obrazie. Znalezione regiony bardzo dobrze oddawały faktyczne skupiska pikseli o podobnych kolorych (rys. 12c, rys. 12d).\\
 \\
 \indent
 Metoda podziału obszarów również dobrze spełniła swoje zadanie. Wyniki okazały się jednak zauważalnie gorsze od tych uzyskanych w wyniku analizy metody rozrostu. Prawdopodobnie było to spowodowane metodą łączenia obszarów, która była inicjalowana po całym procesie podziału, zamiast po każdorazowym tworzeniu nowych regionów. 

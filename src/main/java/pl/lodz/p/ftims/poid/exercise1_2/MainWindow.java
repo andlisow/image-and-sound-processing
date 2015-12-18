@@ -118,6 +118,8 @@ public class MainWindow extends JFrame{
     private JLabel freqDomMinValTextLabel;
     private JLabel freqDomMaxValTextLabel;
 
+    private JCheckBox timeDomHannFilterCheckBox;
+
     // segmentation section
     private JCheckBox segmentationCheckbox;
     private JComboBox segmentationComboBox;
@@ -241,11 +243,22 @@ public class MainWindow extends JFrame{
                                 }
                                 filter.setMinOrK(minOrK);
                                 filter.setMaxOrL(maxOrL);
-                                operations.addOperation(new FourierTransform(filter));
+                                FourierTransform fourierTransform = new FourierTransform(filter);
+
+                                if(timeDomHannFilterCheckBox.isSelected()){
+                                    fourierTransform.setApplyHannWindow(true);
+                                }
+
+                                operations.addOperation(fourierTransform);
                             }
                         }
                     } else {
-                        operations.addOperation(new FourierTransform());
+                        FourierTransform fourierTransform = new FourierTransform();
+
+                        if(timeDomHannFilterCheckBox.isSelected()){
+                            fourierTransform.setApplyHannWindow(true);
+                        }
+                        operations.addOperation(fourierTransform);
                     }
                 }
                 if(segmentationCheckbox.isSelected()){
@@ -537,6 +550,10 @@ public class MainWindow extends JFrame{
         freqDomMaxValTextInput.setColumns(10);
         freqDomMaxValTextInput.setBounds(122, 236, 92, 27);
         getContentPane().add(freqDomMaxValTextInput);
+
+        timeDomHannFilterCheckBox = new JCheckBox("Apply Hann");
+        timeDomHannFilterCheckBox.setBounds(169, 148, 104, 24);
+        getContentPane().add(timeDomHannFilterCheckBox);
     }
 
     private void initializeSegmentationSection(){

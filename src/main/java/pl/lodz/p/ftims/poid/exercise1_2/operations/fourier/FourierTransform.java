@@ -24,6 +24,8 @@ public class FourierTransform implements Transformable {
 
     private FourierFilter filter;
 
+    private boolean applyHannWindow;
+
     public FourierTransform(){
         this.filter = null;
     }
@@ -40,6 +42,19 @@ public class FourierTransform implements Transformable {
 
         for(RgbColor color : colorChannels.keySet()){
             Complex[][] srcComplex = colorChannels.get(color);
+
+            if(applyHannWindow){
+                for(int x=0; x<size; x++) {
+                    Complex[] complex = srcComplex[x];
+                    applyHann(complex);
+                }
+                srcComplex = swapColumnsWithRows(srcComplex);
+                for(int x=0; x<size; x++) {
+                    Complex[] complex = srcComplex[x];
+                    applyHann(complex);
+                }
+                srcComplex = swapColumnsWithRows(srcComplex);
+            }
 
             Complex[][] afterForwardComplex = runDif2d(srcComplex);
 
@@ -111,22 +126,12 @@ public class FourierTransform implements Transformable {
         Complex[][] afterRowTransformComplex = new Complex[rows][cols];
         Complex[][] afterColTransformComplex = new Complex[size][cols];
 
-//        for(int x=0; x<size; x++) {
-//            Complex[] complex = complexImage[x];
-//            applyHamming(complex,size);
-//        }
-
         for(int x=0; x<size; x++){
             Complex[] complex = complexImage[x];
             afterRowTransformComplex[x] = dif1d(complex);
         }
 
         afterRowTransformComplex = swapColumnsWithRows(afterRowTransformComplex);
-
-//        for(int x=0; x<size; x++) {
-//            Complex[] complex = afterRowTransformComplex[x];
-//            applyHamming(complex,size);
-//        }
 
         for(int x=0; x<size; x++){
             Complex[] complex = afterRowTransformComplex[x];
@@ -136,19 +141,19 @@ public class FourierTransform implements Transformable {
         return afterColTransformComplex;
     }
 
-    private void applyHamming(Complex[] complexImage, int size) {
+    private void applyHann(Complex[] complexImage) {
         int n = complexImage.length;
-        double sum = 0;
-            for (int x=0; x<n; x++) { //calculate non-normalized window function
-                double z = (x + 0.5) * (2 * Math.PI / n);
-                double w = 0;
-                w = 0.54 - 0.46 * Math.cos(z);
-                complexImage[x].setReal(complexImage[x].getReal()* w);
-                sum += w;
+        for (int x=0; x<n; x++) {
+            double w = 0.5 * (1.0d - Math.cos((2.0d * Math.PI * x) / (n - 1)));
+            double newReal = complexImage[x].getReal() * w;
+            if(newReal > 255){
+                newReal = 255;
+            } else if (newReal < 0){
+                newReal = 0;
             }
+            complexImage[x].setReal(newReal);
+        }
     }
-
-
 
     private Complex[][] runIDif2d(Complex[][] afterForwardComplex) {
         int size = afterForwardComplex.length;
@@ -227,6 +232,11 @@ public class FourierTransform implements Transformable {
             for(int y=0; y<cols; y++){
                 if(Spectrum.NULL == spectrum){
                     res[x][y] = complexImage[x][y].getReal();
+                    if (res[x][y] < 0){
+                        res[x][y] = 0;
+                    } else if (res[x][y] > 255){
+                        res[x][y] = 255;
+                    }
                 } else if(Spectrum.PHASE == spectrum){
                     res[x][y] = complexImage[x][y].phase();
                 } else if(Spectrum.ABS == spectrum){
@@ -333,6 +343,10 @@ public class FourierTransform implements Transformable {
             res.put(color, complex2DTable);
         }
         return res;
+    }
+
+    public void setApplyHannWindow(boolean applyHannWindow) {
+        this.applyHannWindow = applyHannWindow;
     }
 
     private enum Spectrum {
