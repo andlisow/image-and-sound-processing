@@ -13,6 +13,7 @@ public class Autocorrelation implements Transformable {
 
     @Override
     public WavFile process(WavFile wavFile) {
+        LOG.info("Starting autocorrelation");
         int N = (int) wavFile.getNumFrames();
         double[] buffer = new double[N];
         try {
@@ -40,6 +41,7 @@ public class Autocorrelation implements Transformable {
         LOG.info("Local maximum index: " + localMaxIndex);
         LOG.info("Frequency: " + N / (localMaxIndex));
 
+        LOG.info("Autocorrelation has finished");
         //TODO generate sound
         return null;
     }

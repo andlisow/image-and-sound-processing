@@ -168,7 +168,7 @@ public class MainWindow extends JFrame{
         timeDomMethodsCheckbox.setBounds(12, 157, 224, 24);
         getContentPane().add(timeDomMethodsCheckbox);
         
-        timeDomMethodsComboBox = new JComboBox(FreqDomTransformations.TRANSFORMATIONS.keySet().toArray());
+        timeDomMethodsComboBox = new JComboBox(TimeDomTransformations.TRANSFORMATIONS.keySet().toArray());
         timeDomMethodsComboBox.setBounds(12, 195, 162, 27);
         getContentPane().add(timeDomMethodsComboBox);
         
@@ -176,7 +176,7 @@ public class MainWindow extends JFrame{
         freqDomMethodsCheckbox.setBounds(279, 157, 271, 24);
         getContentPane().add(freqDomMethodsCheckbox);
         
-        freqDomMethodsComboBox = new JComboBox(TimeDomTransformations.TRANSFORMATIONS.keySet().toArray());
+        freqDomMethodsComboBox = new JComboBox(FreqDomTransformations.TRANSFORMATIONS.keySet().toArray());
         freqDomMethodsComboBox.setBounds(279, 196, 162, 27);
         getContentPane().add(freqDomMethodsComboBox);
     }
