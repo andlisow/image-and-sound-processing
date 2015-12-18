@@ -12,6 +12,8 @@ import java.io.*;
 
 public class WavFile
 {
+    private double duration;
+
     private enum IOState {READING, WRITING, CLOSED};
     private final static int BUFFER_SIZE = 4096;
 
@@ -714,6 +716,14 @@ public class WavFile
         out.printf("IO State: %s\n", ioState);
         out.printf("Sample Rate: %d, Block Align: %d\n", sampleRate, blockAlign);
         out.printf("Valid Bits: %d, Bytes per sample: %d\n", validBits, bytesPerSample);
+    }
+
+    public void setDuration(double duration) {
+        this.duration = duration;
+    }
+
+    public double getDuration() {
+        return duration;
     }
 
 //    public static void main(String[] args)

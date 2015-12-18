@@ -17,9 +17,9 @@ public class Operations {
     }
 
     public WavFile processSound(WavFile originSound){
-        resultSound = new WavFile(originSound);
+//        resultSound = new WavFile(originSound);
         for(Transformable transformable : operations){
-            resultSound = transformable.process(resultSound);
+            resultSound = transformable.process(originSound);
         }
         return resultSound;
     }
