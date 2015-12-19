@@ -1,0 +1,138 @@
+% vim:encoding=utf8 ft=tex sts=2 sw=2 et:
+
+\documentclass{classrep}
+\usepackage[utf8]{inputenc}
+\usepackage{color}
+\usepackage{mathtools}
+
+\usepackage{subfig}
+\usepackage{float}
+
+\usepackage[labelfont=it]{caption}
+
+\studycycle{Informatyka, studia niestacjonarne, mgr II st.}
+\coursesemester{I}
+
+\coursename{Przetwarzanie obrazu i dźwięku}
+\courseyear{2015/2016}
+
+\courseteacher{mgr inż. Piotr Ożdżyński}
+\coursegroup{Sobota, 14:15}
+
+\author{
+  \studentinfo{Jakub Antosik}{206788} \and
+  \studentinfo{Andrzej Lisowski}{206807} 
+}
+
+\title{Zadanie 3: Analiza częstotliwości podstawowej dźwięku.}
+
+\begin{document}
+\maketitle
+
+\section{Cel}
+Celem zadania było zapoznanie się z metodami analizy dźwięku, a w szczególności znajdowania okresu i częstotliwości. Badane były dwie grupy metod: realizowane w dziedzinie czasu oraz w dziedzinie częstotliwości. W części implementacyjnej należało stworzyć program w wybranym przez siebie języku programowania, który będzie w stanie przeprowadzić po jednej, wybranej operacji operacji z z każdej z grup. Do tego celu wykorzystano szkielet apliakcji z zadań 1 i 2.\\
+\indent
+Szczegółowy opis zadania został przedstawiony w [1].
+
+\section{Wprowadzenie}
+//TODO
+
+\subsection{Autokorelacja}
+//TODO
+
+\subsection{Analiza widma Fouriera sygnału}
+//TODO
+
+\section{Opis implementacji}
+Opis implementacji został przedstawiony w sprawozdaniu do zadania 1 [2]. Zadanie 3 zostało zrealizowane poprzez rozszerzenie funkcjonalności programu. Dodany został nowy interfejs graficzny, dedykowany dla przetwarzania dźwięku oraz analizowane metody tj. autokorelację oraz analizę widma Fouriera sygnału.
+
+\section{Materiały i metody}
+Do aplikacji dodano szereg testowych dźwięków w celu dokładnej analizy badanych metod. Ich spis zamieszczono poniżej:\\
+\indent
+\begin{itemize}
+\item Sztuczne
+\begin{itemize}
+\item Łatwe: 100Hz, 150Hz, 225Hz, 337Hz, 506Hz, 759Hz, 1139Hz, 1708Hz
+\item Średnie: 90Hz, 135Hz, 202Hz, 303Hz, 455Hz, 683Hz, 1025Hz, 1537Hz
+\item Trudne: 80Hz, 120Hz, 180Hz, 270Hz, 405Hz, 607Hz, 911Hz, 1366Hz
+\end{itemize}
+\item Naturalne
+\begin{itemize}
+\item Flet: 276Hz, 443Hz, 591Hz, 887Hz, 1265Hz, 1779Hz
+\item Altówka: 130Hz, 196Hz, 247Hz, 294Hz, 369Hz, 440Hz, 698Hz
+\end{itemize}
+\item Sekwencje
+\begin{itemize}
+\item DWK altówka
+\item KDF pianino
+\end{itemize}
+\end{itemize}
+
+\section{Wyniki}
+Sekcja prezentuje wyniki przeprowadzanego badania metody autokorelacji i analizy widma Fouriera sygnału. 
+
+\subsection{Autokorelacja}
+W poniższej tabeli przedstawiono częstotliwości badanych dźwięków - faktyczną oraz znalezioną w wyniku autokorelacji.\\
+\\
+\begin{tabular}{ l | c | c }
+  \hline
+  Dźwięk testowy & Autokorelacja & Analiza widma Fouriera \\
+  \hline			
+  Sztuczne, łatwe, 100Hz & TODO & TODO \\
+  Sztuczne, łatwe, 150Hz & TODO & TODO \\
+  Sztuczne, łatwe, 225Hz & TODO & TODO \\
+  Sztuczne, łatwe, 337Hz & TODO & TODO \\
+  Sztuczne, łatwe, 506Hz & TODO & TODO \\
+  Sztuczne, łatwe, 759Hz & TODO & TODO \\
+  Sztuczne, łatwe, 1139Hz & TODO & TODO \\
+  Sztuczne, łatwe, 1708Hz & TODO & TODO \\
+  \hline
+  Sztuczne, średnie, 90Hz & TODO & TODO \\
+  Sztuczne, średnie, 135Hz & TODO & TODO \\
+  Sztuczne, średnie, 202Hz & TODO & TODO \\
+  Sztuczne, średnie, 303Hz & TODO & TODO \\
+  Sztuczne, średnie, 455Hz & TODO & TODO \\
+  Sztuczne, średnie, 683Hz & TODO & TODO \\
+  Sztuczne, średnie, 1025Hz & TODO & TODO \\
+  Sztuczne, średnie, 1537Hz & TODO & TODO \\
+  \hline 
+  Sztuczne, trudne, 80Hz & TODO & TODO \\
+  Sztuczne, trudne, 120Hz & TODO & TODO \\
+  Sztuczne, trudne, 180Hz & TODO & TODO \\
+  Sztuczne, trudne, 270Hz & TODO & TODO \\
+  Sztuczne, trudne, 405Hz & TODO & TODO \\
+  Sztuczne, trudne, 607Hz & TODO & TODO \\
+  Sztuczne, trudne, 911Hz & TODO & TODO \\
+  Sztuczne, trudne, 1366Hz & TODO & TODO \\
+  \hline 
+  Naturalne, flet, 276Hz & TODO & TODO \\
+  Naturalne, flet, 443Hz & TODO & TODO \\
+  Naturalne, flet, 591Hz & TODO & TODO \\
+  Naturalne, flet, 887Hz & TODO & TODO \\
+  Naturalne, flet, 1265Hz & TODO & TODO \\
+  Naturalne, flet, 1779Hz & TODO & TODO \\
+  \hline 
+  Naturalne, altówka, 130Hz & TODO & TODO \\
+  Naturalne, altówka, 196Hz & TODO & TODO \\
+  Naturalne, altówka, 247Hz & TODO & TODO \\
+  Naturalne, altówka, 294Hz & TODO & TODO \\
+  Naturalne, altówka, 369Hz & TODO & TODO \\
+  Naturalne, altówka, 440Hz & TODO & TODO \\
+  Naturalne, altówka, 698Hz & TODO & TODO \\
+  \hline 
+\end{tabular}
+
+\subsection{Analiza widma Fouriera sygnału}
+Sekcja ta prezentuje wyniki wyniki zastosowania segmentacji dla obrazu 24-bitowego Girl. Zaprezentowane są nałożone maski dla różnych parametrów progu i minimalnej ilości pikseli na obszar.
+
+\section{Dyskusja i wnioski}
+//TODO
+
+\begin{thebibliography}{1}
+\bibitem{instruction_pol}\text{$http://ftims.edu.p.lodz.pl/pluginfile.php/20101/mod\_resource/content/1/$}\\
+\text{$Third2012.pdf, 2015$}
+\bibitem{instruction_pol}\text{$https://github.com/alisowsk/image-and-sound-processing/blob/master/$}\\
+\text{$sprawozdanie/sprawozdanie.pdf, 2015$}
+\end{thebibliography}
+
+\end{document}
