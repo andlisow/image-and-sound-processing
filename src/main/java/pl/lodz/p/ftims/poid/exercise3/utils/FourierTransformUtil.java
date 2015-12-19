@@ -1,6 +1,6 @@
 package main.java.pl.lodz.p.ftims.poid.exercise3.utils;
 
-import main.java.pl.lodz.p.ftims.poid.exercise1_2.model.Complex;
+import main.java.pl.lodz.p.ftims.poid.exercise3.model.Complex;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

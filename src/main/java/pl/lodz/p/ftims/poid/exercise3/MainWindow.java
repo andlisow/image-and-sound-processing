@@ -88,6 +88,7 @@ public class MainWindow extends JFrame{
                         long frames = audioInputStream.getFrameLength();
                         double durationInSeconds = (frames+0.0) / format.getFrameRate();
                         sourceFile.setDuration(durationInSeconds);
+                        sourceFile.setName(file.getName());
                     } catch (Exception ex) {
                         LOG.error("An error occurred when trying to read .wav file", e);
                     }
@@ -106,6 +107,7 @@ public class MainWindow extends JFrame{
                 long frames = audioInputStream.getFrameLength();
                 double durationInSeconds = (frames+0.0) / format.getFrameRate();
                 sourceFile.setDuration(durationInSeconds);
+                sourceFile.setName(file.getName());
             } catch (Exception ex) {
                 LOG.error("An error occurred when trying to read .wav file", e);
             }

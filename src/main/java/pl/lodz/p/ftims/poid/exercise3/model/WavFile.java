@@ -13,6 +13,7 @@ import java.io.*;
 public class WavFile
 {
     private double duration;
+    private String name;
 
     private enum IOState {READING, WRITING, CLOSED};
     private final static int BUFFER_SIZE = 4096;
@@ -724,6 +725,14 @@ public class WavFile
 
     public double getDuration() {
         return duration;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
 //    public static void main(String[] args)
