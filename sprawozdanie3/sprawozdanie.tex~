@@ -38,7 +38,12 @@ Szczegółowy opis zadania został przedstawiony w [1].
 //TODO
 
 \subsection{Autokorelacja}
-//TODO
+Autokorelacja jest korelacją sygnału z samym sobą, w kolejnych punktach w czasie. Innymi słowy, autokorelacja informuje o tym na ile dane wartości / obserwacje są istotnie związane z obserwacjami zaobserwowanymi wcześniej (o stałym przesunięciu czasowym) [3].\\
+\indent
+Wzór na autokorelację sygnału dyskretnego jest następujący:\\
+\\
+\[ c(m) = \sum_{n = 1}^{N - 1} x(n) \ast x(n + m) \]
+\\
 
 \subsection{Analiza widma Fouriera sygnału}
 //TODO
@@ -73,59 +78,65 @@ Sekcja prezentuje wyniki przeprowadzanego badania metody autokorelacji i analizy
 
 \subsection{Autokorelacja}
 W poniższej tabeli przedstawiono częstotliwości badanych dźwięków - faktyczną oraz znalezioną w wyniku autokorelacji.\\
-\indent
+\\
 \begin{tabular}{ l | c | c }
   \hline
-  Dzwięk testowy & Autokorelacja & Analiza widma Fouriera \\
+  Dźwięk testowy & Autokorelacja & Analiza widma Fouriera \\
   \hline			
-  Sztuczne, łatwe, 100Hz & TODO & TODO \\
-  Sztuczne, łatwe, 150Hz & TODO & TODO \\
-  Sztuczne, łatwe, 225Hz & TODO & TODO \\
-  Sztuczne, łatwe, 337Hz & TODO & TODO \\
-  Sztuczne, łatwe, 506Hz & TODO & TODO \\
-  Sztuczne, łatwe, 759Hz & TODO & TODO \\
-  Sztuczne, łatwe, 1139Hz & TODO & TODO \\
-  Sztuczne, łatwe, 1708Hz & TODO & TODO \\
+  Sztuczne, łatwe, 100Hz & 100 & TODO \\
+  Sztuczne, łatwe, 150Hz & 150 & TODO \\
+  Sztuczne, łatwe, 225Hz & 225 & TODO \\
+  Sztuczne, łatwe, 337Hz & 336 & TODO \\
+  Sztuczne, łatwe, 506Hz & 506 & TODO \\
+  Sztuczne, łatwe, 759Hz & 760 & TODO \\
+  Sztuczne, łatwe, 1139Hz & 1130 & TODO \\
+  Sztuczne, łatwe, 1708Hz & 1696 & TODO \\
   \hline
-  Sztuczne, średnie, 90Hz & TODO & TODO \\
-  Sztuczne, średnie, 135Hz & TODO & TODO \\
-  Sztuczne, średnie, 202Hz & TODO & TODO \\
-  Sztuczne, średnie, 303Hz & TODO & TODO \\
-  Sztuczne, średnie, 455Hz & TODO & TODO \\
-  Sztuczne, średnie, 683Hz & TODO & TODO \\
-  Sztuczne, średnie, 1025Hz & TODO & TODO \\
-  Sztuczne, średnie, 1537Hz & TODO & TODO \\
+  Sztuczne, średnie, 90Hz & 90 & TODO \\
+  Sztuczne, średnie, 135Hz & 135 & TODO \\
+  Sztuczne, średnie, 202Hz & 202 & TODO \\
+  Sztuczne, średnie, 303Hz & 302 & TODO \\
+  Sztuczne, średnie, 455Hz & 454 & TODO \\
+  Sztuczne, średnie, 683Hz & 678 & TODO \\
+  Sztuczne, średnie, 1025Hz & 1025 & TODO \\
+  Sztuczne, średnie, 1537Hz & 1520 & TODO \\
   \hline 
-  Sztuczne, trudne, 80Hz & TODO & TODO \\
-  Sztuczne, trudne, 120Hz & TODO & TODO \\
-  Sztuczne, trudne, 180Hz & TODO & TODO \\
-  Sztuczne, trudne, 270Hz & TODO & TODO \\
-  Sztuczne, trudne, 405Hz & TODO & TODO \\
-  Sztuczne, trudne, 607Hz & TODO & TODO \\
-  Sztuczne, trudne, 911Hz & TODO & TODO \\
-  Sztuczne, trudne, 1366Hz & TODO & TODO \\
+  Sztuczne, trudne, 80Hz & 80 & TODO \\
+  Sztuczne, trudne, 120Hz & 120 & TODO \\
+  Sztuczne, trudne, 180Hz & 180 & TODO \\
+  Sztuczne, trudne, 270Hz & 270 & TODO \\
+  Sztuczne, trudne, 405Hz & 404 & TODO \\
+  Sztuczne, trudne, 607Hz & 604 & TODO \\
+  Sztuczne, trudne, 911Hz & 454 & TODO \\
+  Sztuczne, trudne, 1366Hz & 341 & TODO \\
   \hline 
-  Naturalne, flet, 276Hz & TODO & TODO \\
-  Naturalne, flet, 443Hz & TODO & TODO \\
-  Naturalne, flet, 591Hz & TODO & TODO \\
-  Naturalne, flet, 887Hz & TODO & TODO \\
-  Naturalne, flet, 1265Hz & TODO & TODO \\
-  Naturalne, flet, 1779Hz & TODO & TODO \\
+  Naturalne, flet, 276Hz & 649 & TODO \\
+  Naturalne, flet, 443Hz & 2913 & TODO \\
+  Naturalne, flet, 591Hz & 2618 & TODO \\
+  Naturalne, flet, 887Hz & 2078 & TODO \\
+  Naturalne, flet, 1265Hz & 2941 & TODO \\
+  Naturalne, flet, 1779Hz & 4148 & TODO \\
   \hline 
-  Naturalne, altówka, 130Hz & TODO & TODO \\
-  Naturalne, altówka, 196Hz & TODO & TODO \\
-  Naturalne, altówka, 247Hz & TODO & TODO \\
-  Naturalne, altówka, 294Hz & TODO & TODO \\
-  Naturalne, altówka, 369Hz & TODO & TODO \\
-  Naturalne, altówka, 440Hz & TODO & TODO \\
-  Naturalne, altówka, 698Hz & TODO & TODO \\
+  Naturalne, altówka, 130Hz & 1738 & TODO \\
+  Naturalne, altówka, 196Hz & 4741 & TODO \\
+  Naturalne, altówka, 247Hz & 5404 & TODO \\
+  Naturalne, altówka, 294Hz & 4406 & TODO \\
+  Naturalne, altówka, 369Hz & 1853 & TODO \\
+  Naturalne, altówka, 440Hz & 4426 & TODO \\
+  Naturalne, altówka, 698Hz & 3678 & TODO \\
   \hline 
 \end{tabular}
 
 \subsection{Analiza widma Fouriera sygnału}
-Sekcja ta prezentuje wyniki wyniki zastosowania segmentacji dla obrazu 24-bitowego Girl. Zaprezentowane są nałożone maski dla różnych parametrów progu i minimalnej ilości pikseli na obszar.
+//TODO
 
 \section{Dyskusja i wnioski}
+Poniższa sekcja prezentuje interpretację uzyskanych wyników oraz wnioski. Opisano również napotkane problemy oraz możliwe sposoby ich rozwiązania.
+
+\subsection{Autokorelacja}
+Metoda autokorelacji rozpoznała częstotliwość dźwięków wygenerowanych sztucznie z bardzo dużą dokładnością. Miała jedynie problemy z trudnymi dźwiękami, o najwyższej częstotliwości. Niestety, analizowana metoda nie potrafiła rozpoznać ani jednej częstoliwości w dźwiękac naturalnych, we flecie i w altówce. Wynika to najprawdopodobniej z szumu otoczenia, który powinien być usunięty przed rozpoczęciem autokorelacji.
+
+\subsection{Analiza widma Fouriera sygnału}
 //TODO
 
 \begin{thebibliography}{1}
@@ -133,6 +144,7 @@ Sekcja ta prezentuje wyniki wyniki zastosowania segmentacji dla obrazu 24-bitowe
 \text{$Third2012.pdf, 2015$}
 \bibitem{instruction_pol}\text{$https://github.com/alisowsk/image-and-sound-processing/blob/master/$}\\
 \text{$sprawozdanie/sprawozdanie.pdf, 2015$}
+\bibitem{instruction_pol}\text{$http://www.naukowiec.org/wiedza/statystyka/autokorelacja\_410.html, 2015$}\\
 \end{thebibliography}
 
 \end{document}

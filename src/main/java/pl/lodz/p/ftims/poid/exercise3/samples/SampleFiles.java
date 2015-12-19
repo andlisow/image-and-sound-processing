@@ -4,9 +4,6 @@ package main.java.pl.lodz.p.ftims.poid.exercise3.samples;
  * @author alisowsk
  */
 public enum SampleFiles {
-    LIN ("main/resources/exercise_3/lin.wav"),
-    LOG ("main/resources/exercise_3/log.wav"),
-
     ART_DIF_80("main/resources/exercise_3/artificial/diff/80Hz.wav"),
     ART_DIF_120("main/resources/exercise_3/artificial/diff/120Hz.wav"),
     ART_DIF_180("main/resources/exercise_3/artificial/diff/180Hz.wav"),
