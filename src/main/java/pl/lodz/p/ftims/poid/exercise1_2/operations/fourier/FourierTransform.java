@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static main.java.pl.lodz.p.ftims.poid.exercise1_2.model.Pixel.RgbColor;
+import static main.java.pl.lodz.p.ftims.poid.exercise1_2.utils.FourierUtil.*;
 
 /**
  * @author alisowsk
@@ -46,17 +47,17 @@ public class FourierTransform implements Transformable {
             if(applyHannWindow){
                 for(int x=0; x<size; x++) {
                     Complex[] complex = srcComplex[x];
-                    applyHann(complex);
+                    applyHanningWindow(complex);
                 }
-                srcComplex = swapColumnsWithRows(srcComplex);
+                srcComplex = swap2dDimensions(srcComplex);
                 for(int x=0; x<size; x++) {
                     Complex[] complex = srcComplex[x];
-                    applyHann(complex);
+                    applyHanningWindow(complex);
                 }
-                srcComplex = swapColumnsWithRows(srcComplex);
+                srcComplex = swap2dDimensions(srcComplex);
             }
 
-            Complex[][] afterForwardComplex = runDif2d(srcComplex);
+            Complex[][] afterForwardComplex = fftDit2d(srcComplex);
 
             swapQuadrants(afterForwardComplex);
             saveSpectrum("before_filter" + image.getName(), afterForwardComplex, Spectrum.PHASE, color);
@@ -79,7 +80,7 @@ public class FourierTransform implements Transformable {
                 swapQuadrants(afterForwardComplex);
             }
 
-            Complex[][] afterInverseComplex = runIDif2d(afterForwardComplex);
+            Complex[][] afterInverseComplex = iFftDit2d(afterForwardComplex);
 
             double normalisedResult[][] = getPixelValues(afterInverseComplex, false, Spectrum.NULL);
 
@@ -117,31 +118,7 @@ public class FourierTransform implements Transformable {
         }
     }
 
-    private Complex[][] runDif2d(Complex[][] complexImage) {
-        int size = complexImage.length;
-
-        final int rows = complexImage.length;
-        final int cols = complexImage[0].length;
-
-        Complex[][] afterRowTransformComplex = new Complex[rows][cols];
-        Complex[][] afterColTransformComplex = new Complex[size][cols];
-
-        for(int x=0; x<size; x++){
-            Complex[] complex = complexImage[x];
-            afterRowTransformComplex[x] = dif1d(complex);
-        }
-
-        afterRowTransformComplex = swapColumnsWithRows(afterRowTransformComplex);
-
-        for(int x=0; x<size; x++){
-            Complex[] complex = afterRowTransformComplex[x];
-            afterColTransformComplex[x] = dif1d(complex);
-        }
-
-        return afterColTransformComplex;
-    }
-
-    private void applyHann(Complex[] complexImage) {
+    private void applyHanningWindow(Complex[] complexImage) {
         int n = complexImage.length;
         for (int x=0; x<n; x++) {
             double w = 0.5 * (1.0d - Math.cos((2.0d * Math.PI * x) / (n - 1)));
@@ -153,52 +130,6 @@ public class FourierTransform implements Transformable {
             }
             complexImage[x].setReal(newReal);
         }
-    }
-
-    private Complex[][] runIDif2d(Complex[][] afterForwardComplex) {
-        int size = afterForwardComplex.length;
-        Complex[][] afterRowTransformComplex = new Complex[size][size];
-        Complex[][] afterColTransformComplex = new Complex[size][size];
-
-        for(int x=0; x<size; x++){
-            Complex[] complex = afterForwardComplex[x];
-            afterRowTransformComplex[x] = iDiff1d(complex);
-        }
-
-        afterRowTransformComplex = swapColumnsWithRows(afterRowTransformComplex);
-
-        for(int x=0; x<size; x++){
-            Complex[] complex = afterRowTransformComplex[x];
-            afterColTransformComplex[x] = iDiff1d(complex);
-        }
-
-        return afterColTransformComplex;
-    }
-
-    public static Complex[] iDiff1d(Complex[] x) {
-        int N = x.length;
-        Complex[] y = new Complex[N];
-
-        // take conjugate
-        for (int i = 0; i < N; i++) {
-            y[i] = x[i].conjugate();
-        }
-
-        // compute forward FFT
-        y = FourierTransform.dif1d(y);
-
-        // take conjugate again
-        for (int i = 0; i < N; i++) {
-            y[i] = y[i].conjugate();
-        }
-
-        // divide by N
-        for (int i = 0; i < N; i++) {
-            y[i] = y[i].times(1.0 / N);
-        }
-
-        return y;
-
     }
 
     private Complex[][] swapQuadrants(Complex[][] complexImage) {
@@ -277,58 +208,6 @@ public class FourierTransform implements Transformable {
         }
 
         return values;
-    }
-
-    private Complex[][] swapColumnsWithRows(Complex[][] complexImage) {
-        final int rows = complexImage.length;
-        final int cols = complexImage[0].length;
-
-        Complex[][] swappedTab = new Complex[rows][cols];
-        for(int x=0; x<rows; x++){
-            for(int y=0; y<cols; y++){
-                swappedTab[x][y] = complexImage[y][x];
-            }
-        }
-
-        return swappedTab;
-    }
-
-    public static Complex[] dif1d(Complex[] x) {
-        int N = x.length;
-
-        // base case
-        if (N == 1){
-            return new Complex[] { x[0] };
-        }
-
-        // radix 2 Cooley-Tukey FFT
-        if (N % 2 != 0) {
-            LOG.error("N has to be the power of 2");
-        }
-
-        // fft of even terms
-        Complex[] even = new Complex[N/2];
-        for (int k = 0; k < N/2; k++) {
-            even[k] = x[2*k];
-        }
-        Complex[] q = dif1d(even);
-
-        // fft of odd terms
-        Complex[] odd  = even;  // reuse the array
-        for (int k = 0; k < N/2; k++) {
-            odd[k] = x[2*k + 1];
-        }
-        Complex[] r = dif1d(odd);
-
-        // combine
-        Complex[] y = new Complex[N];
-        for (int k = 0; k < N/2; k++) {
-            double kth = -2 * k * Math.PI / N;
-            Complex wk = new Complex(Math.cos(kth), Math.sin(kth));
-            y[k] = q[k].plus(wk.times(r[k]));
-            y[k + N/2] = q[k].minus(wk.times(r[k]));
-        }
-        return y;
     }
 
     private Map<RgbColor, Complex[][]> transformImgToComplex2DTable(Image image) {
