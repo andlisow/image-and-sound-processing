@@ -14,32 +14,6 @@ public class FourierTransformUtil {
 
     }
 
-    public static Complex[] iDiff1d(Complex[] x) {
-        int N = x.length;
-        Complex[] y = new Complex[N];
-
-        // take conjugate
-        for (int i = 0; i < N; i++) {
-            y[i] = x[i].conjugate();
-        }
-
-        // compute forward FFT
-        y = dif1d(y);
-
-        // take conjugate again
-        for (int i = 0; i < N; i++) {
-            y[i] = y[i].conjugate();
-        }
-
-        // divide by N
-        for (int i = 0; i < N; i++) {
-            y[i] = y[i].times(1.0 / N);
-        }
-
-        return y;
-
-    }
-
     public static Complex[] dif1d(Complex[] x) {
         int N = x.length;
 
