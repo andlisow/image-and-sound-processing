@@ -7,8 +7,10 @@ import main.java.pl.lodz.p.ftims.poid.exercise3.utils.FourierTransformUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
 import java.util.*;
+
+import static main.java.pl.lodz.p.ftims.poid.exercise3.utils.SoundUtil.chunkArray;
+import static main.java.pl.lodz.p.ftims.poid.exercise3.utils.SoundUtil.generateSound;
 
 /**
  * @author alisowsk
@@ -16,8 +18,10 @@ import java.util.*;
 public class FourierSpectrumAnalysis implements Transformable {
     private static final Logger LOG = LoggerFactory.getLogger(FourierSpectrumAnalysis.class);
 
+    private int chunkSize = 44100;
 
     protected double[][] d;
+    private static final int RANGE = 10;
 
     static public class DataComp implements Comparator<Integer> {
 
@@ -47,152 +51,96 @@ public class FourierSpectrumAnalysis implements Transformable {
     @Override
     public WavFile process(WavFile wavFile) {
         LOG.info("Starting Fourier Transform");
-        int N = (int) wavFile.getNumFrames();
         int numberOfFrames = (int) wavFile.getNumFrames();
         int sampleRate = (int) wavFile.getSampleRate();
-        int[] bufferWav = new int[N];
+        int[] bufferWav = new int[numberOfFrames];
         String name = wavFile.getName();
         try {
-            wavFile.readFrames(bufferWav, N);
+            wavFile.readFrames(bufferWav, numberOfFrames);
             wavFile.close();
         } catch (Exception e) {
             LOG.error("Unexpected error has occurred when reading frames from sound", e);
         }
+        chunkSize = makePowerOf2(chunkSize);
 
-
-
-        int[][] okna = chunkArray(bufferWav, 32768);
-        N = 32768;
+        int[][] parts;
+        if(numberOfFrames != 44100){
+            parts= chunkArray(bufferWav, chunkSize);
+        } else {
+            parts = new int[1][];
+            parts[0] = bufferWav;
+        }
 
         List<Integer> frequencies = new ArrayList<>();
 
-        for(int[] buffer : okna) {
-
-
-            LOG.info("length: {}, numchannels: {}", buffer.length, wavFile.getNumChannels());
-
+        for(int[] buffer : parts) {
             Complex[] complexSound = transformSignalToComplex(buffer);
 
-
-            double arg = (2 * Math.PI) / ((double) N - 1.0);
-
-            for (int i = 0; i < N; ++i)
-                //hammming window
-                complexSound[i] = new Complex(buffer[i] * (0.54 - 0.46 * Math.cos(arg * (double) i)), 0);
+            applyHammingWindow(buffer, complexSound);
 
             complexSound = FourierTransformUtil.dif1d(complexSound);
 
-
-//        complexSound = Arrays.copyOfRange(complexSound, 0, N / 2);
-            //cepstrum rzeczywiste i zespolone
-            for (int i = 0; i < complexSound.length; ++i)
-                complexSound[i] = new Complex(10.0 * Math.log10(complexSound[i].abs() + 1), 0);
-
-
-            complexSound = FourierTransformUtil.dif1d(complexSound);
-            complexSound = Arrays.copyOfRange(complexSound, 0, N / 4);
-
-
-            d = new double[2][N];
-
-//		for (int j=0; j<d.length; ++j)
             for (int i = 0; i < complexSound.length; ++i) {
-                //power cepstrum
-                //d[0][i]=Math.pow(csignal[i].abs(),2);
+                complexSound[i] = new Complex(10.0 * Math.log10(complexSound[i].abs() + 1), 0);
+            }
+
+            complexSound = FourierTransformUtil.dif1d(complexSound);
+            complexSound = Arrays.copyOfRange(complexSound, 0, chunkSize / 4);
+
+            d = new double[2][chunkSize];
+
+            for (int i = 0; i < complexSound.length; ++i) {
                 d[0][i] = complexSound[i].abs();
             }
-
-
             double[] dd = d[0];
-            System.err.println("1");
-            LinkedList<Integer> pperiod = new LinkedList<Integer>();
+            LinkedList<Integer> pperiod = new LinkedList<>();
 
-            //RANGE
-            int range = 10;
-
-//		System.out.println("RANGE"+range);
-            for (int i = range; i < dd.length - range; ++i) {
+            for (int i = RANGE; i < dd.length - RANGE; ++i) {
                 int bigger = 0;
-                //sprawdz czy jest to ,,dolina o zboczu wysokim na ,,range''
-                //sprawdzamy wysokość, ale nie stromość zbocza - peaki są ostre
-                for (int j = i - range; j < i + range; ++j) {
-                    if (dd[j] <= dd[i] && i != j)
+                for (int j = i - RANGE; j < i + RANGE; ++j) {
+                    if (dd[j] <= dd[i] && i != j) {
                         bigger++;
+                    }
                 }
-                //sprawdz czy zbocza sa tak wysokie jak to zalozylismy
-                if (bigger == (range * 2) - 1) {
-
+                if (bigger == (RANGE * 2) - 1) {
                     pperiod.add(i);
-
-//				i+=range-1;
                 }
             }
-            System.err.println("2");
-            int max_ind = 0;
+            int maxInd = 0;
 
-            //odrzucanie wysokich ale peakow ale nie stromych
-            //musza opadac w obu kierunkach - nisko
-            for (ListIterator<Integer> iter = pperiod.listIterator(); iter.hasNext(); ) {
-                int i = iter.next(), j = 0, k = 0;
-                //szukamy najniższego wartosci na zboczu lewym
-                while (i - j - 1 >= 0) {
-                    if ((dd[i - j - 1] <= dd[i - j]))
-                        ++j;
-                    else
-                        break;
-                }
-                //szukamy najnizszej wartosci na zboczu prawym
-                while (((i + k + 1) < dd.length)) {
-                    if ((dd[i + k + 1] <= dd[i + k]))
-                        ++k;
-                    else
-                        break;
-                }
+            rejectHighPeaksButNotRapid(dd, pperiod);
 
-
-                double maxmin = Math.max(dd[i - j], dd[i + k]);
-                if (maxmin > dd[i] * 0.2) {
-                    iter.remove();
-//				System.out.println(i+ "+"+j+ " " + dd[i-j]+" "+dd[i]+" "+dd[i+k]);
-                } else d[1][i] = dd[i];
-
-            }
-
-            System.err.println("3");
-            //progowanie co do największego peaku
-            max_ind = Collections.max(pperiod, new MaxDataComp(dd));
+            maxInd = Collections.max(pperiod, new MaxDataComp(dd));
 
             for (ListIterator<Integer> it = pperiod.listIterator(); it.hasNext(); ) {
-                Integer num = (Integer) it.next();
-                if (dd[num] > dd[max_ind] * 0.4) {
+                Integer num = it.next();
+                if (dd[num] > dd[maxInd] * 0.4) {
                     d[1][num] = dd[num];
                 } else
                     it.remove();
             }
 
 
-            System.err.println("4");
-            int max_b, max_a;
-//		max_b= max_ind;
-            max_b = Collections.max(pperiod, new MaxDataComp(dd));
+            int maxB, maxA;
+            maxB = Collections.max(pperiod, new MaxDataComp(dd));
             int a = 0, b = 0;
             while (pperiod.size() > 1) {
                 for (ListIterator del = pperiod.listIterator(); del.hasNext(); )
-                    if ((Integer) del.next() == max_b) {
+                    if ((Integer) del.next() == maxB) {
                         del.remove();
                         break;
                     }
 
-                max_a = Collections.max(pperiod, new MaxDataComp(dd));
+                maxA = Collections.max(pperiod, new MaxDataComp(dd));
 
-                a = max_a;
-                b = max_b;
+                a = maxA;
+                b = maxB;
                 if (a > b) {
                     int tmp = a;
                     a = b;
                     b = tmp;
                 }
-                System.out.println(a + " " + b);
+                LOG.info("{} {}", a, b);
 
 
                 for (ListIterator<Integer> it = pperiod.listIterator(); it.hasNext(); ) {
@@ -201,37 +149,68 @@ public class FourierSpectrumAnalysis implements Transformable {
                         it.remove();
                 }
 
-                max_b = max_a;
+                maxB = maxA;
 
             }
-            System.err.println("5");
-            max_ind = Math.abs(b - a);
-            if (max_ind == 0 && pperiod.size() == 1)
-                max_ind = pperiod.get(0);
-            else
-                System.out.println(a + " " + b);
+            maxInd = Math.abs(b - a);
+            if (maxInd == 0 && pperiod.size() == 1){
+                maxInd = pperiod.get(0);
+            } else{
+                LOG.info("{} {}", a, b);
+            }
 
-
-            frequencies.add((int)((double)wavFile.getSampleRate()/(double)max_ind));
+            int frequency = (int) (sampleRate/(double)maxInd);
+            LOG.info("Frequency: {}", frequency);
+            frequencies.add(frequency);
 
         }
-        try {
-            saveSound(frequencies, name, numberOfFrames,sampleRate);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        WavFile generatedSound = generateSound(chunkSize, numberOfFrames, sampleRate, name, frequencies);
 
         return null;
     }
 
-    private int makePowerOf2(int windowWidth) {
-        int powerOfTwo = 2;
+    private void rejectHighPeaksButNotRapid(double[] dd, LinkedList<Integer> pperiod) {
+        for (ListIterator<Integer> iter = pperiod.listIterator(); iter.hasNext(); ) {
+            int i = iter.next(), j = 0, k = 0;
+            j = findLowestValueLeftSide(dd, i, j);
+            k = findLowestValueRightSide(dd, i, k);
 
-        while (windowWidth > powerOfTwo){
-            powerOfTwo *= 2;
+            double maxmin = Math.max(dd[i - j], dd[i + k]);
+            if (maxmin > dd[i] * 0.2) {
+                iter.remove();
+            } else{
+                d[1][i] = dd[i];
+            }
         }
+    }
 
-        return powerOfTwo;
+    private int findLowestValueRightSide(double[] dd, int i, int k) {
+        while ((i + k + 1) < dd.length) {
+            if (dd[i + k + 1] <= dd[i + k]){
+                ++k;
+            } else{
+                break;
+            }
+        }
+        return k;
+    }
+
+    private int findLowestValueLeftSide(double[] dd, int i, int j) {
+        while (i - j - 1 >= 0) {
+            if (dd[i - j - 1] <= dd[i - j]){
+                ++j;
+            } else {
+                break;
+            }
+        }
+        return j;
+    }
+
+    private void applyHammingWindow(int[] buffer, Complex[] complexSound) {
+        double arg = (2 * Math.PI) / ((double) chunkSize - 1.0);
+        for (int i = 0; i < chunkSize; ++i){
+            complexSound[i] = new Complex(buffer[i] * (0.54 - 0.46 * Math.cos(arg * (double) i)), 0);
+        }
     }
 
     private Complex[] transformSignalToComplex(int[] buffer) {
@@ -245,63 +224,19 @@ public class FourierSpectrumAnalysis implements Transformable {
         return complex;
     }
 
+    private int makePowerOf2(int windowWidth) {
+        int powerOfTwo = 2;
 
-
-
-    private int[][] chunkArray(int[] array, int chunkSize) {
-        int numOfChunks = (int)Math.ceil((int)array.length / chunkSize);
-        int[][] output = new int[numOfChunks][];
-
-        for(int i = 0; i < numOfChunks; ++i) {
-            int start = i * chunkSize;
-            int length = Math.min(array.length - start, chunkSize);
-
-            int[] temp = new int[length];
-            System.arraycopy(array, start, temp, 0, length);
-            output[i] = temp;
+        while (windowWidth > powerOfTwo){
+            powerOfTwo *= 2;
         }
 
-        return output;
+        return powerOfTwo;
     }
 
-    private void saveSound(List<Integer> frequencies, String name, int totalFrames, int sampleRate) throws Exception {
-        byte[] pcm_data= new byte[totalFrames];
-
-
-        WavFile wavFile = WavFile.newWavFile(new File("/home/andrzej/poid/transformed_" + name),1, totalFrames, 8, sampleRate);
-
-        int prevFreq=0;
-        for(int i=0; i<frequencies.size(); i++){
-            double[] buffer = new double[32768];
-            int frequency = frequencies.get(i);
-            if(frequency==0){
-                frequency = prevFreq;
-            } else {
-                prevFreq = frequency;
-            }
-            double L1 = (double)sampleRate/frequency;
-            for(int j=0;j<32768;j++){
-                buffer[j]= Math.sin(2 * Math.PI *  j / L1);
-            }
-            wavFile.writeFrames(buffer, 32768);
-        }
-
+    @Override
+    public void setChunkSize(int chunkSize) {
+        this.chunkSize = chunkSize;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }

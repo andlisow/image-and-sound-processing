@@ -4,6 +4,7 @@ import main.java.pl.lodz.p.ftims.poid.exercise1_2.operations.filters.linear.Line
 import main.java.pl.lodz.p.ftims.poid.exercise1_2.samples.filters.linear.LinearFilters;
 import main.java.pl.lodz.p.ftims.poid.exercise3.model.WavFile;
 import main.java.pl.lodz.p.ftims.poid.exercise3.operations.Operations;
+import main.java.pl.lodz.p.ftims.poid.exercise3.operations.Transformable;
 import main.java.pl.lodz.p.ftims.poid.exercise3.samples.FreqDomTransformations;
 import main.java.pl.lodz.p.ftims.poid.exercise3.samples.SampleFiles;
 import main.java.pl.lodz.p.ftims.poid.exercise3.samples.TimeDomTransformations;
@@ -36,6 +37,10 @@ public class MainWindow extends JFrame{
     private JMenu helpMenuSection;
     private JMenu fileMenuSection;
 
+    // chunk size
+    private JTextField chunkSizeTextField;
+    private JLabel chunkSizeLabel;
+
     // transform button section
     private JButton startTransformButton;
 
@@ -65,6 +70,7 @@ public class MainWindow extends JFrame{
     private void initializeGraphicComponents() {
         initializePathSectionComponents();
         initializeMenuComponents();
+        initializeChunkSize();
         initializeTransformButtonSection();
     }
 
@@ -86,7 +92,7 @@ public class MainWindow extends JFrame{
                         AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(file);
                         AudioFormat format = audioInputStream.getFormat();
                         long frames = audioInputStream.getFrameLength();
-                        double durationInSeconds = (frames+0.0) / format.getFrameRate();
+                        double durationInSeconds = (frames + 0.0) / format.getFrameRate();
                         sourceFile.setDuration(durationInSeconds);
                         sourceFile.setName(file.getName());
                     } catch (Exception ex) {
@@ -105,7 +111,7 @@ public class MainWindow extends JFrame{
                 AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(file);
                 AudioFormat format = audioInputStream.getFormat();
                 long frames = audioInputStream.getFrameLength();
-                double durationInSeconds = (frames+0.0) / format.getFrameRate();
+                double durationInSeconds = (frames + 0.0) / format.getFrameRate();
                 sourceFile.setDuration(durationInSeconds);
                 sourceFile.setName(file.getName());
             } catch (Exception ex) {
@@ -119,17 +125,21 @@ public class MainWindow extends JFrame{
             @Override
             public void mouseClicked(MouseEvent e) {
                 operations.clear();
-                if(timeDomMethodsCheckbox.isSelected()){
+                if (timeDomMethodsCheckbox.isSelected()) {
                     for (String timeDomMethod : TimeDomTransformations.TRANSFORMATIONS.keySet()) {
                         if (timeDomMethod.equals(timeDomMethodsComboBox.getSelectedItem())) {
-                            operations.addOperation(TimeDomTransformations.TRANSFORMATIONS.get(timeDomMethod));
+                            Transformable t = TimeDomTransformations.TRANSFORMATIONS.get(timeDomMethod);
+                            t.setChunkSize(Integer.parseInt(chunkSizeTextField.getText()));
+                            operations.addOperation(t);
                         }
                     }
                 }
-                if(freqDomMethodsCheckbox.isSelected()){
+                if (freqDomMethodsCheckbox.isSelected()) {
                     for (String freqDomMethod : FreqDomTransformations.TRANSFORMATIONS.keySet()) {
                         if (freqDomMethod.equals(freqDomMethodsComboBox.getSelectedItem())) {
-                            operations.addOperation(FreqDomTransformations.TRANSFORMATIONS.get(freqDomMethod));
+                            Transformable t = FreqDomTransformations.TRANSFORMATIONS.get(freqDomMethod);
+                            t.setChunkSize(Integer.parseInt(chunkSizeTextField.getText()));
+                            operations.addOperation(t);
                         }
                     }
                 }
@@ -159,6 +169,18 @@ public class MainWindow extends JFrame{
         originalSoundSelectComboBox.setToolTipText("Select input sound");
         originalSoundSelectComboBox.setBounds(148, 49, 198, 27);
         getContentPane().add(originalSoundSelectComboBox);
+    }
+
+    private void initializeChunkSize() {
+        chunkSizeLabel = new JLabel("Chunk size");
+        chunkSizeLabel.setBounds(375, 300, 190, 30);
+        getContentPane().add(chunkSizeLabel);
+
+        chunkSizeTextField = new JTextField();
+        chunkSizeTextField.setColumns(10);
+        chunkSizeTextField.setBounds(470, 300, 92, 27);
+        chunkSizeTextField.setText("44100");
+        getContentPane().add(chunkSizeTextField);
     }
 
     private void initializeTransformButtonSection() {

@@ -35,8 +35,8 @@ Celem zadania było zapoznanie się z metodami analizy dźwięku, a w szczególn
 Szczegółowy opis zadania został przedstawiony w [1].
 
 \section{Wprowadzenie}
-//TODO
-
+Jedną z najważniejszych cech dźwięku jest jego częstotliwość. Człowiek potrafi usłyszeć częstotliwości zawarte są w paśmie pomiędzy wartościami granicznymi od ok. 16 Hz do ok. 20 kHz. Istnieje wiele sposobów na jej rozpoznanie. W poniższej pracy przeanalizowano dwa: przy pomocy autokorelacji i metody cepstralnej.
+ 
 \subsection{Autokorelacja}
 Autokorelacja jest korelacją sygnału z samym sobą, w kolejnych punktach w czasie. Innymi słowy, autokorelacja informuje o tym na ile dane wartości / obserwacje są istotnie związane z obserwacjami zaobserwowanymi wcześniej (o stałym przesunięciu czasowym) [3].\\
 \indent
@@ -45,11 +45,13 @@ Wzór na autokorelację sygnału dyskretnego jest następujący:\\
 \[ c(m) = \sum_{n = 1}^{N - 1} x(n) \ast x(n + m) \]
 \\
 
-\subsection{Analiza widma Fouriera sygnału}
-//TODO
+\subsection{Analiza cepstralna}
+Analiza cepstralna jest metodą wykrywania częstotliwości dźwięku przy pomocy transformaty Fouriera. W celu usunięcia szumów, na próbkę należy nałożyć okno. Częstotliwość podstawowa jest wykrywana na podstawie rozkładu maximów w dziedzinie cepstrum.  
 
 \section{Opis implementacji}
-Opis implementacji został przedstawiony w sprawozdaniu do zadania 1 [2]. Zadanie 3 zostało zrealizowane poprzez rozszerzenie funkcjonalności programu. Dodany został nowy interfejs graficzny, dedykowany dla przetwarzania dźwięku oraz analizowane metody tj. autokorelację oraz analizę widma Fouriera sygnału.
+Opis implementacji został przedstawiony w sprawozdaniu do zadania 1 [2]. Zadanie 3 zostało zrealizowane poprzez rozszerzenie funkcjonalności programu. Dodany został nowy interfejs graficzny, dedykowany dla przetwarzania dźwięku oraz analizowane metody tj. autokorelację oraz analizę cepstalną.\\
+\indent 
+Wykrywanie częstotliwości sekwencji zostało przeprowadzone poprzez podział dźwięku na N równych części i analizę każdej próbki osobno.
 
 \section{Materiały i metody}
 Do aplikacji dodano szereg testowych dźwięków w celu dokładnej analizy badanych metod. Ich spis zamieszczono poniżej:\\
@@ -74,70 +76,74 @@ Do aplikacji dodano szereg testowych dźwięków w celu dokładnej analizy badan
 \end{itemize}
 
 \section{Wyniki}
-Sekcja prezentuje wyniki przeprowadzanego badania metody autokorelacji i analizy widma Fouriera sygnału. 
-
-\subsection{Autokorelacja}
-W poniższej tabeli przedstawiono częstotliwości badanych dźwięków - faktyczną oraz znalezioną w wyniku autokorelacji.\\
+Sekcja prezentuje wyniki przeprowadzanego badania metody autokorelacji i analizy widma Fouriera sygnału.\\ 
+\\
+W poniższej tabeli przedstawiono częstotliwości badanych dźwięków - faktyczną oraz znalezioną w wyniku autokorelacji oraz analizy cepstralnej.\\
 \\
 \begin{tabular}{ l | c | c }
   \hline
-  Dźwięk testowy & Autokorelacja & Analiza widma Fouriera \\
+  Dźwięk testowy & Autokorelacja & Analiza cepstralna \\
   \hline			
-  Sztuczne, łatwe, 100Hz & 100 & TODO \\
-  Sztuczne, łatwe, 150Hz & 150 & TODO \\
-  Sztuczne, łatwe, 225Hz & 225 & TODO \\
-  Sztuczne, łatwe, 337Hz & 336 & TODO \\
-  Sztuczne, łatwe, 506Hz & 506 & TODO \\
-  Sztuczne, łatwe, 759Hz & 760 & TODO \\
-  Sztuczne, łatwe, 1139Hz & 1130 & TODO \\
-  Sztuczne, łatwe, 1708Hz & 1696 & TODO \\
+  Sztuczne, łatwe, 100Hz & 100 & 100 \\
+  Sztuczne, łatwe, 150Hz & 150 & 150 \\
+  Sztuczne, łatwe, 225Hz & 226 & 441 \\
+  Sztuczne, łatwe, 337Hz & 339 & 336 \\
+  Sztuczne, łatwe, 506Hz & 512 & 506 \\
+  Sztuczne, łatwe, 759Hz & 773 & 760 \\
+  Sztuczne, łatwe, 1139Hz & 1160 & 1160 \\
+  Sztuczne, łatwe, 1708Hz & 1764 & 1696 \\
   \hline
-  Sztuczne, średnie, 90Hz & 90 & TODO \\
-  Sztuczne, średnie, 135Hz & 135 & TODO \\
-  Sztuczne, średnie, 202Hz & 202 & TODO \\
-  Sztuczne, średnie, 303Hz & 302 & TODO \\
-  Sztuczne, średnie, 455Hz & 454 & TODO \\
-  Sztuczne, średnie, 683Hz & 678 & TODO \\
-  Sztuczne, średnie, 1025Hz & 1025 & TODO \\
-  Sztuczne, średnie, 1537Hz & 1520 & TODO \\
+  Sztuczne, średnie, 90Hz & 90 & 94 \\
+  Sztuczne, średnie, 135Hz & 135 & 129 \\
+  Sztuczne, średnie, 202Hz & 203 & 368 \\
+  Sztuczne, średnie, 303Hz & 304 & 302 \\
+  Sztuczne, średnie, 455Hz & 459 & 454 \\
+  Sztuczne, średnie, 683Hz & 689 & 689 \\
+  Sztuczne, średnie, 1025Hz & 1050 & 1025 \\
+  Sztuczne, średnie, 1537Hz & 1575 & 1520 \\
   \hline 
-  Sztuczne, trudne, 80Hz & 80 & TODO \\
-  Sztuczne, trudne, 120Hz & 120 & TODO \\
-  Sztuczne, trudne, 180Hz & 180 & TODO \\
-  Sztuczne, trudne, 270Hz & 270 & TODO \\
-  Sztuczne, trudne, 405Hz & 404 & TODO \\
-  Sztuczne, trudne, 607Hz & 604 & TODO \\
-  Sztuczne, trudne, 911Hz & 454 & TODO \\
-  Sztuczne, trudne, 1366Hz & 341 & TODO \\
+  Sztuczne, trudne, 80Hz & 80 & 32 \\
+  Sztuczne, trudne, 120Hz & 120 & 80 \\
+  Sztuczne, trudne, 180Hz & 180 & 90 \\
+  Sztuczne, trudne, 270Hz & 272 & 38 \\
+  Sztuczne, trudne, 405Hz & 408 & 270 \\
+  Sztuczne, trudne, 607Hz & 612 & 604 \\
+  Sztuczne, trudne, 911Hz & 938 & 364 \\
+  Sztuczne, trudne, 1366Hz & 1422 & 2756 \\
   \hline 
-  Naturalne, flet, 276Hz & 649 & TODO \\
-  Naturalne, flet, 443Hz & 2913 & TODO \\
-  Naturalne, flet, 591Hz & 2618 & TODO \\
-  Naturalne, flet, 887Hz & 2078 & TODO \\
-  Naturalne, flet, 1265Hz & 2941 & TODO \\
-  Naturalne, flet, 1779Hz & 4148 & TODO \\
+  Naturalne, flet, 276Hz & 277 & 279 \\
+  Naturalne, flet, 443Hz & 445 & 445 \\
+  Naturalne, flet, 591Hz & 595 & 588 \\
+  Naturalne, flet, 887Hz & 900 & 900 \\
+  Naturalne, flet, 1265Hz & 1297 & 1260 \\
+  Naturalne, flet, 1779Hz & 1837 & 882 \\
   \hline 
-  Naturalne, altówka, 130Hz & 1738 & TODO \\
-  Naturalne, altówka, 196Hz & 4741 & TODO \\
-  Naturalne, altówka, 247Hz & 5404 & TODO \\
-  Naturalne, altówka, 294Hz & 4406 & TODO \\
-  Naturalne, altówka, 369Hz & 1853 & TODO \\
-  Naturalne, altówka, 440Hz & 4426 & TODO \\
-  Naturalne, altówka, 698Hz & 3678 & TODO \\
+  Naturalne, altówka, 130Hz & 130 & 130 \\
+  Naturalne, altówka, 196Hz & 196 & 196 \\
+  Naturalne, altówka, 247Hz & 247 & 247 \\
+  Naturalne, altówka, 294Hz & 295 & 294 \\
+  Naturalne, altówka, 369Hz & 370 & 368 \\
+  Naturalne, altówka, 440Hz & 445 & 441 \\
+  Naturalne, altówka, 698Hz & 700 & 700 \\
+  \hline 
+  Rozpoznano & 22/24 szt. 12/13 nat. & 15/24 szt. 12/13 nat. \\
   \hline 
 \end{tabular}
-
-\subsection{Analiza widma Fouriera sygnału}
-//TODO
 
 \section{Dyskusja i wnioski}
 Poniższa sekcja prezentuje interpretację uzyskanych wyników oraz wnioski. Opisano również napotkane problemy oraz możliwe sposoby ich rozwiązania.
 
-\subsection{Autokorelacja}
-Metoda autokorelacji rozpoznała częstotliwość dźwięków wygenerowanych sztucznie z bardzo dużą dokładnością. Miała jedynie problemy z trudnymi dźwiękami, o najwyższej częstotliwości. Niestety, analizowana metoda nie potrafiła rozpoznać ani jednej częstoliwości w dźwiękac naturalnych, we flecie i w altówce. Wynika to najprawdopodobniej z szumu otoczenia, który powinien być usunięty przed rozpoczęciem autokorelacji.
+\subsection{Autokorelacja - pojedyncze częstotliwości}
+Metoda autokorelacji rozpoznała częstotliwość dźwięków wygenerowanych sztucznie z bardzo dużą dokładnością. Można zauważyć, że im wyższe częstotliwości, tym większe były rozbieżoności. Analizowana metoda potrafiła rozpoznać również częstotliwości naturalne, we flecie i w altówce.
 
-\subsection{Analiza widma Fouriera sygnału}
-//TODO
+\subsection{Autokorelacja - sekwencje}
+Autokorelacja poprawnie rozpoznała częstotliwości w sekwencji altówki i pianina. Najlepsze wyniki uzyskano dla wielkości próbki: 4000(altówka) i 10000(pianino). Odmienne wartości są spowodowane dłuższymi dźwiękami pianina. Niestety, zapis do pliku wynikowego dodaje szum pomiędzy kolejnymi częstotliwościami.
+
+\subsection{Metoda cepstralna}
+Analiza cepstralna również dobrze rozpoznała większość częstotliwości. Miała jednak duży problem z wykryciem częstotliwości trudnych dźwięków sztucznych - odniosła sukces tylko w jednym przypadku. 
+
+\subsection{Metoda cepstralna - sekwencje}
+Analiza metodą cepstralną dała zadowalające wyniki wygenerowania sekwencji dźwięków altówki dla próbek o wielkości 8192. Słychać jednak wyraźnie fragmenty rozpoznane błędnie. Niestety, nie udało się wygenerować poprawnej sekwencji pianina.  
 
 \begin{thebibliography}{1}
 \bibitem{instruction_pol}\text{$http://ftims.edu.p.lodz.pl/pluginfile.php/20101/mod\_resource/content/1/$}\\
