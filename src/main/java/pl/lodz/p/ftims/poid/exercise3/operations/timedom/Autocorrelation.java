@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static main.java.pl.lodz.p.ftims.poid.exercise3.utils.SoundUtil.chunkArray;
+import static main.java.pl.lodz.p.ftims.poid.exercise3.utils.SoundUtil.chunkArrayInt;
 import static main.java.pl.lodz.p.ftims.poid.exercise3.utils.SoundUtil.generateSound;
 
 /**
@@ -36,7 +37,7 @@ public class Autocorrelation implements Transformable {
             LOG.error("Unexpected error has occurred when reading frames from sound", e);
         }
 
-        int[][] parts = chunkArray(bufferWav, chunkSize);
+        int[][] parts = chunkArrayInt(bufferWav, chunkSize);
 
         List<Integer> frequencies = new ArrayList<>();
 

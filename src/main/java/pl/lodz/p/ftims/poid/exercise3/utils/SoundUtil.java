@@ -28,7 +28,7 @@ public class SoundUtil {
         return null;
     }
 
-    public static int[][] chunkArray(int[] array, int chunkSize) {
+    public static int[][] chunkArrayInt(int[] array, int chunkSize) {
         int numOfChunks = (int)Math.ceil(array.length / chunkSize);
         int[][] output = new int[numOfChunks][];
 
@@ -37,6 +37,22 @@ public class SoundUtil {
             int length = Math.min(array.length - start, chunkSize);
 
             int[] temp = new int[length];
+            System.arraycopy(array, start, temp, 0, length);
+            output[i] = temp;
+        }
+
+        return output;
+    }
+
+    public static double[][] chunkArray(double[] array, int chunkSize) {
+        int numOfChunks = (int)Math.ceil(array.length / chunkSize);
+        double[][] output = new double[numOfChunks][];
+
+        for(int i = 0; i < numOfChunks; ++i) {
+            int start = i * chunkSize;
+            int length = Math.min(array.length - start, chunkSize);
+
+            double[] temp = new double[length];
             System.arraycopy(array, start, temp, 0, length);
             output[i] = temp;
         }
