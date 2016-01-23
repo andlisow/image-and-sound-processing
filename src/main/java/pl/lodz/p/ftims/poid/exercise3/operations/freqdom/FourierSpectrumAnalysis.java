@@ -18,7 +18,6 @@ import static main.java.pl.lodz.p.ftims.poid.exercise3.utils.SoundUtil.generateS
 public class FourierSpectrumAnalysis implements Transformable {
     private static final Logger LOG = LoggerFactory.getLogger(FourierSpectrumAnalysis.class);
 
-
     protected double[][] d;
     private int chunkSize = 44100;
 
@@ -96,17 +95,13 @@ public class FourierSpectrumAnalysis implements Transformable {
 
         complexSound = FourierTransformUtil.dif1d(complexSound);
 
-
 //        complexSound = Arrays.copyOfRange(complexSound, 0, N / 2);
         //cepstrum rzeczywiste i zespolone
         for (int i = 0; i < complexSound.length; ++i)
             complexSound[i] = new Complex(10.0 * Math.log10(complexSound[i].abs()+1), 0);
 
-
         complexSound = FourierTransformUtil.dif1d(complexSound);
         complexSound = Arrays.copyOfRange(complexSound, 0, N / 4);
-
-
 
         d = new double[2][N];
 
@@ -117,9 +112,7 @@ public class FourierSpectrumAnalysis implements Transformable {
             d[0][i]=complexSound[i].abs();
         }
 
-
         double[] dd = d[0];
-        System.err.println("1");
         LinkedList<Integer> pperiod = new LinkedList<Integer>();
 
         //RANGE
@@ -136,14 +129,9 @@ public class FourierSpectrumAnalysis implements Transformable {
             }
             //sprawdz czy zbocza sa tak wysokie jak to zalozylismy
             if ( bigger == (range*2)-1) {
-
                 pperiod.add(i);
-
-//				i+=range-1;
             }
         }
-        System.err.println("2");
-        int max_ind = 0;
 
         //odrzucanie wysokich ale peakow ale nie stromych
         //musza opadac w obu kierunkach - nisko
@@ -173,10 +161,8 @@ public class FourierSpectrumAnalysis implements Transformable {
             else d[1][i]=dd[i];
 
         }
-
-        System.err.println("3");
         //progowanie co do największego peaku
-        max_ind = Collections.max(pperiod, new MaxDataComp(dd));
+        int max_ind = Collections.max(pperiod, new MaxDataComp(dd));
 
         for ( ListIterator<Integer> it = pperiod.listIterator(); it.hasNext(); ){
             Integer num = (Integer)it.next();
@@ -187,10 +173,7 @@ public class FourierSpectrumAnalysis implements Transformable {
                 it.remove();
         }
 
-
-        System.err.println("4");
         int max_b, max_a;
-//		max_b= max_ind;
         max_b=Collections.max(pperiod,new MaxDataComp(dd));
         int a=0,b=0;
         while ( pperiod.size() > 1) {
